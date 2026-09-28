@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": ["eslint.config.ts", "vitest.config.ts", "tools/**/*.ts"],
+  "exclude": ["node_modules", "packages", "plugins"]
+}

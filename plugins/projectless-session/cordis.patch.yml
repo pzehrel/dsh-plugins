@@ -1,0 +1,5 @@
+# 把宿主半区加入 Web profile；浏览器半区由 dsh.client 声明自动发现。
+- insert:
+    - id: dsh-projectless-session
+      name: dsh-projectless-session
+      config: {}

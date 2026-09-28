@@ -1,0 +1,26 @@
+{
+  "name": "dsh-plugins-workspace",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": "24.21.0",
+    "pnpm": "11.7.0"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --project tsconfig.json --noEmit && pnpm -r --if-present run typecheck",
+    "test": "pnpm -r --if-present run build && vitest run --passWithNoTests",
+    "check": "pnpm lint && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "jiti": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  }
+}
