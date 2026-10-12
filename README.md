@@ -18,7 +18,7 @@ DSH 主程序定义插件的发现、加载、生命周期和宿主运行时；�
 
 ## 工作区布局
 
-- `plugins/*`：每个插件一个独立 workspace 包；入口、构建与发布内容由官方契约确定。[自动工作区会话](plugins/projectless-session/README.md)是目前的 Web 插件，Desktop 能力尚未验证。
+- `plugins/*`：每个插件一个独立 workspace 包；入口、构建与发布内容由官方契约确定。[自动工作区会话](plugins/projectless-session/README.md)与[消息分叉](plugins/message-fork/README.md)是目前的 Web 插件，Desktop 能力尚未验证；[Agent 浏览器](plugins/agent-browser/README.md)（M1 宿主半区 + 只读工具集）按 [M1–M4 方案](plugins/agent-browser/docs/plan.md)推进中。
 - `packages/*`：跨插件复用的 TypeScript 内部包。抽取前须确认至少两个插件确有相同需求；跨包引用使用 `workspace:` 且通过包名导入，不直接导入其他包的 `src/` 或 `dist/`，不反向依赖 `plugins/*`；供双端共用的入口保持宿主无关，宿主专用代码单独分包。目录内不放占位文件，首个真实包落地时再创建。
 - 各包测试：放包根 `test/` 目录，不与 `src/` 混放，也不编译进 `dist/`。根 vitest 只收集 `plugins/*/test` 与 `packages/*/test`，ESLint 拒绝 `src/` 内出现测试文件；读取 `dist/` 构建产物的用例由各包 `test` 脚本先构建再运行。
 - 根目录：统一工具链、锁文件与 CI。新增包自带 `typecheck` 脚本和继承 `tsconfig.base.json` 的独立 `tsconfig.json`；共享配置不注入 Node 类型，Web 包自行配置 DOM 类型，不将 Node API 导入 Web 入口。
