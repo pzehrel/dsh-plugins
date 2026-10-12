@@ -24,3 +24,17 @@
 - 维护 `AGENTS.md` 或代理规则：用 `maintain-agents-md` skill；不可调用时读[中文版指引](.agents/skills/maintain-agents-md/SKILL.zh-CN.md)。
 
 无法运行的检查或失败结果须如实说明，不宣称验证通过。
+
+## Agent skills
+
+### Issue tracker
+
+创建、读取或推进事项时，使用本仓库的 GitHub Issues；内容语言与操作约定见 [事项跟踪](.agents/docs/issue-tracker.md)。
+
+### Triage labels
+
+分类事项或修改 triage 状态时，使用五个默认角色标签；映射见 [分类标签](.agents/docs/triage-labels.md)。
+
+### Domain docs
+
+探索代码、使用领域术语或读取、记录架构决策时，按多上下文布局读取相关词汇表和 ADR；ADR 统一保存在根目录 `.agents/docs/adr/` 下，具体规则见 [领域文档](.agents/docs/domain.md)。
