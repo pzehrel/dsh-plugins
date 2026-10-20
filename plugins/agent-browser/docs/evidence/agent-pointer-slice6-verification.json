@@ -1,0 +1,204 @@
+{
+  "observedAtUtc": "2026-10-20T13:47:09.665Z",
+  "spec": 5,
+  "ticket": 6,
+  "status": "passed",
+  "scope": "仅 #6 独立 Agent 指针、正式获准输入及本轮活动显隐的限定原生验收；不代表 #7、#8、#9 或完整首版通过。",
+  "environment": {
+    "node": "24.21.0",
+    "pnpm": "11.7.0",
+    "macOS": "27.0.1",
+    "desktop": "0.2.1-rc.2",
+    "model": "GPT-6.1-Sol"
+  },
+  "build": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "434c25a0e1af",
+    "package": "dsh-plugin-agent-browser-434c25a0e1af",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "c2353efe979f7f14ac915594498740111c050757ba9fac4e7273ba87abdce453",
+    "hostSha256": "3bde17a048b663968144cd6907875d6f224ebe8c4485db0e186f69abd70796c2",
+    "clientSha256": "bf10d9e0e8f669694d80bdac6b77ba187803b1ed5ae48444df8cc567c0525239"
+  },
+  "installation": {
+    "source": "官方插件管理器，根包安装启用",
+    "path": "/Users/pzehrel/Documents/repositories/my/dsh-plugins/plugins/agent-browser",
+    "normalRestart": true,
+    "rebuildDuringNativeRun": false
+  },
+  "runtime": {
+    "before": {
+      "at": "2026-10-20T13:39:59.468Z",
+      "build": "434c25a0e1af",
+      "ready": true,
+      "registerStatus": 200,
+      "error": ""
+    },
+    "after": {
+      "at": "2026-10-20T13:47:09.665Z",
+      "build": "434c25a0e1af",
+      "ready": true,
+      "registerStatus": 200,
+      "error": ""
+    },
+    "sameFrozenBuild": true
+  },
+  "checks": {
+    "baseline": {
+      "command": "fnm exec --using=24.21.0 pnpm check",
+      "testsPassed": 201,
+      "testsFailed": 0,
+      "testsSkipped": 6,
+      "scope": "修复前候选基线；不替代最终检查。"
+    },
+    "final": {
+      "sourceCommit": "892fa20157f66089712b00b21eb97a120df69e3e",
+      "integrationCommit": "b2661ab5728ddadfb86613ff126c04f3c694ec1c",
+      "command": "fnm exec --using=24.21.0 pnpm check",
+      "testsPassed": 205,
+      "testsFailed": 0,
+      "testsSkipped": 6,
+      "filesPassed": 27,
+      "filesSkipped": 1,
+      "scope": "首次导航契约修复后，规则、ESLint、类型检查、构建及全仓回归通过；受控检查不替代原生结果。"
+    },
+    "officialReuse": {
+      "command": "fnm exec --using=24.21.0 node tools/verify-official-browser-reuse.ts",
+      "testsPassed": 6,
+      "testsFailed": 0,
+      "testsSkipped": 0,
+      "scope": "单独的固定官方发布包受控复用验证，不代表增强构建的原生验收。"
+    }
+  },
+  "earlierAttempts": [
+    {
+      "build": "20f2b3eceaa8",
+      "status": "failed",
+      "symptom": "首次空白页 navigate 返回合法的无 url 状态，Host 拒收并报测试页结果无效，已发出导航为 unknown；后续 fill 被屏障拒绝，未发送输入。",
+      "fixCommit": "892fa20157f66089712b00b21eb97a120df69e3e",
+      "resolution": "已在正式工具链取得同错误红色回归及修复后绿色回归；旧冻结轮结束，不计为通过。",
+      "startup": "重开前曾无有效框架锚点；正常退出重开后 list-tabs 成功。未确定模块缓存为根因。"
+    },
+    {
+      "build": "434c25a0e1af",
+      "status": "protected",
+      "scenario": "固定夹具含合成 password",
+      "result": "拒绝 click，属于敏感内容保护；未作为获准点击成功记录。"
+    },
+    {
+      "build": "434c25a0e1af",
+      "status": "approval-rejected",
+      "scenario": "自有新会话默认完全权限使正式审批不可用，Wikipedia fill 被拒绝",
+      "nativeInputSent": false,
+      "resolution": "仅将本自有会话收紧为工作区内修改；重新 observe 取得新引用后申请正式审批，先前未发送的动作不算 issued。"
+    }
+  ],
+  "native": {
+    "sessionTitle": "浏览器搜索杭州词条验收",
+    "tool": "agent_browser",
+    "sharedPage": "复用原侧栏标签和同一原生 webview，未另建第二份网页。",
+    "initialUrl": "https://www.wikipedia.org/",
+    "finalUrl": "https://en.wikipedia.org/wiki/Hangzhou",
+    "steps": [
+      {
+        "action": "observe",
+        "status": "passed",
+        "result": "在工作区内修改模式重新观察 Wikipedia 首页，使用新引用申请批准。"
+      },
+      {
+        "action": "fill",
+        "text": "Hangzhou",
+        "approval": "正式逐次允许一次",
+        "status": "issued",
+        "issuedCount": 1,
+        "result": "同页搜索框为 Hangzhou；指针到达、输入 issued 与实际内容核对分别确认。"
+      },
+      {
+        "action": "human-click",
+        "hostCoordinates": [
+          1932,
+          1138
+        ],
+        "status": "passed",
+        "result": "任务运行时点击紫指针所在搜索框；AX 焦点为 Search Wikipedia，Hangzhou 保持不变，叠层未拦截人工点击。"
+      },
+      {
+        "action": "observe",
+        "status": "passed",
+        "result": "核对 Hangzhou，取得 Search 的新引用。"
+      },
+      {
+        "action": "click-element",
+        "target": "Search",
+        "approval": "正式逐次允许一次",
+        "status": "issued",
+        "issuedCount": 1,
+        "result": "同一原生共享页到达 Hangzhou 词条，实际地址与页面内容已核对。"
+      },
+      {
+        "action": "console",
+        "count": 4,
+        "durationMsEach": 2000,
+        "status": "passed",
+        "result": "均无消息、未截断；工具间停顿持续显示指针。"
+      },
+      {
+        "action": "observe",
+        "status": "passed",
+        "result": "最后确认仍是 Hangzhou 词条。"
+      },
+      {
+        "action": "session-stop",
+        "elapsed": "2分10秒",
+        "status": "passed",
+        "result": "保留页面，Agent 指针隐藏。"
+      },
+      {
+        "action": "unrelated-next-turn",
+        "task": "不用工具，以五句中文解释 HTTP 请求与响应",
+        "observedRunningSeconds": [
+          3,
+          4
+        ],
+        "status": "passed",
+        "result": "新轮运行时旧指针不显示。"
+      }
+    ],
+    "pointerObservation": "两次正式审批期间及获准操作、工具间停顿中持续可见紫色指针；系统白鼠标在聊天区独立可见，人工穿透核对时可移至网页。",
+    "manualTakeovers": 0,
+    "manualHandbacks": 0,
+    "unverified": [
+      "#7 的动画期间人工滚动、目标变化、取消、显式接管和交回矩阵",
+      "#8 的真实标签/会话切换、后台、窗口焦点、布局缩放、关页和卸载矩阵",
+      "#9 的最终整合与同一最终冻结构建的完整连续任务验收",
+      "用户体验验收"
+    ]
+  },
+  "screenshots": [
+    {
+      "file": "slice6-approved-fill.png",
+      "sha256": "2a0c0f2ed833117c779d1530a290f3abf201b72ab5e895c86e9ca54b67973402",
+      "observation": "正式逐次允许一次后的搜索框 Hangzhou 与紫色 Agent 指针；系统白鼠标可独立位于聊天区。"
+    },
+    {
+      "file": "slice6-click-through.png",
+      "sha256": "1907b62ce7af79a5bdb602a9ad78698dfad3d65a3313b63f70942b502afb99c2",
+      "observation": "运行及等待 Search 审批期间，人工鼠标点击紫色指针所在搜索框；搜索框保持 Hangzhou。"
+    },
+    {
+      "file": "slice6-search-click.png",
+      "sha256": "3a35a6890b9de784c48c93e6313d3235bd93ca9cbd6f2342488aa2edab96adc9",
+      "observation": "Search 获准点击后，同一侧栏页到达 Hangzhou 词条，仍显示独立紫色指针。"
+    },
+    {
+      "file": "slice6-stopped.png",
+      "sha256": "0c7c07c2b10be062be48a036c90cdbacfd889b2538d75f7da381239c900d2591",
+      "observation": "浏览任务2分10秒结束，保留 Hangzhou 页面，Agent 指针隐藏。"
+    },
+    {
+      "file": "slice6-unrelated-turn.png",
+      "sha256": "9966cdd8f8c3d2ddf9f3658b7e5e1afe16f19f15fb74eded7443d49d47fa8996",
+      "observation": "下一轮无关 HTTP 解释运行约3秒，不用工具，旧 Agent 指针未复活。"
+    }
+  ]
+}
