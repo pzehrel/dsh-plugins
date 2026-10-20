@@ -281,3 +281,10 @@
 -  return <><IconGlobeOutlineRegular className={css.titleIcon} />{entry?.title ?? tab.title}</>
 +  return <><IconGlobeOutlineRegular className={css.titleIcon} />{entry?.title ?? tab.title}{renderToolStatus(tab.id)}</>
  }
+--- a/src/client/view/Browser.module.css
++++ b/src/client/view/Browser.module.css
+@@ -135,2 +135,4 @@
+ .viewport {
++  position: relative;
++  overflow: hidden;
+   display: flex;

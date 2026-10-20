@@ -8,6 +8,26 @@ import { expect, it, vi } from 'vitest'
 import { createToolClient } from '../src/fixed-page-client.js'
 import { applyFixedPageHost } from '../src/fixed-page-host.js'
 
+/** @returns 宿主动画时钟替身；只调度指针帧，不操作系统鼠标或网页。 */
+function animationClock() {
+  let serial = 0
+  const timers = new Map<number, ReturnType<typeof setTimeout>>()
+  return {
+    requestAnimationFrame: (callback: (time: number) => void) => {
+      const id = ++serial
+      timers.set(id, setTimeout(() => {
+        timers.delete(id)
+        callback(Date.now())
+      }, 16))
+      return id
+    },
+    cancelAnimationFrame: (id: number) => {
+      clearTimeout(timers.get(id))
+      timers.delete(id)
+    },
+  }
+}
+
 it('普通按钮同样先走正式逐次审批，拒绝不发送原生输入，审批绑定私有文档和确切动作', async () => {
   const scenario = await hostedInput('rejected')
   try {
@@ -30,6 +50,78 @@ it('正式允许仅发送同一主文档目标的原生事件，结果不冒充�
     expect(s.events).toEqual([{ type: 'mouseDown', x: 60, y: 40, button: 'left', clickCount: 1 }, { type: 'mouseUp', x: 60, y: 40, button: 'left', clickCount: 1 }])
     await expect(s.call({ action: 'click-element', reference: observation.elements[0]!.reference })).rejects.toThrow('引用失效')
     expect(s.questions).toHaveLength(1)
+  }
+  finally { await s.close() }
+})
+
+it('指针缺失仅降级视觉反馈，正式审批和同页原生点击仍执行', async () => {
+  const s = await hostedInput()
+  try {
+    s.guest.ownerDocument.createElement = () => {
+      throw new Error('视觉载体故障')
+    }
+    const observation = await s.observe()
+    await expect(s.call({ action: 'click-element', reference: observation.elements[0]!.reference })).resolves.toMatchObject({ status: 'issued' })
+    expect(s.questions).toHaveLength(1)
+    expect(s.events).toHaveLength(2)
+  }
+  finally { await s.close() }
+})
+
+it('同页指针随正式会话运行跨工具停顿保留，结束隐藏，接管不被运行状态刷新复活', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const [layer, arrow] = s.pointerNodes
+    expect(layer?.style.display).toBe('block')
+    await s.call({ action: 'click-element', reference: observation.elements[0]!.reference })
+    expect(s.pointerNodes).toHaveLength(2)
+    expect(arrow?.style.transform).toBe('translate3d(60px, 40px, 0)')
+    expect(layer?.style.display).toBe('block')
+    s.activity(false)
+    expect(layer?.style.display).toBe('none')
+    s.activity(true)
+    expect(layer?.style.display).toBe('none')
+    await s.client.takeover('会话甲', '页甲')
+    s.activity(true)
+    expect(layer?.style.display).toBe('none')
+    await s.closePage()
+    expect(layer?.removed).toBe(true)
+  }
+  finally { await s.close() }
+})
+
+it('等待指针动画时人工滚动使目标失效，到达后仍重新核验且不发出旧坐标', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    expect(s.events).toEqual([])
+    s.raw.elements[0]!.rect[0] = 400
+    expect(await input).toMatchObject({ outcome: 'not-started' })
+    expect(s.events).toEqual([])
+  }
+  finally { await s.close() }
+})
+
+it('指针动画等待中接管立即撤销本次输入并结算，不等视觉超时后发送', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    await s.client.takeover('会话甲', '页甲')
+    expect(await input).toMatchObject({ code: 'cancelled', outcome: 'not-started' })
+    expect(s.pointerNodes[0]?.style.display).toBe('none')
+    expect(s.events).toEqual([])
   }
   finally { await s.close() }
 })
@@ -781,7 +873,25 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
   let selectionRead: (() => Promise<void>) | undefined
   let contentReads = 0
   let finalHit = true
-  const pointer = { remove: () => {}, style: {}, setAttribute: () => {}, textContent: '' }
+  const pointerNodes: { style: Record<string, string>, removed: boolean }[] = []
+  const createPointer = () => {
+    const node = { style: {} as Record<string, string>, removed: false, setAttribute: () => {}, append: () => {}, remove: () => {
+      node.removed = true
+    } }
+    pointerNodes.push(node)
+    return node
+  }
+  let sessionRunning: boolean | undefined
+  const statusListeners = new Set<() => void>()
+  const sessionStatus = {
+    getSnapshot: () => new Map([['会话甲', { running: sessionRunning }]]),
+    subscribe: (listener: () => void) => {
+      statusListeners.add(listener)
+      return () => {
+        statusListeners.delete(listener)
+      }
+    },
+  }
   const guest = Object.assign(new EventTarget(), { getURL: () => raw.url, getZoomFactor: () => 1, executeJavaScript: async (code: string) => {
     if (inputStarted && finalRead && code.includes(finalRead.stage === 'snapshot' ? 'const elements=[]' : 'const fields=[]')) {
       const gate = finalRead.gate
@@ -815,8 +925,8 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
     editor.start = 0
     editor.end = form.fields[0]!.value.length
     editor.selectedText = form.fields[0]!.value
-  }, getBoundingClientRect: () => ({ left: 0, top: 0 }), ownerDocument: { createElement: () => pointer }, parentElement: { append: () => {} } })
-  const client = createToolClient({ connection: { rpc: { call: async (_channel, endpoint, payload, signal) => {
+  }, offsetWidth: 800, offsetHeight: 600, getBoundingClientRect: () => ({ left: 0, top: 0, width: 800, height: 600 }), ownerDocument: { createElement: createPointer }, parentElement: { append: () => {} } })
+  const client = createToolClient({ uiSession: { sessionStatus }, connection: { rpc: { call: async (_channel, endpoint, payload, signal) => {
     if (endpoint.endsWith('/input-watch') && watchUnavailable && (watchUnavailable === 'all' || !(payload as { initial?: boolean }).initial)) {
       return { ok: false, error: { message: 'watch unavailable' } }
     }
@@ -843,7 +953,12 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
   client.attach('会话甲', { tabId: '页甲', signal: mount.signal }, { getGuest: () => guest })
   await vi.waitFor(() => expect(pageId).not.toBe(''))
   const call = (args: Record<string, unknown>, signal = new AbortController().signal) => tool!.execute({ ...args, pageId }, { agent: { session: { header: { id: '会话甲' } } }, callId: crypto.randomUUID(), signal } as ToolRunContext)
-  return { call, form, editor, selectionRead: (gate: () => Promise<void>) => {
+  return { call, form, editor, pointerNodes, activity: (running: boolean) => {
+    sessionRunning = running
+    for (const listener of statusListeners) {
+      listener()
+    }
+  }, selectionRead: (gate: () => Promise<void>) => {
     selectionRead = gate
   }, contentReads: () => contentReads, watchUnavailable: (activeOnly = false) => {
     watchUnavailable = activeOnly ? 'active' : 'all'
