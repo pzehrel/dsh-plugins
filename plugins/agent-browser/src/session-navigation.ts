@@ -28,7 +28,7 @@ export interface NavigationInput {
 }
 /** 官方 controller 的无内容导航状态。 */
 export interface NavigationState {
-  /** 实际已观察地址的展示值，去除凭据、查询及片段；内部控制器仍保留原始地址。 */
+  /** 可选的实际已观察地址展示值，去除凭据、查询及片段；尚未观察到时省略，不以请求地址补全。内部控制器仍保留原始地址。 */
   url?: string
   /** 原官方页面是否仍在加载。 */
   loading: boolean
@@ -170,7 +170,7 @@ export function executeSessionTabs(action: NavigationAction, input: NavigationIn
  * @param signal 页面生命周期与人工接管合成信号。
  * @param permit 同 Broker 的当前命令许可复核。
  * @param issued 在原 controller 写方法发出前同步标记，区分校验失败与可能已经导航。
- * @returns 原 controller 当前观察到的地址、加载及历史状态；最多等待一秒，仍加载即返回 loading=true，不以请求地址冒充实际页面。
+ * @returns 原 controller 当前观察到的地址、加载及历史状态；最多等待一秒，仍加载即返回 loading=true，尚未观察到实际地址时省略 url，不以请求地址冒充实际页面。
  * @throws Error 取消、许可撤销、非法地址、历史不可用或原生加载失败；不重试。
  */
 export async function executeNavigation(action: NavigationAction, input: NavigationInput, target: NavigationController, signal: AbortSignal, permit: () => Promise<void>, issued: () => void = () => {}): Promise<NavigationResult> {

@@ -26,6 +26,33 @@ it('导航复用同一官方页并返回实际地址，接管时拒绝新导航'
   expect(h.guests[0]?.getURL()).toBe(redirected.href)
 })
 
+it('首次空白页导航尚无观察地址时省略url，不锁住页面且稍后可继续observe', async () => {
+  let issued = 0
+  const destination = 'https://controlled.invalid/first?private=query#fragment'
+  const h = await harness(true, (guest) => {
+    guest.loadURL = async () => {
+      issued++
+    }
+    guest.executeJavaScript = async code => code.includes('const elements=[]')
+      ? { documentId: guest.documentId, url: guest.getURL(), title: '首次导航页面', text: '页面已到达', elements: [], viewport: [0, 0, 800, 600], truncated: false }
+      : guest.documentId
+  })
+  const page = await h.mount('A')
+  const result = await h.execute('A', page.registration.pageId, 'navigate', { url: destination })
+  expect(result).toMatchObject({ kind: 'navigation', loading: false, canGoBack: false, canGoForward: false })
+  expect(result).not.toHaveProperty('url')
+  expect(issued).toBe(1)
+  expect(h.guests).toHaveLength(1)
+  const guest = h.guests[0]!
+  expect(guest.getURL()).toBe('about:blank')
+  guest.url = destination
+  guest.emit('did-navigate')
+  guest.emit('did-stop-loading')
+  await expect(h.execute('A', page.registration.pageId, 'observe')).resolves.toMatchObject({ kind: 'semantic', url: 'https://controlled.invalid/first', text: '页面已到达' })
+  expect(issued).toBe(1)
+  expect(guest.inputEvents).toEqual([])
+})
+
 it('首张页用框架会话锚点创建，后台创建不切换屏幕且其他会话标签不可选择或关闭', async () => {
   const h = await harness(true)
   await h.retainSession('A')
