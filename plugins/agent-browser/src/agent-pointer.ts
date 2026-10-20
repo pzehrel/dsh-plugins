@@ -23,8 +23,17 @@ export interface PointerCarrier {
   offsetLeft?: number
   /** 相对自有定位容器的垂直偏移，CSS 像素；缺失时为零。 */
   offsetTop?: number
-  /** @returns 当前屏幕边界，仅用于判断页面是否可见，不把屏幕像素作为输入坐标。 */
-  getBoundingClientRect?: () => { left: number, top: number, width?: number, height?: number }
+  /** @returns 宿主视口内经祖先变换后的边界；原生输入不使用这些坐标。 */
+  getBoundingClientRect?: () => {
+    /** 左边缘相对宿主视口的水平位置，CSS 像素。 */
+    left: number
+    /** 上边缘相对宿主视口的垂直位置，CSS 像素。 */
+    top: number
+    /** 可选的变换后宽度，CSS 像素；省略时以 offsetWidth 判断可见性。 */
+    width?: number
+    /** 可选的变换后高度，CSS 像素；省略时以 offsetHeight 判断可见性。 */
+    height?: number
+  }
   /**
    * @param options 包含祖先不透明度及 CSS 可见性检查。
    * @param options.checkOpacity 检查包括祖先在内的不透明度。
