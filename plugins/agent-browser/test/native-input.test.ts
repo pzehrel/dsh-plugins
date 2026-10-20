@@ -68,6 +68,34 @@ it('指针缺失仅降级视觉反馈，正式审批和同页原生点击仍执�
   finally { await s.close() }
 })
 
+it('帧时钟停滞只结束视觉等待，正式审批和输入前复核后才发送原生点击', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const before = s.pointerNodes[1]!.style.transform
+    let framePending = false
+    Object.assign(s.guest.ownerDocument, { defaultView: {
+      requestAnimationFrame: () => {
+        framePending = true
+        return 1
+      },
+      cancelAnimationFrame: () => {},
+    } })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => {
+      expect(framePending).toBe(true)
+      expect(s.questions).toHaveLength(1)
+    })
+    expect(s.events).toEqual([])
+    expect(s.pointerNodes[1]!.style.transform).toBe(before)
+    await expect(input).resolves.toMatchObject({ kind: 'input', status: 'issued', documentId: observation.documentId })
+    expect(s.pointerNodes[1]!.style.transform).toBe('translate3d(60px, 40px, 0)')
+    expect(s.events).toEqual([{ type: 'mouseDown', x: 60, y: 40, button: 'left', clickCount: 1 }, { type: 'mouseUp', x: 60, y: 40, button: 'left', clickCount: 1 }])
+  }
+  finally { await s.close() }
+})
+
 it('同页指针随正式会话运行跨工具停顿保留，结束隐藏，接管不被运行状态刷新复活', async () => {
   const s = await hostedInput()
   try {

@@ -1,5 +1,5 @@
 /** 指针的可见反馈与生命周期回归；模拟宿主 DOM/帧时钟，不声称真实 Desktop 输入验收。 */
-import type { PointerNode } from '../src/agent-pointer.js'
+import type { PointerCarrier, PointerNode } from '../src/agent-pointer.js'
 import { afterEach, expect, it, vi } from 'vitest'
 import { createAgentPointer } from '../src/agent-pointer.js'
 
@@ -29,7 +29,7 @@ function fixture(frames = true) {
   const callbacks = new Map<number, () => void>()
   let foreground = true
   let serial = 0
-  const guest = {
+  const guest: PointerCarrier & { ownerDocument: NonNullable<PointerCarrier['ownerDocument']> } = {
     isConnected: true,
     offsetWidth: 800,
     offsetHeight: 600,
@@ -121,6 +121,22 @@ it('后台和未获焦窗口跳过可见动画等待，切回只恢复位置不�
   expect(f.nodes[1]!.style.transform).toBe('translate3d(200px, 100px, 0)')
 })
 
+it.each(['missing-clock', 'reduced-motion'] as const)('%s 时直接定位，不依赖帧回调或1500毫秒超时', async (mode) => {
+  const f = fixture(false)
+  if (mode === 'missing-clock') {
+    f.guest.ownerDocument.defaultView = undefined
+  }
+  else {
+    f.guest.ownerDocument.defaultView!.matchMedia = () => ({ matches: true })
+  }
+  f.pointer.setActive(true)
+  expect(f.nodes[1]!.style).toMatchObject({ width: '24px', height: '24px', transform: 'translate3d(464px, 330px, 0)' })
+  await f.pointer.move({ x: 200, y: 100 }, new AbortController().signal)
+  expect(f.nodes[1]!.style.transform).toBe('translate3d(200px, 100px, 0)')
+  f.pointer.dispose()
+  expect(vi.getTimerCount()).toBe(0)
+})
+
 it('视口变化按自有布局更新；祖先缩放不重复乘入指针坐标，坐标超界时裁剪', async () => {
   const f = fixture(false)
   f.guest.offsetWidth = 400
@@ -141,8 +157,17 @@ it('帧时钟不响应时1500毫秒后结算视觉等待，取消与关闭立即
   const f = fixture(false)
   f.pointer.setActive(true)
   const waiting = f.pointer.move({ x: 200, y: 100 }, new AbortController().signal)
-  await vi.advanceTimersByTimeAsync(1500)
+  let arrived = false
+  void waiting.then(() => {
+    arrived = true
+  })
+  await vi.advanceTimersByTimeAsync(1499)
+  expect(arrived).toBe(false)
+  expect(f.nodes[1]!.style.transform).not.toBe('translate3d(200px, 100px, 0)')
+  await vi.advanceTimersByTimeAsync(1)
   await waiting
+  expect(arrived).toBe(true)
+  expect(f.nodes[1]!.style.transform).toBe('translate3d(200px, 100px, 0)')
   const cancellation = new AbortController()
   const cancelled = f.pointer.move({ x: 400, y: 300 }, cancellation.signal)
   const late = [...f.callbacks.values()]
