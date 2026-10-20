@@ -49,7 +49,7 @@ export interface PointerCarrier {
     createElement: (tag: string) => PointerNode
     /** 后台文档不等待动画。 */
     visibilityState?: string
-    /** @returns 宿主窗口是否获焦；缺失时不据此阻止展示。 */
+    /** @returns 宿主窗口是否获焦；false 直接结算移动且不排帧，缺失时不据此阻止展示。 */
     hasFocus?: () => boolean
     /** 宿主帧时钟；缺失时直接定位，不创建替代后台定时循环。 */
     defaultView?: {
@@ -159,6 +159,14 @@ export function createAgentPointer(getGuest: () => PointerCarrier | undefined, f
       finish()
       return false
     }
+    if (document.hasFocus?.() === false) {
+      // 帧时钟在窗口失焦后可能暂停；既有心跳须直接结算已开始的移动，不能等待下一帧或超时。
+      stopFrame()
+      if (motion) {
+        point = { x: motion.x, y: motion.y }
+        finish()
+      }
+    }
     if (!layer) {
       const created = document.createElement('div')
       layer = created
@@ -206,10 +214,10 @@ export function createAgentPointer(getGuest: () => PointerCarrier | undefined, f
     }
     catch { remove() }
   }
-  /** 只给可见的活动页排帧；隐藏页由既有 Client 心跳刷新，不留额外后台定时器。 */
+  /** 只给获焦窗口的可见活动页排帧；隐藏或失焦页由既有 Client 心跳刷新，不留额外后台定时器。 */
   function schedule(): void {
     const view = guest?.ownerDocument?.defaultView
-    if (frame === undefined && visible && active && view?.requestAnimationFrame) {
+    if (frame === undefined && visible && active && guest?.ownerDocument?.hasFocus?.() !== false && view?.requestAnimationFrame) {
       frameWindow = view
       const revision = ++frameRevision
       frame = view.requestAnimationFrame((time) => {
