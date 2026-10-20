@@ -1,0 +1,17 @@
+{
+  "registryUrl": "https://registry.npmjs.org/@deepseek-ai/dsh-client-connection/0.2.1-rc.2",
+  "tarball": "https://registry.npmjs.org/@deepseek-ai/dsh-client-connection/-/dsh-client-connection-0.2.1-rc.2.tgz",
+  "integrity": "sha512-CcbFL0H7GwYxXwd2sENXYVRR98p8URDM4sPAosXmnRAIIjFhT/t4f88X+U6R+b/XHtniojoNsVfh7SQnGZkprw==",
+  "archiveSha256": "91160ce92e92026ef91c8c7b88f7f4083601bab7086188acfb79c91111bffe99",
+  "indexSha256": "0ebcca7583e082716f79b0b55bc1749d48269cc8db2989b043b321b57abd3684",
+  "version": "0.2.1-rc.2",
+  "dependencies": {
+    "zod": "4.4.3",
+    "@deepseek-ai/schemastery": "~3.18.5",
+    "@deepseek-ai/dsh-credentials": "0.2.1-rc.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5",
+    "@deepseek-ai/dsh-scope": "0.2.1-rc.2"
+  }
+}

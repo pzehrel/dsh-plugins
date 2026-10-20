@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "types": [
+      "node"
+    ],
+    "outDir": "dist"
+  },
+  "include": [
+    "src/index.ts",
+    "src/broker.ts",
+    "src/protocol.ts",
+    "src/enhanced-host.ts"
+  ]
+}

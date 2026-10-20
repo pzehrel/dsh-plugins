@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-18",
+  "task": "05 本会话多标签页与导航：0.2.1-rc.2限定复验",
+  "status": "blocked",
+  "stoppedAt": "plugin-activation",
+  "fullAcceptancePassed": false,
+  "releaseUnblocked": false,
+  "version": {
+    "installed": "0.2.1-rc.2",
+    "installedBuild": "0.2.1-rc.2",
+    "runningAboutWindow": "DeepSeek Harness Version 0.2.1-rc.2",
+    "runningVersionConfirmedThroughOfficialUi": true,
+    "macOS": "27.0.1",
+    "runtimeElectronQueried": false,
+    "asarSha256": "b9ec4c2bbc20c9dbc3e39fa4c961434a943434ab0a803052b26753dd15f3b066",
+    "projectSdkBaseline": "0.2.0-rc.2",
+    "projectSdkOrLockfileUpgraded": false
+  },
+  "artifact": {
+    "fingerprint": "f755a57033c7",
+    "package": "dsh-plugin-agent-browser-f755a57033c7",
+    "source": "既有构建的本轮冻结副本，正常工作区依赖解析；安装前后文件摘要一致。",
+    "files": {
+      "client.js": "cf666de458fd5ef04d7fea01af7d9be3cfdbe0bcd8a08a184d39416f16bcf910",
+      "host-73a7c27411e2.js": "73a7c27411e20c56afcf68d22bc242490bfc6dca36edc00b865a2f50131dac65",
+      "cordis.patch.yml": "2831ccf28926cff334972d103a82de42a11daded7d2b9bccdab19ffc4455ea16",
+      "LICENSE": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be",
+      "index.js": "73a7c27411e20c56afcf68d22bc242490bfc6dca36edc00b865a2f50131dac65",
+      "package.json": "c9cd185902e96ce0a7473886896001483aa9d8c23e2240d7e1dffbc0b6e19338",
+      "build-evidence.json": "79554014bc1f81e3a793d75e2f1fa98f103c93b0d3ca3b8653f166991ca54da6"
+    }
+  },
+  "nativeObservation": {
+    "source": "官方插件管理器实时AX观察；不是Agent工具结果或独立Client调用结果。",
+    "steps": [
+      "关于窗口确认运行版本。",
+      "官方管理器安装冻结副本，完成后点击立即启用。",
+      "界面显示启用失败，详情一个组件且一个异常。",
+      "同一官方管理器卸载，核对回到原有6项插件及相同开关。"
+    ],
+    "activationError": "启用失败：dsh: warning: 1 entry did not activate agent-browser (dsh-plugin-agent-browser-f755a57033c7): TypeError: Cannot read properties of undefined (reading 'principal')",
+    "detailsSummary": "共 1 个 · 1 异常",
+    "component": "dsh-plugin-agent-browser-f755a57033c7 agent-browser 异常",
+    "interpretation": "只证明所验冻结构建在本轮新版环境未激活；尚未定位principal异常根因，不归因于某一SDK、宿主模块或权限实现。"
+  },
+  "notExecuted": {
+    "diagnosticDriverInstalled": false,
+    "ownedAgentsCreated": 0,
+    "ownedBrowserPagesCreated": 0,
+    "formalToolCalls": 0,
+    "directOpenResourceInCalls": 0,
+    "backgroundSelectTests": 0,
+    "twoSessionFocusTests": 0,
+    "reason": "激活兼容门槛失败，未安装后续驱动或扩大验收矩阵。"
+  },
+  "historicalEvidenceBoundary": {
+    "oldNativeHost": "0.2.0-rc.2",
+    "oldOpenResourceInRejectionStillHistorical": true,
+    "newHostPublicSelectionConclusion": "not-verified",
+    "oldOfflineContractTestsProveNewHostSupport": false
+  },
+  "cleanup": {
+    "officialManagerUninstallVerified": true,
+    "baselineInstalledPlugins": 6,
+    "finalInstalledPlugins": 6,
+    "baselinePluginSwitchesPreserved": true,
+    "preexistingSubscriptionErrorPreserved": true,
+    "diagnosticDriverInstalled": false,
+    "ownedAgentsCreated": 0,
+    "ownedBrowserTabsCreated": 0,
+    "publicSelectionMethodCalled": false,
+    "profileFiles": {
+      "cordis.patch.yml": {
+        "byteEqualToBefore": true
+      },
+      "package.json": {
+        "byteEqualToBefore": true
+      },
+      "gro.ngilp-hsd-versions.json": {
+        "byteEqualToBefore": true
+      },
+      "cordis.yml": {
+        "byteEqualToBefore": true
+      }
+    },
+    "asarUnchanged": true,
+    "ownPreparedArtifactDirectoriesRemoved": true
+  },
+  "constraints": {
+    "mainAppModified": false,
+    "privateIpcOrCdpUsed": false,
+    "realAccountAccessed": false,
+    "modelAutonomousStepsRun": false,
+    "existingAgentsOperated": false,
+    "newBrowserImplementationAdded": false,
+    "productSourceModified": false,
+    "commitPushOrRemoteIssuePublished": false
+  },
+  "evidenceStorage": "仅保存版本、冻结构建摘要、白名单UI观察与清理结果；profile副本、诊断配置和控制凭据不入库。"
+}

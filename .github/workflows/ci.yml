@@ -1,3 +1,4 @@
+# 分别保留统一检查与固定官方包历史回归的结果；历史夹具由已有脚本独立准备。
 name: Check
 
 on:
@@ -17,5 +18,38 @@ jobs:
         with:
           node-version-file: .node-version
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm check
+      - id: install
+        run: pnpm install --frozen-lockfile
+      - name: 统一检查
+        id: check
+        env:
+          DSH_CI_VITEST_REPORT: ${{ runner.temp }}/dsh-check-vitest.json
+        run: pnpm check
+      - name: 统一检查测试计数
+        if: ${{ !cancelled() && steps.check.outcome != 'skipped' }}
+        env:
+          DSH_CI_VITEST_REPORT: ${{ runner.temp }}/dsh-check-vitest.json
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync, existsSync, readFileSync } from 'node:fs'
+          const command = 'pnpm check'
+          const file = process.env.DSH_CI_VITEST_REPORT
+          if (!existsSync(file)) {
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### 统一检查\n\n命令：\`${command}\`。未生成测试报告，无法提供计数；请查看前置检查失败日志。\n`)
+            throw new Error('统一检查没有生成 Vitest JSON 报告')
+          }
+          const counts = JSON.parse(readFileSync(file, 'utf8'))
+          const tests = { total: counts.numTotalTests, passed: counts.numPassedTests, failed: counts.numFailedTests, pending: counts.numPendingTests }
+          console.log(JSON.stringify({ command, tests }, null, 2))
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### 统一检查\n\n命令：\`${command}\`。通过 ${tests.passed}，失败 ${tests.failed}，跳过 ${tests.pending}，总数 ${tests.total}。\n\n其中固定官方包历史套件在本步骤跳过，由独立步骤实际运行；两步不累加计数。\n`)
+          NODE
+      - name: 固定官方包历史复用回归（六项，禁止跳过）
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: node tools/verify-official-browser-reuse.ts
+      - name: 保存统一检查测试报告
+        if: ${{ !cancelled() && steps.check.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-vitest-results
+          path: ${{ runner.temp }}/dsh-check-vitest.json
+          if-no-files-found: warn

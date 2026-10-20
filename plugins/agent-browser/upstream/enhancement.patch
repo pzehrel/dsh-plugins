@@ -1,0 +1,283 @@
+--- a/src/client/browser/BrowserController.ts
++++ b/src/client/browser/BrowserController.ts
+@@ -3,7 +3,7 @@
+ import type { TabId } from '@deepseek-ai/dsh-client-ui-dockkit'
+ import type { HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
+ import type { BrowserFrameState } from './BrowserFrame.ts'
+-import type { BrowserPage, BrowserPageFactory } from './BrowserPage.ts'
++import type { BrowserToolGuest, BrowserPage, BrowserPageFactory } from './BrowserPage.ts'
+ import { currentBrowserTarget, type BrowserTabState } from './BrowserPersistence.ts'
+ import type { BrowserStore } from './store.ts'
+ import { parseBrowserAddress, type BrowserAddressFailure, type BrowserTarget } from './url.ts'
+@@ -72,6 +72,9 @@
+     options.signal.addEventListener('abort', this.abort, { once: true })
+   }
+ 
++  /** @returns 本 controller 自有且仍就绪的页面；不扫描宿主或其他标签页。 */
++  getToolGuest = (): BrowserToolGuest | undefined => this.disposed ? undefined : this.page.getToolGuest?.()
++
+   /** @returns immutable state for the common toolbar. */
+   getSnapshot = (): BrowserControllerState => this.store.getSnapshot()
+   /** @param listener - state invalidation. @returns unsubscribe callback. */
+@@ -211,8 +214,31 @@
+  * @param isTabOpen - authoritative layout membership, independent of mounted bodies and plugin lifetime.
+  * @returns tab callbacks.
+  */
++/** 正式正文绑定的页面控制面，随 occurrence 的 signal 撤销。 */
++export interface BrowserToolTarget {
++  /** @returns 已就绪的同一自有页面，关闭或导航期间为空。 */
++  readonly getGuest: () => BrowserToolGuest | undefined
++  /** 同一官方 controller 的导航能力；不创建替代页面。 */
++  readonly navigation: {
++    /** @returns 官方控制器的当前状态。 */
++    state: () => { url?: string; loading: boolean; canGoBack: boolean; canGoForward: boolean }
++    /** @param listener 状态变化。@returns 移除订阅。 */
++    subscribe: (listener: () => void) => () => void
++    /** @param value 由官方解析器校验的地址输入。 */
++    navigate: (value: string) => void
++    /** 回到已有历史，不创建页面。 */
++    back: () => void
++    /** 前往已有历史，不创建页面。 */
++    forward: () => void
++    /** 刷新当前页面。 */
++    reload: () => void
++    /** @returns 官方解析或加载错误。 */
++    failure: () => string | undefined
++  }
++}
+ export function createBrowserControllers(actions: BoundActions<BrowserStore>, createPage: BrowserPageFactory,
+-  isTabOpen: (tabId: TabId) => boolean): BrowserInjected {
++  isTabOpen: (tabId: TabId) => boolean,
++  onPage?: (request: BrowserMountRequest, target: BrowserToolTarget) => void): BrowserInjected {
+   let currentActions = actions
+   const controllers = new Map<TabId, {
+     readonly signal: AbortSignal
+@@ -232,6 +258,16 @@
+           void held.controller.dispose()
+         }
+         const created = new BrowserController({ ...request, actions: currentActions, createPage })
++        onPage?.(request, { getGuest: created.getToolGuest, navigation: {
++          state: () => { const frame = created.getSnapshot().frame; return {
++            ...(frame.address === 'observed' && frame.target ? { url: frame.target.url } : {}),
++            loading: frame.loading, canGoBack: frame.canGoBack, canGoForward: frame.canGoForward,
++          } },
++          subscribe: created.subscribe,
++          navigate: value => created.loadUrl(value), back: () => created.goBack(),
++          forward: () => created.goForward(), reload: () => created.reload(),
++          failure: () => { const state = created.getSnapshot(); return state.addressFailure ?? (state.frame.error === undefined ? undefined : state.frame.error.description ?? '原生页面加载失败') },
++        } })
+         const forget = (): void => {
+           controllers.delete(tabId)
+           // Plugin unload also aborts occurrences; only layout removal deletes saved navigation.
+--- a/src/client/browser/BrowserPage.ts
++++ b/src/client/browser/BrowserPage.ts
+@@ -11,9 +11,24 @@
+ }
+ 
+ /** The owning controller disposes frame; UI mounts only presentation. */
++/** 只供固定工具适配使用的原生页面能力；不接受模型提供的代码。 */
++export interface BrowserToolGuest {
++  /** @returns 同一自有页面的当前网址。 */
++  getURL(): string
++  /** @param code 经审查的固定测试页脚本。@returns 执行结果。 */
++  executeJavaScript(code: string): Promise<unknown>
++  /** @param event 经固定工具校验的原生输入。 */
++  sendInputEvent(event: object): Promise<void>
++  /** @param text 正式逐次审批的普通字段内容，保留原生输入事件。 */
++  insertText(text: string): Promise<void>
++  /** @returns 公开页面缩放因子；输入只允许已核验比例。 */
++  getZoomFactor(): number
++}
+ export interface BrowserPage {
+   readonly frame: BrowserFrame
+   readonly presentation: BrowserPresentation
++  /** @returns 仅在自有原生页面就绪时提供有限控制能力。 */
++  readonly getToolGuest?: () => BrowserToolGuest | undefined
+ }
+ 
+ /** Construct an idle provider without attaching DOM; saved navigation waits for an explicit frame command. */
+--- a/src/client/browser/store.ts
++++ b/src/client/browser/store.ts
+@@ -20,7 +20,7 @@
+ export function createBrowserStore(): EngineStoreHandle<BrowserState, BrowserActions> {
+   return defineStore({
+     init: (): BrowserState => ({ byTab: {} }),
+-    persist: 'dsh.sidebar-browser.v1',
++    persist: 'dsh.agent-browser.v1',
+     actions: {
+       replace: (draft, tabId: TabId, state: BrowserTabState) => { draft.byTab[tabId] = state },
+       forget: (draft, tabId: TabId) => {
+--- a/src/client/definition.tsx
++++ b/src/client/definition.tsx
+@@ -9,15 +9,15 @@
+ export const BROWSER_KIND = 'browser'
+ 
+ /** Browser implementation identity and keyed Slot dispatch key. */
+-export const BROWSER_ID = '@deepseek-ai/dsh-client-ui-sidebar-browser'
++export const BROWSER_ID = 'dsh-plugin-agent-browser'
+ 
+ /** Build the Browser type with locale-live copy. */
+-export function browserDefinition(t: TranslateNS<'sidebarBrowser'>): SidebarRightTabDefinition {
++export function browserDefinition(t: TranslateNS<'agentBrowser'>): SidebarRightTabDefinition {
+   return {
+     id: BROWSER_ID,
+     kind: BROWSER_KIND,
+     multiple: true,
+-    priority: 'builtin',
++    priority: 'extension',
+     title: () => t('type.label'),
+     guide: [{
+       id: 'new', commandId: 'browser.new' as ShortcutCommandId, order: 30, title: () => t('guide.title'),
+--- a/src/client/electron/ElectronWebViewImpl.ts
++++ b/src/client/electron/ElectronWebViewImpl.ts
+@@ -42,6 +42,11 @@
+     private readonly presentation: ElectronWebviewPresentation) {
+     this.checkpoint = currentBrowserTarget(options.initial)
+     this.store = createSnapshotStore(emptyBrowserFrame())
++  }
++
++  /** @returns 当前自有且就绪的原生页面，避免关闭或导航中继续发送工具动作。 */
++  getToolGuest(): WebviewElement | undefined {
++    return this.ready && !this.lifetime.signal.aborted && !this.store.getSnapshot().loading ? this.element : undefined
+   }
+ 
+   /** @returns immutable carrier-neutral navigation state. */
+--- a/src/client/electron/ElectronWebviewPresentation.ts
++++ b/src/client/electron/ElectronWebviewPresentation.ts
+@@ -5,6 +5,14 @@
+ 
+ /** The Electron tag API used by its navigation provider. */
+ export interface WebviewElement extends HTMLElement {
++  /** @param code 固定工具脚本。@returns 原生执行结果。 */
++  executeJavaScript(code: string): Promise<unknown>
++  /** @param event 固定工具原生输入。 */
++  sendInputEvent(event: object): Promise<void>
++  /** @param text 正式逐次审批的普通字段内容，保留原生输入事件。 */
++  insertText(text: string): Promise<void>
++  /** @returns 公开页面缩放因子；输入只允许已核验比例。 */
++  getZoomFactor(): number
+   loadURL(url: string): Promise<void>
+   getURL(): string
+   getTitle(): string
+--- a/src/client/electron/pages.ts
++++ b/src/client/electron/pages.ts
+@@ -18,5 +18,5 @@
+     unmounted: () => { frame.detach() },
+   })
+   const frame = new ElectronWebViewImpl(options, bridge, workspace, presentation)
+-  return { frame, presentation }
++  return { frame, presentation, getToolGuest: () => frame.getToolGuest() }
+ }
+--- a/src/client/index.ts
++++ b/src/client/index.ts
+@@ -1,3 +1,4 @@
++import type { ReactNode } from 'react'
+ /** Register the HTTP(S) Browser tab type in the right Sidebar. */
+ import type { ShortcutCommandId } from '@deepseek-ai/dsh-client-shortcuts/client'
+ import type { Context } from '@deepseek-ai/cordis'
+@@ -9,7 +10,7 @@
+ import { BrowserBody, type BrowserBodyProps } from './view/BrowserBody.tsx'
+ import { BrowserTitle } from './view/BrowserTitle.tsx'
+ import { createBrowserControllers } from './browser/BrowserController.ts'
+-import type { BrowserInjected } from './browser/BrowserController.ts'
++import type { BrowserMountRequest, BrowserToolTarget, BrowserInjected } from './browser/BrowserController.ts'
+ import { createIframePage } from './pages.ts'
+ import { createElectronPage } from './electron/pages.ts'
+ import type { DesktopBrowserBridge } from '../types.ts'
+@@ -40,30 +41,11 @@
+ export const inject = ['slots', 'locale', 'sidebarRight', 'sidebarRightTabs']
+ 
+ /** Register the Browser type, localized guide entry, body, and title. */
+-export function apply(ctx: Context): void {
+-  const namespace = 'sidebarBrowser'
++export function apply(ctx: Context, onPage?: (sessionId: string, request: BrowserMountRequest, target: BrowserToolTarget) => void,
++  renderStatus?: (sessionId: string, tabId: string) => ReactNode): void {
++  const namespace = 'agentBrowser'
+   const t = ctx.locale.bind(namespace)
+-  ctx.inject(['shortcuts'], (ctx) => {
+-    ctx.effect(() => ctx.shortcuts.register({
+-      id: 'browser.new' as ShortcutCommandId, label: () => t('guide.title'), aliases: ['browser', 'new browser tab'],
+-      defaults: {
+-        'desktop:macos': { code: 'KeyT', modifiers: ['primary'] },
+-        'desktop:windows': { code: 'KeyT', modifiers: ['primary'] },
+-        'desktop:linux': { code: 'KeyT', modifiers: ['primary'] },
+-        'web:macos': { code: 'KeyT', modifiers: ['primary', 'alt'] },
+-        'web:windows': { code: 'KeyT', modifiers: ['primary', 'alt'] },
+-      },
+-      // Each tab plugin owns its command's availability, localized refusal, and tab kind.
+-      /* jscpd:ignore-start */
+-      regions: ['page', 'editable', 'terminal'], modals: [],
+-      resolve: ({ target: element }) => {
+-        const target = ctx.sidebarRight.commandTarget(element)
+-        if (target === undefined) return { status: 'blocked', reason: t('shortcut.noSession') }
+-        return { status: 'handled', run: () => { ctx.sidebarRight.openTabFromTarget('browser', target) } }
+-      },
+-      /* jscpd:ignore-end */
+-    }), 'ui-sidebar-browser: shortcut')
+-  })
++  // browser.new 继续由 builtin 注册；正式 browser kind 扩展选择本实现，避免重复快捷键。
+   const store = createBrowserStore()
+   const openTabs = ctx.sidebarRight.openTabs
+   const carrier = (globalThis as typeof globalThis & {
+@@ -88,7 +70,8 @@
+           return existing
+         }
+         const controller = createBrowserControllers(actions, factory(sessionId), tabId =>
+-          openTabs.getSnapshot().some(tab => tab.sessionId === sessionId && tab.tabId === tabId))
++          openTabs.getSnapshot().some(tab => tab.sessionId === sessionId && tab.tabId === tabId),
++          (request, target) => onPage?.(sessionId, request, target))
+         controllers.set(sessionId, controller)
+         return controller
+       },
+@@ -101,5 +84,6 @@
+   })
+   ctx.effect(() => ctx.slots.inject('sidebar.right.pane.tab.title', () => ctx.slots.register({
+     name: 'sidebar.right.pane.tab.title', key: BROWSER_ID, store,
++    inject: sessionId => ({ renderToolStatus: (tabId: string) => renderStatus?.(sessionId, tabId) }),
+   }, BrowserTitle)), 'ui-sidebar-browser.title')
+ }
+--- a/src/client/locales.ts
++++ b/src/client/locales.ts
+@@ -64,6 +64,6 @@
+ declare module '@deepseek-ai/dsh-client-ui-slots' {
+   interface LocaleNamespaceMap {
+     /** Sidebar Browser labels, navigation controls, and failures. */
+-    sidebarBrowser: SidebarBrowserKey
++    agentBrowser: SidebarBrowserKey
+   }
+ }
+--- a/src/client/view/BrowserBody.tsx
++++ b/src/client/view/BrowserBody.tsx
+@@ -34,7 +34,7 @@
+ /** Browser body props assembled by the tab seat. */
+ export type BrowserBodyProps = PropsRuntime<'sidebar.right.pane.tab'>
+   & PropsStore<BrowserStore>
+-  & PropsLocale<'sidebarBrowser'>
++  & PropsLocale<'agentBrowser'>
+   & InjectFace<BrowserInjected>
+ 
+ function useBrowserDraft(url: string | undefined, revision: number): readonly [string, (value: string) => void] {
+--- a/src/client/view/BrowserTitle.tsx
++++ b/src/client/view/BrowserTitle.tsx
+@@ -1,17 +1,18 @@
+ /** Live Browser tab title from the Browser store. */
+ import type { ReactNode } from 'react'
+ import { IconGlobeOutlineRegular } from '@deepseek-ai/dsh-client-ui-primitives'
+-import type { PropsRuntime, PropsStore } from '@deepseek-ai/dsh-client-ui-slots'
++import type { InjectFace, PropsRuntime, PropsStore } from '@deepseek-ai/dsh-client-ui-slots'
+ import { currentBrowserTarget } from '../browser/BrowserPersistence.ts'
+ import type { BrowserStore } from '../browser/store.ts'
+ import css from './Browser.module.css'
+ 
+ /** Browser title props assembled by the Sidebar title seat. */
+ export type BrowserTitleProps = PropsRuntime<'sidebar.right.pane.tab.title'> & PropsStore<BrowserStore>
++  & InjectFace<{ renderToolStatus: (tabId: string) => ReactNode }>
+ 
+ /** Browser icon and current host name. */
+-export function BrowserTitle({ useTabInfo, useStore }: BrowserTitleProps): ReactNode {
++export function BrowserTitle({ useTabInfo, useStore, renderToolStatus }: BrowserTitleProps): ReactNode {
+   const { tab } = useTabInfo()
+   const entry = useStore(state => currentBrowserTarget(state.byTab[tab.id]))
+-  return <><IconGlobeOutlineRegular className={css.titleIcon} />{entry?.title ?? tab.title}</>
++  return <><IconGlobeOutlineRegular className={css.titleIcon} />{entry?.title ?? tab.title}{renderToolStatus(tab.id)}</>
+ }

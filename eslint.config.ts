@@ -8,7 +8,7 @@ export default antfu({
   typescript: true,
   vue: false,
   formatters: false,
-  ignores: ['**/dist/**', '**/coverage/**'],
+  ignores: ['**/dist/**', '**/coverage/**', 'plugins/agent-browser/.build/**'],
 }, {
   files: ['pnpm-workspace.yaml'],
   rules: {

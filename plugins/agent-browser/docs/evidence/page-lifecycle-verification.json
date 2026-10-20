@@ -1,0 +1,266 @@
+{
+  "recordedAt": "2026-10-15T16:55:43Z",
+  "task": "03 隐藏保活、取消与关闭清理",
+  "scope": "官方 macOS Desktop 0.2.0-rc.2，固定自有页面切片；不代表完整首版验收",
+  "G3": "固定页切片通过，公开 keepMounted 路径可用",
+  "artifact": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "29f071b4adb1",
+    "package": "dsh-plugin-agent-browser-29f071b4adb1",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "444a4e557385b44345461950e0d8bdc3d361ae25e70a1f515cad9b216ace7130",
+    "hostSha256": "72e8d5463f1ac25dab7ac132e0d3e3228f547ee98e6bed99f1f1e1a591ffd4b9",
+    "clientSha256": "a3cb52a8f2e5e22ef05b2fcde9de374380104f454049c9838e7acd1e42f74921"
+  },
+  "runtime": {
+    "toolPresent": true,
+    "legacyToolPresent": true,
+    "fixtureUrl": "http://127.0.0.1:61569/spike-0b09fb63-0dac-4667-ae1e-4cafc353a184",
+    "hostBuild": "29f071b4adb1"
+  },
+  "boundary": "真实 ToolRuntime.execute 与指定真实 Agent；未发送模型消息",
+  "initial": [
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8ce7fd9d-e910-4cd1-9af6-785f9342ab78",
+        "documentId": "d6fba28e-c18f-4d35-aba8-927ef346c579",
+        "count": 0,
+        "text": "生命周期最终验收 D",
+        "lastTrusted": false
+      }
+    },
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8ce7fd9d-e910-4cd1-9af6-785f9342ab78",
+        "documentId": "d6fba28e-c18f-4d35-aba8-927ef346c579",
+        "count": 1,
+        "text": "生命周期最终验收 D",
+        "lastTrusted": true
+      }
+    },
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8ce7fd9d-e910-4cd1-9af6-785f9342ab78",
+        "documentId": "d6fba28e-c18f-4d35-aba8-927ef346c579",
+        "count": 1,
+        "text": "生命周期最终验收 D",
+        "lastTrusted": true
+      }
+    }
+  ],
+  "hidden": {
+    "running": true,
+    "results": 34,
+    "successful": 34,
+    "errors": [],
+    "documentIds": [
+      "d6fba28e-c18f-4d35-aba8-927ef346c579"
+    ]
+  },
+  "switched": {
+    "running": true,
+    "results": 74,
+    "successful": 74,
+    "errors": [],
+    "documentIds": [
+      "d6fba28e-c18f-4d35-aba8-927ef346c579"
+    ]
+  },
+  "backgroundComplete": {
+    "running": false,
+    "results": 80,
+    "successful": 80,
+    "errors": [],
+    "documentIds": [
+      "d6fba28e-c18f-4d35-aba8-927ef346c579"
+    ]
+  },
+  "focus": "运行与完成后仍为另一空白草稿，未抢焦点；返回原页可见计数2及人工内容",
+  "cancel": {
+    "running": false,
+    "results": 33,
+    "successful": 32,
+    "errors": [
+      "验收驱动未取得有效工具结果"
+    ],
+    "documentIds": [
+      "d6fba28e-c18f-4d35-aba8-927ef346c579"
+    ]
+  },
+  "cancelLimitation": "驱动合成取消信号在结果交付前中止，原生记录仅证明停止；cancelled/unknown 分类由 Broker 回归证明",
+  "duplicate": {
+    "isError": true,
+    "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/duplicate] 重复工具调用已拒绝；不重放旧动作或观察\"}]"
+  },
+  "afterCancel": [
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8ce7fd9d-e910-4cd1-9af6-785f9342ab78",
+        "documentId": "d6fba28e-c18f-4d35-aba8-927ef346c579",
+        "count": 1,
+        "text": "生命周期最终验收 D",
+        "lastTrusted": true
+      }
+    },
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8ce7fd9d-e910-4cd1-9af6-785f9342ab78",
+        "documentId": "d6fba28e-c18f-4d35-aba8-927ef346c579",
+        "count": 2,
+        "text": "生命周期最终验收 D",
+        "lastTrusted": true
+      }
+    },
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8ce7fd9d-e910-4cd1-9af6-785f9342ab78",
+        "documentId": "d6fba28e-c18f-4d35-aba8-927ef346c579",
+        "count": 2,
+        "text": "生命周期最终验收 D",
+        "lastTrusted": true
+      }
+    }
+  ],
+  "close": {
+    "running": false,
+    "results": 33,
+    "successful": 32,
+    "errors": [
+      "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/closed] 页面已关闭；动作未发出或未交付结果\"}]"
+    ],
+    "documentIds": [
+      "d6fba28e-c18f-4d35-aba8-927ef346c579"
+    ]
+  },
+  "oldTarget": {
+    "driver": "正式 ToolRuntime.execute，真实 Agent；不是模型自主调用",
+    "results": [
+      {
+        "isError": true,
+        "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/closed] 页面已关闭或不存在\"}]"
+      }
+    ]
+  },
+  "reopened": [
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8c7bd686-d36d-45af-92a2-8ab007597809",
+        "documentId": "772d45ac-5120-4a9b-bd70-56e7eb0a59fe",
+        "count": 0,
+        "text": "初始内容",
+        "lastTrusted": false
+      }
+    },
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8c7bd686-d36d-45af-92a2-8ab007597809",
+        "documentId": "772d45ac-5120-4a9b-bd70-56e7eb0a59fe",
+        "count": 1,
+        "text": "初始内容",
+        "lastTrusted": true
+      }
+    },
+    {
+      "isError": false,
+      "value": {
+        "pageId": "8c7bd686-d36d-45af-92a2-8ab007597809",
+        "documentId": "772d45ac-5120-4a9b-bd70-56e7eb0a59fe",
+        "count": 1,
+        "text": "初始内容",
+        "lastTrusted": true
+      }
+    }
+  ],
+  "unload": {
+    "running": false,
+    "results": 25,
+    "successful": 24,
+    "errors": [
+      "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/unloaded] 插件已卸载；动作未发出或未交付结果\"}]"
+    ],
+    "documentIds": [
+      "772d45ac-5120-4a9b-bd70-56e7eb0a59fe"
+    ]
+  },
+  "unloadedStatus": {
+    "toolPresent": false,
+    "legacyToolPresent": true
+  },
+  "fallback": "卸载后 builtin 空白页可加载原有自有测试站，随后关闭本轮标签页并恢复原实验页",
+  "cleanup": {
+    "profileMatchesOriginal": {
+      "cordis.yml": true,
+      "cordis.patch.yml": true,
+      "package.json": true,
+      "gro.ngilp-hsd-versions.json": true
+    },
+    "asarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e",
+    "portsClosed": {
+      "61569": true,
+      "61689": true
+    }
+  },
+  "controlledRegression": {
+    "tests": 45,
+    "files": 9,
+    "skipped": 0,
+    "command": "DSH_OFFICIAL_BROWSER_PROBE=<既有实验目录> pnpm check",
+    "checks": [
+      "ESLint",
+      "TypeScript",
+      "vitest"
+    ],
+    "coverage": [
+      "排队取消与已发出点击结果不明",
+      "5秒失联租约与15秒超时",
+      "在途心跳不消费下一命令",
+      "重复与迟到结果不交付",
+      "停止后登记拒绝",
+      "关闭等待迟到原生操作",
+      "Connection 状态失效不自动重绑",
+      "Host/Client 构建不匹配撤销",
+      "同网址重载不接收旧坐标或冒充原点击结果",
+      "一次性驱动卸载等待全部在途 HTTP 请求"
+    ]
+  },
+  "review": {
+    "standards": "发现并修复输入文档竞态与驱动清理缺口；复审无未解决发现",
+    "spec": "发现并修复输入及点击后结果的文档竞态；复审无未解决发现"
+  },
+  "unverified": [
+    "全局物理连接断开未操作；在公开 Connection 边界注入断线",
+    "完整接管、审批、任意网页、多标签工具、截图、上传、控制台与脚本仍待各任务",
+    "模型自主选择工具未验证"
+  ],
+  "runtimeWarning": "shell Node 22.20.0；项目要求24.21.0；检查成功但不增加Node22支持",
+  "excludedAttempt": "同名旧包重装出现运行Host未更新；首次保活记录不作新控制层通过。最终使用内容身份包与运行指纹复验。",
+  "rawRecordSha256": {
+    "after-cancel.json": "817b4dabc8c6e439970d7d25327655d2b2c53547384f70c4cd125416f4bb4080",
+    "cancel-start.json": "ddb3d51ce462ce792d0649895e3bd654593c7525176a0c076b373caeab5dbffa",
+    "cancellation.json": "124304c4e446df8a04c7483dacedd18938a160ba5ea62d185c8d1344aa2e1ead",
+    "cancelled-results.json": "4f11fecf2f2c83efbc0ad5cf5c2454306f776a558672843ce8f8a0565ec7e934",
+    "cleanup.json": "3ba842e2b339e37c6423caa9827e491686ff320d643f3815983286fc54e11660",
+    "close-start.json": "ddb3d51ce462ce792d0649895e3bd654593c7525176a0c076b373caeab5dbffa",
+    "closed-job.json": "19b7089f8b4a16e6620c2ea5d08ed8f17b28f53b1e446c6f46dc898bf69211c9",
+    "duplicate-results.json": "c4b4550931c21624300e8f3f3f90a6352b9087848c34692c52cd9ddf8ee00f82",
+    "hidden-complete.json": "42ff9e9f5f78ac4d248ed3ae777a9b25da5729f9b0510a8de6973c98d24783a4",
+    "hidden-start.json": "ddb3d51ce462ce792d0649895e3bd654593c7525176a0c076b373caeab5dbffa",
+    "initial.json": "808a747af04631044cd0cb9a41b28c63af12b2dd9a7c811e6fa5719a9819b27a",
+    "old-target.json": "2687fc55d8cbfbf640cc58d3c4081b47fdf15e1820c7de7724cbfbb6b0968ed6",
+    "reopened.json": "d478ea19ce34276a3a2558f84223086961520146e23687c198da2c550b968b97",
+    "runtime.json": "f1448cbfae92620f17df039e618843b4e99a44b0c81c646a38e13d8255efeffa",
+    "unload-start.json": "a0bc9b264f5ba58aed74b5536253daedff9076ed3a146a95a7da3fa7936bfde8",
+    "unloaded-job.json": "73cc381f7718bc4a170ee60776f8fd8c74c54081fabd0c9661a42ce81deff9a2",
+    "unloaded-status.json": "9f16a384aaa82778cb86e739a73328c5f4834fdecc772d11e623a0088f5f2f37",
+    "while-hidden.json": "601d9f079fbc3f9b949610172d3df8ce0b67bf2c07fd20c9c5e4e3f855d645c1",
+    "while-switched.json": "f7db4d16b3c3c9989d74b7987ef221d95f3daf77d63b60e4694994369535fca0"
+  }
+}

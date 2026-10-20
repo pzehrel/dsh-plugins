@@ -1,0 +1,390 @@
+{
+  "observedAtUtc": "2026-10-15T14:56:23.820862+00:00",
+  "status": "feasible-on-tested-host",
+  "G2": {
+    "publicCapability": "passed",
+    "productAcceptance": "pending-task13-and-full-acceptance",
+    "scopeUnchanged": true
+  },
+  "environment": {
+    "host": "官方 DeepSeek Harness Desktop",
+    "os": "macOS",
+    "desktopVersion": "0.2.0-rc.2",
+    "browserPackageVersion": "0.2.0-rc.2",
+    "applicationAsarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e"
+  },
+  "artifact": {
+    "run": "46cddacc661d",
+    "package": "dsh-plugin-login-scope-probe-46cddacc661d",
+    "clientSha256": "e744b9fefd3c9968f98accb77240ded1d15443cbd2e4674523cc7e7030e4d398",
+    "hostSha256": "4d3a2aab430a6dfaf0bb0395d120ca9fbf8f319d29af4ba345c0e3dc2395ef63",
+    "directory": "/private/var/folders/4x/dsx65jpx6qq4dkk4h7hz9j8m0000gn/T/dsh-official-browser-probe-N523nO/login-scope-plugin"
+  },
+  "publicContract": {
+    "method": "DesktopBrowserBridge.acquire(workspace: string)",
+    "parameterMeaning": "resolved storage account",
+    "url": "https://cdn.jsdelivr.net/npm/@deepseek-ai/dsh-client-ui-sidebar-browser@0.2.0-rc.2/lib/types/types.d.ts",
+    "line": 18,
+    "sha256": "821b041e49dbce5601bb1e960c7d2756ff8127d789a0a688b729853396f2f5c6",
+    "builtinPolicy": "真实CWD或无工作区时的session；不是bridge类型对自有存储账号命名的限制",
+    "readmeSha256": "a172cd71fcd66e4181fb30bf438a6cf2daf4bf6de59380a66bede3a22be29839"
+  },
+  "staticEvidence": {
+    "reaSummaryEvidenceId": "ev_3ae4bafe2bce67f6c733ad73e36278d6747699cc794898586a74e080c988a472",
+    "reaParentEvidenceId": "ev_6d5bd81fa6604773c1fb03c877708db880f7df450aa20edaa3c845110b1e6ab2",
+    "mainSha256": "10325004a1ddbd8118ed0607ea28d50a7b0d692dcaeb25a67a7d8aea9165019d",
+    "currentMainMatchedAnalyzedCopy": true,
+    "coverage": "partial; semantic graph node ceiling; static analysis is not runtime proof"
+  },
+  "evidenceMethod": [
+    "官方插件管理器本地加载，CUA原生AX读取测试页结果",
+    "框架workspaces.list解析身份，并核对两个真实规范CWD摘要",
+    "仅通过真实webview读写自有Cookie及localStorage键",
+    "公开ToolRuntime.execute使用两个真实Agent检查既有固定工具双向归属；未发送模型消息"
+  ],
+  "workspaces": [
+    {
+      "label": "A",
+      "canonicalCwdSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee"
+    },
+    {
+      "label": "B",
+      "canonicalCwdSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "kind": "独立临时工作区；宿主草稿会话，未发送消息"
+    }
+  ],
+  "cases": [
+    {
+      "name": "默认全局跨工作区共享",
+      "status": "passed",
+      "observations": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "expected": "A写A，B的Cookie和localStorage均读A；工作区摘要不同、账号摘要相同"
+    },
+    {
+      "name": "独立工作区容器且不复制全局数据",
+      "status": "passed",
+      "observations": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "expected": "B工作区新容器空，写C；A工作区新容器仍空，写B；A同工作区新页读B"
+    },
+    {
+      "name": "切换不改变旧页或删除原容器",
+      "status": "passed",
+      "observations": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "expected": "旧全局页和切回后的新全局页均读A；旧A工作区页读B，旧B工作区页读C"
+    },
+    {
+      "name": "共享存储不扩大页面权限",
+      "status": "passed",
+      "observations": [
+        4,
+        16
+      ],
+      "expected": "两真实会话读本页成功，交叉读取均由既有Host明确拒绝"
+    },
+    {
+      "name": "自有数据清理",
+      "status": "passed",
+      "observations": [
+        17,
+        18,
+        19
+      ],
+      "expected": "三个账号容器的本次Cookie和localStorage键均清空"
+    }
+  ],
+  "observations": [
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "88d72529-e84b-4f22-a21a-2f5f6f10948d",
+      "scope": "global",
+      "action": "read",
+      "value": {
+        "storage": null,
+        "cookie": null
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "88d72529-e84b-4f22-a21a-2f5f6f10948d",
+      "scope": "global",
+      "action": "write-A",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "a99bc40d-8be5-4925-b05e-0ef70b915485",
+      "scope": "global",
+      "action": "read",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "a99bc40d-8be5-4925-b05e-0ef70b915485",
+      "scope": "global",
+      "action": "owners",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "a99bc40d-8be5-4925-b05e-0ef70b915485",
+      "scope": "global",
+      "action": "workspace",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "5fefedc8-b8af-4e59-b18b-d7555f4ace1a",
+      "scope": "workspace",
+      "action": "read",
+      "value": {
+        "storage": null,
+        "cookie": null
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "45744ef5d44ae42120b03250904619af6331473c911dc1903367f3c17bdfa8e1"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "5fefedc8-b8af-4e59-b18b-d7555f4ace1a",
+      "scope": "workspace",
+      "action": "write-C",
+      "value": {
+        "storage": "C",
+        "cookie": "C"
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "45744ef5d44ae42120b03250904619af6331473c911dc1903367f3c17bdfa8e1"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "039128ab-edd4-43af-9664-760ad987381c",
+      "scope": "workspace",
+      "action": "read",
+      "value": {
+        "storage": null,
+        "cookie": null
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "0c49b53fc56dee65d781656d2e74906f7cdb62fbcbba34884804af56286d00e3"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "039128ab-edd4-43af-9664-760ad987381c",
+      "scope": "workspace",
+      "action": "write-B",
+      "value": {
+        "storage": "B",
+        "cookie": "B"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "0c49b53fc56dee65d781656d2e74906f7cdb62fbcbba34884804af56286d00e3"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "be02f43c-66e7-4bc2-85be-4be591443a26",
+      "scope": "workspace",
+      "action": "read",
+      "value": {
+        "storage": "B",
+        "cookie": "B"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "0c49b53fc56dee65d781656d2e74906f7cdb62fbcbba34884804af56286d00e3"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "88d72529-e84b-4f22-a21a-2f5f6f10948d",
+      "scope": "global",
+      "action": "read",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "88d72529-e84b-4f22-a21a-2f5f6f10948d",
+      "scope": "global",
+      "action": "global",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "d85b2c85-35a0-43b4-bb1b-e72b9d7673cf",
+      "scope": "global",
+      "action": "read",
+      "value": {
+        "storage": "A",
+        "cookie": "A"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "039128ab-edd4-43af-9664-760ad987381c",
+      "scope": "workspace",
+      "action": "read",
+      "value": {
+        "storage": "B",
+        "cookie": "B"
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "0c49b53fc56dee65d781656d2e74906f7cdb62fbcbba34884804af56286d00e3"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "5fefedc8-b8af-4e59-b18b-d7555f4ace1a",
+      "scope": "workspace",
+      "action": "read",
+      "value": {
+        "storage": "C",
+        "cookie": "C"
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "45744ef5d44ae42120b03250904619af6331473c911dc1903367f3c17bdfa8e1"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "5fefedc8-b8af-4e59-b18b-d7555f4ace1a",
+      "scope": "workspace",
+      "action": "owners",
+      "value": {
+        "storage": "C",
+        "cookie": "C"
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "45744ef5d44ae42120b03250904619af6331473c911dc1903367f3c17bdfa8e1"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "5fefedc8-b8af-4e59-b18b-d7555f4ace1a",
+      "scope": "workspace",
+      "action": "clear",
+      "value": {
+        "storage": null,
+        "cookie": null
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "45744ef5d44ae42120b03250904619af6331473c911dc1903367f3c17bdfa8e1"
+    },
+    {
+      "sessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "pageId": "a99bc40d-8be5-4925-b05e-0ef70b915485",
+      "scope": "global",
+      "action": "clear",
+      "value": {
+        "storage": null,
+        "cookie": null
+      },
+      "workspaceSha256": "600fe74e37527977ad60bb704c615e5e67cb13865ced64789f31f9ebca7e0bc7",
+      "accountSha256": "fd95e55a8d0b576b257478e46ec21c3d625e47093af6251d5d78c4ccfe87b5f9"
+    },
+    {
+      "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "pageId": "039128ab-edd4-43af-9664-760ad987381c",
+      "scope": "workspace",
+      "action": "clear",
+      "value": {
+        "storage": null,
+        "cookie": null
+      },
+      "workspaceSha256": "fcc7ce2237c1f3f124736fd089b22ad12db3b96cbd0e56caccbcd85439ae5fee",
+      "accountSha256": "0c49b53fc56dee65d781656d2e74906f7cdb62fbcbba34884804af56286d00e3"
+    }
+  ],
+  "ownerResults": [
+    {
+      "sourceSessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "targetSessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "ownReadPassed": true,
+      "foreignReadRejected": true
+    },
+    {
+      "sourceSessionId": "session-01a359c0-c478-41eb-aaeb-754cf5b109de",
+      "targetSessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+      "ownReadPassed": true,
+      "foreignReadRejected": true
+    }
+  ],
+  "cleanup": {
+    "temporaryPagesClosed": 6,
+    "temporaryPluginUninstalled": true,
+    "temporaryWorkspaceRemovedFromList": true,
+    "workspaceRemovalSemantics": "宿主保留文件夹与会话记录；未删除原有会话",
+    "ownMarkerClearedInAllThreeAccounts": true,
+    "probeListenerConnectionRefused": true,
+    "profileFilesByteIdenticalToBaseline": [
+      "package.json",
+      "cordis.patch.yml",
+      "pnpm-lock.yaml",
+      "pnpm-workspace.yaml"
+    ],
+    "applicationAsarUnchanged": true,
+    "originalExperimentEntryPreserved": true
+  },
+  "limitations": [
+    "仅当前macOS官方0.2.0-rc.2，未测试其他版本或窗口/进程组合",
+    "仅Cookie与localStorage自有标记，未访问真实账号，不证明所有网站登录流程",
+    "正式设置、稳定账号命名及网址/容器恢复由13和14实现；本次run仅用于实验隔离",
+    "未验证跨重启登录态、IndexedDB等全部存储类型或网站策略",
+    "工具归属证明来自真实ToolRuntime，不是模型自主调用",
+    "公开release释放guest，空分区记账可保留至进程结束；未用私有清理接口"
+  ],
+  "postReviewHardening": {
+    "finding": "诊断报告未白名单投影value中的附加字段",
+    "fix": "只保留storage/cookie，限制scope/action及测试值",
+    "currentHostSourceSha256": "ec48e04384877a7c86ed296347528ed4c3de80388d9e8c7c85693a6d54afd4f6",
+    "verification": "正式Connection和真实loopback HTTP回归：附加字段丢弃，未知范围或动作拒绝",
+    "nativeArtifactPreserved": true,
+    "nativeDesktopRerunAfterHardening": false,
+    "nativeObservationsContainedOnlyDeclaredMarkerFields": true
+  }
+}

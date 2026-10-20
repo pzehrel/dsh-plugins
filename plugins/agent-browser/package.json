@@ -1,0 +1,53 @@
+{
+  "name": "dsh-plugin-agent-browser",
+  "type": "module",
+  "version": "0.1.0-preview.1",
+  "private": true,
+  "description": "复用 DSH 官方内置浏览器界面，提供同会话 Agent 页面工具与人工接管",
+  "exports": {
+    ".": "./dist/enhanced/index.js",
+    "./client": "./dist/client.js"
+  },
+  "main": "dist/enhanced/index.js",
+  "dsh": {
+    "bundle": {
+      "patch": "./dist/cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-workspace-controller",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-session"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/build-official-browser.ts",
+    "typecheck": "node ../../tools/build-official-browser.ts --prepare && tsc -p tsconfig.host.json --noEmit && tsc -p tsconfig.client.json --noEmit && tsc -p tsconfig.enhanced.json --noEmit"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-tools": "catalog:"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "catalog:",
+    "@deepseek-ai/dsh-api-workspace-controller": "catalog:",
+    "@deepseek-ai/dsh-attachment": "catalog:",
+    "@deepseek-ai/dsh-brand": "catalog:",
+    "@deepseek-ai/dsh-client-connection": "catalog:",
+    "@deepseek-ai/dsh-client-locale": "catalog:",
+    "@deepseek-ai/dsh-client-shortcuts": "catalog:",
+    "@deepseek-ai/dsh-client-store": "catalog:",
+    "@deepseek-ai/dsh-client-ui-dockkit": "catalog:",
+    "@deepseek-ai/dsh-client-ui-primitives": "catalog:",
+    "@deepseek-ai/dsh-client-ui-renderer": "catalog:",
+    "@deepseek-ai/dsh-client-ui-session": "catalog:",
+    "@deepseek-ai/dsh-client-ui-sidebar-right": "catalog:",
+    "@deepseek-ai/dsh-client-ui-slots": "catalog:",
+    "@deepseek-ai/dsh-invariants": "catalog:",
+    "@deepseek-ai/dsh-scope": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:"
+  }
+}

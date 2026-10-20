@@ -12,10 +12,13 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --project tsconfig.json --noEmit && pnpm -r --if-present run typecheck",
     "test": "pnpm -r --if-present run build && vitest run --passWithNoTests",
-    "check": "pnpm lint && pnpm typecheck && pnpm test"
+    "check": "pnpm check:agent-browser-tasks && pnpm lint && pnpm typecheck && pnpm test",
+    "verify:agent-browser": "node tools/verify-agent-browser.ts",
+    "check:agent-browser-tasks": "node tools/check-agent-browser-tasks.ts"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "@deepseek-ai/dsh-llm": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "jiti": "catalog:",

@@ -1,0 +1,374 @@
+{
+  "status": "task10-complete-native-recorded",
+  "task": "10",
+  "date": "2026-10-16",
+  "productUploadSupported": true,
+  "nativeUploadPassed": true,
+  "gates": {
+    "G4-upload": "passed",
+    "A12": "passed-for-task10-slice",
+    "G5-upload": "native-and-controlled-coverage-recorded",
+    "G4-overall": "not-passed",
+    "G5-overall": "not-passed",
+    "task16": "not-passed",
+    "fullSpec": "not-passed"
+  },
+  "fixedDSH": {
+    "tag": "dsh-v0.2.0-rc.2",
+    "commit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "archiveSha256": "bbc09e888e1df3aa37be049abdb7720951e76442d21e5432365d87a465d628f1"
+  },
+  "sources": [
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/attachment/attachment-local/src/file-store.ts",
+      "sha256": "8826c8ea6124c489c51c10bdc195f4f454b89370929e5d83c50e6232b2eef958"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/attachment/attachment-local/src/index.ts",
+      "sha256": "1a1d3fda491bbb0789447e6f9ab92840d6652eff8d68fbccc2a4307ccc5f9f8b"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/attachment/attachment/src/types.ts",
+      "sha256": "893a8d2501251873d7a885ac9d7249f9a79c3e71e18ef921c260bf56e2c6c354"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/attachment/attachment/src/index.ts",
+      "sha256": "7afccd4c126a8b23acfaf31fe56e463196cd091da8585b00da4de4dca3c54574"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/apps/desktop/src/preload-app.ts",
+      "sha256": "cff269a4f049d276a44974c3c40008ceb9d6a0b35105a54d6605f7dcf59a64eb"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-sidebar-browser/src/types.ts",
+      "sha256": "8a5f9a5219091b4bb530edfae282e231cf489945d47813e007a2c8b8584b0f2f"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/attachment/attachment-local/src/store.ts",
+      "sha256": "4b627d534da3cdd8c7b8e3ca68656e25c8d46563bcf3971f50231c162deb1fa6"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/core/html/forms/file_input_type.cc?format=TEXT",
+      "sha256": "173fed28fd1f1f9d2675767382d15a2be47edb9347ce22e05e29ada261db814b"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/shell/browser/api/electron_api_web_contents.cc",
+      "sha256": "7fcd9b077959ef7b90da6d21424d13f9c976623a1cd7d421949904a1e40b45da"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/shell/browser/file_select_helper.cc",
+      "sha256": "d30faf7a3a7a4c8241bd1e6320323fd05afb3b72bda7f8a5d63c741bbd3dddc5"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/shell/common/gin_converters/net_converter.cc",
+      "sha256": "5600122a6f617c77084fba11dd77ce35cbd9ddb346edc50ae0af2e10d0ad1281"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/docs/api/structures/upload-file.md",
+      "sha256": "be199c4a9a708db923031611219be09c58506800f2f65dd1a0b27f649e344ed6"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/shell/browser/api/electron_api_web_contents.h",
+      "sha256": "ad2475dd2e3366077e58433b253ab71e47bf5849563411b3a458379f0f8fe8a2"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/lib/common/web-view-methods.ts",
+      "sha256": "de8b2d575ad8c6097d273e6790a321f86fec7843866d4c19664a93a58f294782"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/docs/api/webview-tag.md",
+      "sha256": "05ab0d0aa260d1c1a62c4016786b588440be207721b58db7a113cabf0a084c3e"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/core/fileapi/file.cc?format=TEXT",
+      "sha256": "801c6a7b47be59d4360eee290d1ca138fb038734845cd4ec995b74d8dc49805b"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/core/fileapi/file_reader_loader.cc?format=TEXT",
+      "sha256": "b83b3e9deff61e028919991ccda5c88b0165b03be35aabf3548a91b6a1b4f7a3"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/content/browser/blob_storage/file_backed_blob_factory_base.cc?format=TEXT",
+      "sha256": "6ac896665c0f24f93963becd21bc30de6b818a180a573bae91ed805296ddbad6"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/blob/blob_reader.cc?format=TEXT",
+      "sha256": "692b0991cc79fb197b69c5a8aa39e8ffc5263ae9f4f4f7d97fd7d172c22f3c2b"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/file_system/local_file_stream_reader.cc?format=TEXT",
+      "sha256": "de4d7c725cd0867c7e4ef9648e30a9da58e9c6d8f5e3ed3fdf05742bfc477e76"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/platform/blob/blob_data.cc?format=TEXT",
+      "sha256": "c575d7b25b23fd75244a0db1d8ad398328b1d1779df57b4b9d0ff3aed06881ae"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/core/html/forms/form_data.cc?format=TEXT",
+      "sha256": "2bd222adf717c09ed023171c1927c445268804e6d4093919a779abf933ba8b0e"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/blob/blob_impl.cc?format=TEXT",
+      "sha256": "c2ed5a52b5876715a8e41bf3201724cf240c13c3b7f2554d33639cb7f53352a3"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/blob/blob_data_builder.cc?format=TEXT",
+      "sha256": "ac76f6aebfcef94713069570165fcd2e89ed245bcd2abce4ffa00717fd87e37a"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/file_system/file_stream_reader.cc?format=TEXT",
+      "sha256": "89864f8c097283c0bc08de2abf3abca66dd4c3426625e45d1d77254d3ad0bb1a"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/net/base/upload_file_element_reader.cc?format=TEXT",
+      "sha256": "2a74ee2c93f865f259010803eecccaf217d6b10ddd2da7b0cfaf07dba303bad6"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/platform/network/encoded_form_data.cc?format=TEXT",
+      "sha256": "8a67575afbc8d8dba08ed4a5cc3619672d94ff17ae0f07b9f57f8a68c97d9b74"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/services/network/url_loader_util.cc?format=TEXT",
+      "sha256": "4ff114bdaaeaa75153d88a9215a18e55ff1dc37547a726fcbd66aa8ecc2581e1"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/core/fileapi/file.h?format=TEXT",
+      "sha256": "601ae495f2e03ad4ea851460e0be152069e4b3384c0aed33b5631049ac4da6d5"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/core/fileapi/blob.cc?format=TEXT",
+      "sha256": "9cd46fd06e11e7cdf36ecf34f175c09673d950daee82a065c1d1fb79668daec3"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/third_party/blink/renderer/platform/loader/fetch/url_loader/request_conversion.cc?format=TEXT",
+      "sha256": "d0ec4c867b0ed6e6470dd47ebdb816530704c56b25876c840a53a3bbc3914a2b"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/blob/blob_storage_context.cc?format=TEXT",
+      "sha256": "065177f558d86a69579492045ee4284239097a29b7017e2a17a5b1cde77095ed"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/storage/browser/blob/blob_data_item.cc?format=TEXT",
+      "sha256": "6f1f527f0bbde5952834b7e4156616e83acffed2ffe5dbd36929d4f6cd89023d"
+    }
+  ],
+  "nativeDiagnostic": {
+    "fingerprint": "ef8e223e9dd4",
+    "nonce": "31d862d88444df914fc0b960",
+    "fileBytes": 56,
+    "fileSha256": "84cba266181fa0587cf50543cc470ce72c7740ecee6b8f1020a34093a8d75fdc",
+    "executed": true,
+    "scope": "仅原生picker与trusted cancel/change结算候选，不读取内容或实际上传",
+    "firstCancel": {
+      "trusted": true,
+      "sequence": 4,
+      "files": [],
+      "fieldPreserved": true,
+      "samePageDocument": true,
+      "toolClickSucceeded": true,
+      "source": "ROOT CUA AX转录与真实ToolRuntime摘要；无持久化raw DOM/截图"
+    },
+    "lateChoice": {
+      "trusted": true,
+      "sequence": 7,
+      "name": "task10-31d862d88444df914fc0b960.txt",
+      "size": 56,
+      "lastModified": 1792126638112,
+      "fieldPreserved": true,
+      "sameDocumentMarker": true,
+      "toolOutcome": "unknown",
+      "subsequentRead": "closed",
+      "guestStillVisible": true,
+      "source": "ROOT CUA AX转录；不能当工具成功",
+      "sameContentDifferentPathAndFileIdentity": true
+    },
+    "serverEventReceipt": false,
+    "serverLogBytes": 0,
+    "recordingDefect": "Vite exact transform未命中fs/POST route，HTML命中；fetch缺HTTPok检查",
+    "rcaStatus": "v2未复现断链：connected/gen3、99poll最大gap515ms；不实施modal lease绕行；v1 AX阶段根因未证",
+    "cleanup": {
+      "ownTabClosed": true,
+      "fixturePortClosed": true,
+      "driverManagedByRoot": true
+    },
+    "uploadAttempted": false
+  },
+  "notTested": [
+    "OS modal期间底层pause/close UI不可触达，只有受控组合drain覆盖",
+    "同文档form/action变化仅受控组合覆盖",
+    "原生File读取计数、模型自主选择工具、真实账号及其他平台"
+  ],
+  "nativeDiagnosticV2": {
+    "fingerprint": "dd9e04280884",
+    "toolClickDurationMs": 1680.389,
+    "clickReturnedBeforeChooserClosed": true,
+    "holdingSeconds": 8,
+    "serverTrustedCancel": true,
+    "sequence": 4,
+    "samePageDocument": true,
+    "fieldPreserved": true,
+    "freshReadPassed": true,
+    "pollPairs": 99,
+    "maximumGapMs": 515,
+    "connection": "connected",
+    "generation": 3,
+    "leaseFiredOrCloseObserved": false
+  },
+  "nativeProductR2": {
+    "build": "76824f897d28",
+    "driver": "真实Agent合法pre-step内正式ToolRuntime与真实审批；不调用模型",
+    "positiveChainPassed": true,
+    "pageId": "81786d30-dfad-4035-afb1-c815c493eb70",
+    "selectedBytes": 38,
+    "selectedSha256": "29891c114658843676cbf0eb58dff40be8eec40a39b2928fd5f8cbb9db694952",
+    "sourceAfterCapture": {
+      "bytes": 51,
+      "mode": "000",
+      "source": "ROOT原生操作记录；不是工具检测磁盘变化"
+    },
+    "submit": {
+      "turn": 36,
+      "status": "issued",
+      "receiverRequests": 1,
+      "receiverBytes": 38,
+      "receiverSha256": "29891c114658843676cbf0eb58dff40be8eec40a39b2928fd5f8cbb9db694952",
+      "receipt": "dacbcb21-0808-4671-bb86-a3071145c0ab",
+      "samePageReceiptObserved": true
+    },
+    "beforeCapturePermissionComparison": {
+      "unreadableMode": "000",
+      "toolOutcome": "unknown",
+      "opaqueRemoteError": true,
+      "newSelectionId": false,
+      "receiverRequestsAfter": 1,
+      "shellUid": 501,
+      "shellRead": "PermissionError",
+      "readableMode": "0600",
+      "readableControlTurn": 38,
+      "readableControlSelected": true,
+      "readableControlBytes": 56,
+      "readableControlSha256": "2f0649eae04b2690bf6f3cb50d57b4b9e5ab37166723e2de16570b347f158039",
+      "uniqueDOMExceptionOrRootCauseProven": false
+    },
+    "safeRawOutputs": [
+      {
+        "file": "choose-permission-job.json",
+        "sha256": "3d534153a74bada1f74b96ac60b7e9b803e003a43f572bf2f1ba240ee7d02053"
+      },
+      {
+        "file": "choose-readable-control-job.json",
+        "sha256": "92cd79f09e4ed620220da30fb0d6a8d160bdf7202145408d8c775cd4ab7322ce"
+      },
+      {
+        "file": "submit-allow-job.json",
+        "sha256": "d59359ba525fbf0f2ec3f7ba5cc94ba5dccb2d26bb8592485f7ec629d96df6a9"
+      },
+      {
+        "file": "receiver-after-allow.json",
+        "sha256": "d2b9900c8d94764fcc6ebdd96482af4b9cc9dcb90b268096343ba0ef64e8bcb5"
+      },
+      {
+        "file": "receiver-after-permission.json",
+        "sha256": "d2b9900c8d94764fcc6ebdd96482af4b9cc9dcb90b268096343ba0ef64e8bcb5"
+      }
+    ],
+    "remainingNativeFacts": {
+      "ordinaryFill": true,
+      "chooseApprovalRejectedNoPicker": true,
+      "OSCancelReturnsCancelled": true,
+      "OSSelected38WithIndependentClientHash": true,
+      "submitRejectedReceiverZero": true,
+      "submitIssued": true,
+      "sameGuestReceiptMatchesIndependentReceiver": {
+        "requests": 1,
+        "receipts": [
+          {
+            "receipt": "dacbcb21-0808-4671-bb86-a3071145c0ab",
+            "name": "task10-0c749ddf-ok.txt",
+            "size": 38,
+            "sha256": "29891c114658843676cbf0eb58dff40be8eec40a39b2928fd5f8cbb9db694952",
+            "note": "ROOT原生上传核验768：仅此自有文件"
+          }
+        ]
+      },
+      "sourceDiskEdited51AndChmod000AfterCaptureStillApproved38Snapshot": true,
+      "permission000SelectedButCaptureOpaqueUnknownNoSuccess": true,
+      "sameUidShellPermissionErrorAt000": true,
+      "sameFileRestored0600NewTabNewApprovalSelected56": true,
+      "manualFileListChangeOldSelectionRejectedBeforeInput": true,
+      "inflightCancelWhilePickerOpen": {
+        "driverJobError": "AbortError",
+        "newObserveToolError": "unknown previous operation uncertain",
+        "actualOSStillOpenAfterCancelAnd4SecondBarrier": true,
+        "lateActual56SelectionNoSuccessResultNoReceiverGrowth": true,
+        "nativeFileReadCounterAvailable": false
+      },
+      "takeoverAfterLateSettlementPausedReadRejected": true,
+      "resumeOldSelectionRejected": true,
+      "chooseApprovalPendingTakeoverStopsBeforeOS": true,
+      "submitApprovalPendingOfficialRefreshThenOldAllowRejectedBeforeInput": true,
+      "chooseApprovalPendingCloseReturnsClosedNotStarted": true
+    },
+    "limitations": [
+      "OS modal期间底层接管/关页UI不可点，未声称原生验证picker在途接管或关闭；受控组合drain覆盖另列",
+      "同文档form/action变化未原生注入，真实组合TDD含属性相同form迁移/文件与目标变化",
+      "没有原生raw事件或file-read counter，不把源码受控断言伪造成native计数",
+      "没有真实网站/账号或模型自主选工具；05/09/12与13/14/16继续阻塞"
+    ],
+    "rootAggregate": {
+      "file": "task10-native-r2-root-observations.json",
+      "sha256": "9800ae963758c942a1d535878b1a1650ed69f56ba9d2fda5b02367dcfaac6354",
+      "safeEvidenceFilesVerified": 138
+    },
+    "screenshot": {
+      "original": "images/69cc1965-3a00-4757-8dd6-5c9f65920c28.webp",
+      "sha256": "4820317a67cb5431cef71cb65e8b7fb2c12f916beb62d977ad998af8bae6ce3d",
+      "width": 1151,
+      "height": 1718,
+      "bytes": 254492,
+      "pixelInspection": "源图RGBA透明背景，RGB为黑字；黑背景view_image初显全黑。仅为检查派生白底合成preview，ROOT已看见同receipt/38B/说明，原始图字节保持不改。",
+      "derivedPreview": "images/69cc1965-3a00-4757-8dd6-5c9f65920c28-white-background-preview.png",
+      "derivedPreviewIsRawScreenshot": false
+    },
+    "cleanup": false,
+    "formalTurnRange": {
+      "first": 30,
+      "last": 45
+    }
+  },
+  "productContract": {
+    "actions": [
+      "choose-file",
+      "upload-submit"
+    ],
+    "captureBytesMaximum": 16777216,
+    "content": "Client独立hash的不可变File副本；公开DataTransfer同input安装，无合成change",
+    "approval": "选择前交付风险批准；提交前副本名称/大小/捕获时间/SHA/目标/表单逐次批准",
+    "diskChangesAfterCapture": "不检测；使用明确批准的副本，更新需重新选择",
+    "formOwnerBinding": "实际form对象的Client身份参与隐藏摘要；同节点迁入属性相同另form会使旧批准失效，不新增模型参数",
+    "nativeProductPositiveChainTested": true,
+    "nativeProductFullAcceptancePassed": true,
+    "readFailure": "仅捕获arrayBuffer拒绝；Client许可复核后给固定清晰unknown，r3原生已通过"
+  },
+  "finalNativeEvidence": {
+    "file": "native-upload-final.json",
+    "sha256": "34fce28c24f17eb5d82aabd199d4a5294c9e93e929d06ed641eac32f5036be22",
+    "build": "f755a57033c7",
+    "safeFilesVerified": 207,
+    "r2HashesReverified": 138,
+    "cleanupVerified": true
+  },
+  "fullSpecComplete": false,
+  "releaseBlocked": true,
+  "remainingBlockedTasks": [
+    "05",
+    "09",
+    "12"
+  ],
+  "downstreamWaiting": [
+    "13",
+    "14",
+    "16"
+  ],
+  "supportScope": "仅当前已验官方Desktop、标准单文件至16MiB、同页HTTP(S) POST multipart form；不扩大为目录、任意网站或其他宿主"
+}

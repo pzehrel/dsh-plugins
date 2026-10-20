@@ -1,0 +1,171 @@
+{
+  "observedAtUtc": "2026-10-15T16:12:54.172514+00:00",
+  "status": "passed-task01-limited-scope",
+  "environment": {
+    "host": "官方 DeepSeek Harness Desktop",
+    "version": "0.2.0-rc.2",
+    "os": "macOS",
+    "shellNode": "22.20.0",
+    "pnpm": "11.7.0",
+    "engineWarning": "项目固定 Node 24.21.0；本轮 shell 版本不同，未宣称 Node22 支持"
+  },
+  "artifact": {
+    "package": "dsh-plugin-agent-browser",
+    "version": "0.1.0-slice.1",
+    "build": {
+      "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+      "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+      "patchSha256": "9338a7144db152fbf9f82f3e5322cf5ff9c6e7afb73f54666893dec189562634",
+      "hostSha256": "ad623ee9755ea16816f33af6ed3237085a561d321a60a1c79f7881fbfd9681ac",
+      "clientSha256": "a2dc617d6124770647d9bca84ff42d8ef633c06f4fade3513c93298dcc4308dc"
+    },
+    "normalTool": "agent_browser",
+    "routes": "agent-browser/",
+    "requiresLegacyPlugin": false,
+    "legacyPluginPresentDuringNativeRun": true,
+    "legacyAbsentControlledIntegration": "passed",
+    "clientByteIdenticalToFirstNativeRun": true
+  },
+  "sourceCorrespondence": {
+    "evidence": "official-source-correspondence.json",
+    "declarationsByteIdentical": 22,
+    "normalizedFunctionBodiesIdentical": 7,
+    "wholeBundleByteReproductionClaimed": false
+  },
+  "reproducibility": {
+    "sameInputsTwoBuilds": true,
+    "buildEvidence": {
+      "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+      "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+      "patchSha256": "9338a7144db152fbf9f82f3e5322cf5ff9c6e7afb73f54666893dec189562634",
+      "hostSha256": "ad623ee9755ea16816f33af6ed3237085a561d321a60a1c79f7881fbfd9681ac",
+      "clientSha256": "a2dc617d6124770647d9bca84ff42d8ef633c06f4fade3513c93298dcc4308dc"
+    }
+  },
+  "controlledIntegration": {
+    "command": "DSH_OFFICIAL_BROWSER_PROBE=<已校验固定发布实验目录> pnpm check",
+    "tests": 34,
+    "passed": 34,
+    "skipped": 0,
+    "nativeGuestMocked": true
+  },
+  "native": {
+    "installedBy": "官方插件管理器本地目录；增强 Host 与验收驱动分别装配",
+    "entryAndUi": "原 Cmd+T 打开 browser kind；官方工具栏、主题与原生 guest 正常，Client 与首次实测逐字节一致",
+    "normalToolRuntime": {
+      "driver": "正式 ToolRuntime.execute，真实 Agent；不是模型自主调用",
+      "results": [
+        {
+          "isError": false,
+          "value": {
+            "pageId": "47904b33-c207-482e-ab63-cb9991cf6806",
+            "documentId": "1bab7959-8ec0-43cd-9a2c-ca4c0111371f",
+            "count": 0,
+            "text": "源码最终验收 B",
+            "lastTrusted": false
+          }
+        },
+        {
+          "isError": false,
+          "value": {
+            "pageId": "47904b33-c207-482e-ab63-cb9991cf6806",
+            "documentId": "1bab7959-8ec0-43cd-9a2c-ca4c0111371f",
+            "count": 1,
+            "text": "源码最终验收 B",
+            "lastTrusted": true
+          }
+        },
+        {
+          "isError": false,
+          "value": {
+            "pageId": "47904b33-c207-482e-ab63-cb9991cf6806",
+            "documentId": "1bab7959-8ec0-43cd-9a2c-ca4c0111371f",
+            "count": 1,
+            "text": "源码最终验收 B",
+            "lastTrusted": true
+          }
+        }
+      ]
+    },
+    "visibleObservation": {
+      "count": 1,
+      "text": "源码最终验收 B",
+      "documentId": "1bab7959-8ec0-43cd-9a2c-ca4c0111371f"
+    },
+    "navigation": {
+      "status": "passed-first-run-identical-client",
+      "steps": [
+        "地址栏追加 #navigation-check",
+        "后退恢复原网址",
+        "前进恢复 hash"
+      ],
+      "documentRetained": true
+    },
+    "closeOldTarget": {
+      "driver": "正式 ToolRuntime.execute，真实 Agent；不是模型自主调用",
+      "results": [
+        {
+          "isError": true,
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: 页面已关闭或不存在"
+            }
+          ]
+        }
+      ]
+    },
+    "unloadWithOpenGuest": {
+      "status": "passed",
+      "oldDocumentId": "14061240-3175-45c0-9289-d8800137352e",
+      "toolPresentAfterUnload": false,
+      "builtinBlankBodyRestored": true,
+      "builtinNavigationVerified": true,
+      "restoredDocumentId": "74f6d70f-d0da-4294-ad10-03eec9e3cd20",
+      "restoredVisibleCount": 0
+    },
+    "modelAutonomousCalls": "not-verified；未发送模型消息"
+  },
+  "cleanup": {
+    "profileByteIdentical": {
+      "cordis.patch.yml": true,
+      "package.json": true,
+      "gro.ngilp-hsd-versions.json": true,
+      "cordis.yml": true
+    },
+    "enhancedFixturePortRefused": true,
+    "driverPortRefused": true,
+    "bothTemporaryPluginsUninstalled": true,
+    "testTabsClosed": true,
+    "applicationAsarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e",
+    "applicationAsarUnchanged": true
+  },
+  "review": {
+    "baseline": "本轮实施前文件快照，HEAD aa069278d6e1a9065ebcf2ed46f40a30674564a3；不包含先前无关未提交改动",
+    "standards": {
+      "independent": true,
+      "findings": 0,
+      "unresolvedFindings": 0
+    },
+    "spec": {
+      "independent": true,
+      "findings": 0,
+      "unresolvedFindings": 0
+    },
+    "finalNativeEvidenceRecheck": "passed",
+    "resolvedFindings": [
+      {
+        "axis": "Standards",
+        "severity": "P3",
+        "finding": "任务进度残留当前推进01及仅生成任务的旧文案",
+        "resolution": "已同步规格、拆分草稿及本地任务索引和授权说明"
+      }
+    ]
+  },
+  "limitations": [
+    "仅固定自有测试页面的 read/click，不是完整浏览器产品",
+    "A01/A02/A06/A08 仅基础切片；模型自主调用、双真实会话及完整在途生命周期仍由后续任务验收",
+    "登录态配置、语义观察、截图、审批、上传、基础控制台、逐次审批脚本和重启网址恢复仍保留首版门槛",
+    "未修改宿主主程序、未访问真实账号、未提交或推送、未发布远端事项"
+  ]
+}
