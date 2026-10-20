@@ -247,7 +247,7 @@ window.spikeLastTrusted=false;document.querySelector('#bump').addEventListener('
         } }, semanticOutputSchema, resolvedOutputSchema, consoleOutputSchema, inputOutputSchema, fileChoiceOutputSchema, { type: 'object', additionalProperties: false, properties: {
           pageId: { type: 'string', description: 'Host铸造的本会话自有页面身份；尚未挂载的标签可省略，不能代替归属检查。' },
           kind: { type: 'string', description: '固定输出类型判别，导航、标签或截图分支，不是网页授权。', enum: ['navigation'], required: true },
-          url: { type: 'string', description: '实际已观察地址的净化展示值，去除用户信息、查询及片段；未挂载或元数据失效时省略。' },
+          url: { type: 'string', description: '实际已观察地址的净化展示值，去除用户信息、查询及片段；尚未观察到实际地址时省略，不使用请求地址补全。' },
           loading: { type: 'boolean', description: '同一官方controller观察到的原生加载状态。', required: true },
           canGoBack: { type: 'boolean', description: '同一原生页面是否具有后退历史，不表示已后退。', required: true },
           canGoForward: { type: 'boolean', description: '同一原生页面是否具有前进历史，不表示已前进。', required: true },
@@ -508,9 +508,9 @@ window.spikeLastTrusted=false;document.querySelector('#bump').addEventListener('
               if (typeof row.id !== 'string') {
                 throw new TypeError('导航结果缺少请求关联')
               }
-              // 导航可被站点重定向，Host 再净化展示地址；接管页只交付无内容身份。
+              // 首次导航可能尚无观察地址，保持省略而非伪造请求地址；已有地址仍净化，接管页只交付无内容身份。
               const navigation: NavigationResult = row.value.kind === 'navigation'
-                ? { ...row.value, url: displayURL(row.value.url!) }
+                ? { kind: 'navigation', ...(row.value.url === undefined ? {} : { url: displayURL(row.value.url) }), loading: row.value.loading, canGoBack: row.value.canGoBack, canGoForward: row.value.canGoForward }
                 : { kind: 'tabs', tabs: row.value.tabs.map(({ url, title, paused, ...tab }) => paused
                     ? { ...tab, paused: true }
                     : { ...tab, ...(url === undefined ? {} : { url: displayURL(url) }), ...(title === undefined ? {} : { title }) }) }
@@ -612,14 +612,14 @@ window.spikeLastTrusted=false;document.querySelector('#bump').addEventListener('
   health.ready = true
 }
 
-/** @param value Client 的无内容导航回复。@returns 只接受有限结果；禁止把任意网页对象作为导航摘要交付。 */
+/** @param value Client 的无内容导航回复。@returns 仅接受完整的有限状态；导航地址尚未观察到时可省略，其他字段仍严格校验，不交付任意网页对象。 */
 function isNavigationResult(value: unknown): value is NavigationResult {
   if (!value || typeof value !== 'object') {
     return false
   }
   const row = value as Record<string, unknown>
   if (row.kind === 'navigation') {
-    return Object.keys(row).every(key => ['kind', 'url', 'loading', 'canGoBack', 'canGoForward'].includes(key)) && typeof row.url === 'string' && row.url.length <= 16384 && typeof row.loading === 'boolean' && typeof row.canGoBack === 'boolean' && typeof row.canGoForward === 'boolean'
+    return Object.keys(row).every(key => ['kind', 'url', 'loading', 'canGoBack', 'canGoForward'].includes(key)) && (row.url === undefined || (typeof row.url === 'string' && row.url.length <= 16384)) && typeof row.loading === 'boolean' && typeof row.canGoBack === 'boolean' && typeof row.canGoForward === 'boolean'
   }
   return row.kind === 'tabs' && Object.keys(row).every(key => ['kind', 'tabs'].includes(key)) && Array.isArray(row.tabs) && row.tabs.length <= 1000 && row.tabs.every((tab: unknown) => {
     if (!tab || typeof tab !== 'object') {

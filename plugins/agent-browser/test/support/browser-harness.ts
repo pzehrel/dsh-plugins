@@ -159,8 +159,8 @@ interface BodyDefinition {
   inject: (sessionId: string, actions: object) => Injected
 }
 
-/** @returns 共存 builtin 与增强实现的受控宿主，保留实际官方注册、控制器和 Electron 页面代码。 */
-export async function harness(enhanced = false): Promise<{
+/** @param enhanced 是否使用增强构建。@param configureGuest 配置原生 guest 外部边界，默认保留同步导航替身。@returns 共存 builtin 与增强实现的受控宿主，保留实际官方注册、控制器和 Electron 页面代码。 */
+export async function harness(enhanced = false, configureGuest: (guest: Guest) => void = () => {}): Promise<{
   takeover: (sessionId: string, tabId: string) => Promise<void>
   retainSession: (sessionId: string, adopted?: boolean) => Promise<void>
   showSession: (sessionId: string) => void
@@ -270,6 +270,7 @@ export async function harness(enhanced = false): Promise<{
         throw new Error(`实验不允许自建 UI 元素：${tag}`)
       }
       const guest = new Guest()
+      configureGuest(guest)
       guests.push(guest)
       return guest
     },
@@ -289,6 +290,7 @@ export async function harness(enhanced = false): Promise<{
     dshDesktop: { protocolVersion: 1, browser: bridge },
     document,
     crypto,
+    TextEncoder,
     URL,
     AbortController,
     AbortSignal,
