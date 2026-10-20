@@ -5,17 +5,19 @@
   "status": "incomplete",
   "scope": "最终集成构建已加载并可体验；原生竞争与生命周期矩阵尚未完成，不代表 #5、#7、#8、#9 或用户体验验收通过。",
   "issues": {
-    "completed": [
-      6
-    ],
     "remainOpen": [
       5,
+      6,
       7,
       8,
       9
     ],
     "pullRequest": 10,
-    "pullRequestState": "draft"
+    "pullRequestState": "draft",
+    "sliceVerified": [
+      6
+    ],
+    "sliceVerificationScope": "#6仅在独立记录agent-pointer-slice6-verification.json中的434c25a0e1af构建完成限定验证；GitHub事项仍OPEN，通过PR关闭，当前PR仍draft。该结果不代表db72c1c7cff9完整原生矩阵通过。"
   },
   "environment": {
     "node": "24.21.0",
@@ -96,6 +98,21 @@
       "status": "passed",
       "scope": "冻结后仅校验本记录与说明文档；不重建产物。",
       "command": "fnm exec --using=24.21.0 pnpm exec eslint plugins/agent-browser/docs/agent-pointer-validation.md plugins/agent-browser/docs/evidence/agent-pointer-integration-verification.json --max-warnings 0"
+    },
+    "remoteCI": {
+      "status": "passed",
+      "sourceCommit": "ca7b9f16cce36e381051d5c9504a651c14a2c0b8",
+      "checks": [
+        {
+          "state": "SUCCESS",
+          "url": "https://github.com/pzehrel/dsh-plugins/actions/runs/39437326123/job/118677704719"
+        },
+        {
+          "state": "SUCCESS",
+          "url": "https://github.com/pzehrel/dsh-plugins/actions/runs/39437087893/job/118676835561"
+        }
+      ],
+      "scope": "GitHub PR #10的代码集成ca7b9f1检查成功；记录本次文档修订时，新文档提交CI尚未触发，不能据此宣称新提交CI通过。"
     }
   },
   "native": {
@@ -247,7 +264,7 @@
       "同一最终构建的人工点击穿透、系统鼠标独立、工具间停顿、会话停止与无关新轮的逐项完整矩阵；#6旧构建结果不自动继承。",
       "用户体验验收仍为pending。"
     ],
-    "completionGate": "上述必需原生场景未完成，保持 #5/#7/#8/#9 未完成、PR #10 为 draft。自动回归、DOM 演示、旧构建 #6 或静态接管成功不能替代竞争场景。"
+    "completionGate": "上述必需原生场景未完成，#5/#6/#7/#8/#9均保持OPEN、PR #10为draft；#6仅为434c25a0e1af构建的切片限定验证通过。自动回归、DOM演示、旧构建#6或静态接管成功不能替代最终构建的竞争场景。"
   },
   "screenshots": [
     {
