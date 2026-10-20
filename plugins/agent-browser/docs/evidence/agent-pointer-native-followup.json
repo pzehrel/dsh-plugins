@@ -1,0 +1,272 @@
+{
+  "observedAtUtc": "2026-10-20T16:38:36.605Z",
+  "spec": 5,
+  "ticket": 9,
+  "status": "passed-with-limitations",
+  "scope": "用户委托代理自行操作电脑，对#5—#9列出的必需原生场景补验；不宣称所有精确时序组合、跨宿主兼容或用户本人主观满意。历史未完成记录保留原时间。",
+  "environment": {
+    "macOS": "27.0.1",
+    "desktop": "0.2.1-rc.2",
+    "model": "GPT-6.1-Sol",
+    "timezone": "Asia/Shanghai",
+    "dates": "2026-10-20至2026-10-21"
+  },
+  "source": {
+    "integrationCommit": "9dd710ed647f0dc6d5ea6eb33e3b858d5f625181",
+    "codeCommit": "ca7b9f16cce36e381051d5c9504a651c14a2c0b8",
+    "changedDuringNativeRun": false
+  },
+  "build": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "db72c1c7cff9",
+    "package": "dsh-plugin-agent-browser-db72c1c7cff9",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "c2353efe979f7f14ac915594498740111c050757ba9fac4e7273ba87abdce453",
+    "hostSha256": "056a5da0873df3600d65f7678cc2093c9ef8f04c77dc82f391451374bddf6546",
+    "clientSha256": "6a726793e3102a0ffa808e96fc351105d733d3d2612dc576f65a646818720790"
+  },
+  "installation": {
+    "source": "官方插件管理器",
+    "path": "/Users/pzehrel/Documents/repositories/my/dsh-plugins/plugins/agent-browser",
+    "enabledInstances": 1,
+    "uninstalledAndRestored": true,
+    "normalRestart": true,
+    "rebuildDuringNativeRun": false
+  },
+  "runtime": {
+    "before": {
+      "at": "2026-10-20T16:12:20.067Z",
+      "status": {
+        "build": "db72c1c7cff9",
+        "ready": true,
+        "registerStatus": 200,
+        "error": ""
+      },
+      "hostSha256": "056a5da0873df3600d65f7678cc2093c9ef8f04c77dc82f391451374bddf6546",
+      "clientSha256": "6a726793e3102a0ffa808e96fc351105d733d3d2612dc576f65a646818720790"
+    },
+    "after": {
+      "at": "2026-10-20T16:38:36.605Z",
+      "build": "db72c1c7cff9",
+      "ready": true,
+      "registerStatus": 200,
+      "error": "",
+      "hostSha256": "056a5da0873df3600d65f7678cc2093c9ef8f04c77dc82f391451374bddf6546",
+      "clientSha256": "6a726793e3102a0ffa808e96fc351105d733d3d2612dc576f65a646818720790"
+    },
+    "sameFrozenBuild": true,
+    "artifactDigestsUnchanged": true
+  },
+  "automaticChecks": {
+    "sourceCommit": "ca7b9f16cce36e381051d5c9504a651c14a2c0b8",
+    "check": {
+      "passed": 218,
+      "failed": 0,
+      "skipped": 6
+    },
+    "officialReuse": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "scope": "沿用冻结前完成的检查；本轮未改实现或重建，不把既有检查写成新执行。"
+  },
+  "nativeCases": [
+    {
+      "id": "scroll-revalidation",
+      "status": "passed",
+      "result": "正式允许一次后35ms开始人工滚动；紫指针由初始点移到旧目标屏幕位置。正式点击报告cancelled / reference-conflict；新observe确认更新0、模拟提交0，未重试。",
+      "timing": {
+        "started": 1792511657127,
+        "approveReturned": 1792511657275,
+        "scrollStarted": 1792511657310,
+        "scrollReturned": 1792511657369
+      },
+      "limit": "没有录到逐帧中间状态；视觉移动后复核的阶段由初末位置、操作顺序与结果共同支持，不作为精确内部时刻测量。"
+    },
+    {
+      "id": "cancel-before-input",
+      "status": "passed",
+      "result": "第三个独立申请获准后立即停止；页面更新1、模拟提交1均不变，指针隐藏。官方轨迹错误为[agent-browser/cancelled] 请求已取消；动作未发出或未交付结果。",
+      "timing": {
+        "started": 1792511948591,
+        "approveReturned": 1792511948756,
+        "stopReturned": 1792511948898
+      },
+      "limit": "工具UI没有单独暴露outcome字段，不声称其直接返回not-started字段；未出现unknown。此前两次未命中取消的已发送动作单列。"
+    },
+    {
+      "id": "takeover-and-handback",
+      "status": "passed",
+      "result": "新申请获准后立即真实接管；ACK已接管、Agent已暂停，计数1/1保持、指针隐藏。点击报告cancelled和人工接管状态变化，在途结果已丢弃；随后observe拒绝该页处于人工接管。真实交回后新observe、全新引用与批准的fill成功，没有重放旧动作。",
+      "timing": {
+        "started": 1792512087010,
+        "approveReturned": 1792512087238,
+        "takeoverReturned": 1792512087806
+      }
+    },
+    {
+      "id": "click-through-and-independent-pointer",
+      "status": "passed",
+      "result": "fill普通内容pointer-native-20261021返回issued。任务运行时在紫指针尖端1566,795人工点击，AX焦点为普通内容输入框，值不变。系统鼠标移到聊天区，紫指针继续在输入框；四次console与工具停顿保留，任务停止后隐藏。"
+    },
+    {
+      "id": "unrelated-turn",
+      "status": "passed",
+      "result": "已完成浏览任务后，新轮仅生成HTTP说明；截图与AX同时确认停止生成仍可见、任务正在思考1秒，网页没有旧紫指针。"
+    },
+    {
+      "id": "tabs-and-position",
+      "status": "passed",
+      "result": "原页console1/10—3/10期间切到真实空白标签，未被后台任务抢回且无旧指针；返回原页恢复原输入框位置。前后AX均确认任务运行，最终十次console与observe成功，文档和计数不变。"
+    },
+    {
+      "id": "session-switch",
+      "status": "passed",
+      "result": "原页只读任务仍运行时新建空白自有会话，无原共享页或指针；原会话在sidebar显示进行中，返回仍有停止生成。未公开含无关sidebar条目的返回截图。"
+    },
+    {
+      "id": "layout-change",
+      "status": "passed",
+      "result": "实际将侧栏分隔线1160拖至1408，页面重排且指针对应原输入框。此前同构建已有尺寸变化后正式输入成功。",
+      "limit": "使用#8允许的等价宿主布局变化；不声称原生150%祖先CSS变换通过。150%由既有受控回归覆盖。"
+    },
+    {
+      "id": "window-focus",
+      "status": "passed",
+      "result": "实际点击系统计算器的窗口菜单。原生AX显示计算器展开菜单；读取DSH后台状态时，console1、2已成功、3正在调用且任务仍运行；再读计算器AX菜单仍展开，DSH没有抢回焦点。四次console及最终observe均成功，返回后原词条保留。",
+      "foregroundEvidence": {
+        "before": "Window: \"计算器\", App: 计算器.\n0 窗口, Secondary Actions: Cancel, Pick\n\t1 菜单 Secondary Actions: Cancel\n\t\t2 关闭, ID: performClose:",
+        "after": "Window: \"计算器\", App: 计算器.\n0 窗口, Secondary Actions: Cancel, Pick\n\t1 菜单 Secondary Actions: Cancel\n\t\t2 关闭, ID: performClose:",
+        "backgroundProgress": [
+          "193 text 第 1 次成功，无消息。console 2/4，",
+          "197 text 第 2 次成功，无消息。console 3/4，",
+          "200 button 正在调用工具 · console",
+          "211 button 停止生成"
+        ]
+      },
+      "limit": "Raise返回与CmdTab尝试不单独算焦点证明；不读取私有document.hasFocus、不作精确帧时间测量。"
+    },
+    {
+      "id": "navigation-and-close",
+      "status": "passed",
+      "result": "实际重新加载产生新文档标记并清除旧内容；关闭原测试页后空白页无旧指针、随后新页面无复活。新正式observe旧pageId得到[agent-browser/closed] 页面已关闭或不存在。",
+      "limit": "六次console在关页前已完成，不宣称原生在途调用被打断；迟到帧及等待结算由既有正式链路和帧时钟回归覆盖。"
+    },
+    {
+      "id": "unload-and-restore",
+      "status": "passed",
+      "result": "官方管理器核对根包来源后实际卸载，安装列表条目消失，原Host58245状态GET连接拒绝，旧页没有紫指针残留。重新安装同一路径并启用1组件。热安装首次工具提示缺少框架控制锚点；确认没有其他进行中任务后正常重开，再从地址栏恢复公开词条，新正式list-tabs/observe/console成功。",
+      "limit": "十次console在卸载生效前已结束，不宣称中断原生在途请求；热安装锚点限制与正常重开过程明确记录。",
+      "installedEntriesAfterRemoval": [
+        "Better Sidebar",
+        "dsh-builtin-browser",
+        "Codex 订阅",
+        "dsh-embedded-browser",
+        "dsh-mermaid",
+        "dsh-plugin"
+      ],
+      "removedHostProbe": {
+        "url": "http://127.0.0.1:58245/_agent_browser_status",
+        "exitCode": 7,
+        "result": "Failed to connect，连接拒绝；只读GET，未请求任何其他接口。"
+      }
+    },
+    {
+      "id": "public-continuous-task-after-restart",
+      "status": "passed",
+      "result": "以新pageId实际获准点击Talk，issued后observe确认Talk词条；back+observe、forward+observe、最后back+observe均成功。保留Prefecture-level city原词条，无编辑发布、接管、自动重试或直接导航代替链接点击。随后独立Talk焦点任务再次issued并后退成功。",
+      "finalUrl": "https://en.wikipedia.org/wiki/Prefecture-level_city",
+      "finalTitle": "Prefecture-level city - Wikipedia",
+      "pageId": "d32239ba-8866-4aeb-a40a-05154d90bc94"
+    }
+  ],
+  "attemptsNotCounted": [
+    {
+      "case": "前两次取消",
+      "result": "停止发生在已发送之后，分别新增更新计数1及模拟提交1，均保留，不把已发送操作说成撤销。后续为明确的新独立场景。"
+    },
+    {
+      "case": "原生中间帧截图",
+      "result": "CUA截图等待结束，未录到逐帧中间状态；系统截图快捷键未生成文件，系统Screenshot.app启动超时，不增加私有捕获通道。"
+    }
+  ],
+  "review": {
+    "scope": "最终原生证据对照原始spec和tickets，未重复代码审查或扩大为所有时序笛卡尔积。",
+    "requiredNativeGaps": 0,
+    "result": "补齐计算器实际前台菜单与DSH后台进度后，规格复核确认可进入正式评审。",
+    "foregroundEvidence": "计算器原生窗口菜单在读取DSH后台进度前后均保持展开；后台第1/2次console成功、第3次执行中。四次console及最终observe均成功。"
+  },
+  "issues": {
+    "remainOpen": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "pullRequest": 10,
+    "closure": "验收条件已满足；GitHub事项随PR合并关闭，本轮不直接关闭。"
+  },
+  "deliveryStages": {
+    "candidateCode": "implemented-and-reviewed",
+    "automaticChecks": "passed",
+    "loadedBuild": "db72c1c7cff9",
+    "nativeAcceptance": "passed-with-limitations",
+    "userExperienceAcceptance": "pending-user-experience",
+    "userExperienceScope": "用户已委托代理完成原生验收；代理结果通过，用户本人主观体验未采集，不作为PR进入正式评审的阻塞。",
+    "delegatedAgentAcceptance": "passed"
+  },
+  "screenshots": [
+    {
+      "file": "pointer-followup-scroll.png",
+      "sha256": "b9755d19136924e49b573aec998a8f5ba1b48bb67e21b1a8fb9ceb005263e3d2",
+      "observation": "批准后滚动，指针到旧目标屏幕位置，页面点击计数仍为0。"
+    },
+    {
+      "file": "pointer-followup-cancel.png",
+      "sha256": "d4d5c162e48f1920eff785bf1dae25ba318764a33a4496a2ecab2bfefe82120b",
+      "observation": "官方工具轨迹显示cancelled；页面更新1、模拟提交1，均未因被取消动作增加。"
+    },
+    {
+      "file": "pointer-followup-takeover.png",
+      "sha256": "be559f03c3c2e1a36a561aaa549401dcfd1f61afd8a64ba2b6771cfa612e3035",
+      "observation": "真实接管ACK、隐藏指针与计数保持。"
+    },
+    {
+      "file": "pointer-followup-independent.png",
+      "sha256": "2a448d4833cdc7ede4aa623bb3874b1fe7cdb3e2ca4fd12aa481f4445bf8b0d4",
+      "observation": "同一轮工具停顿期间，紫指针留在输入框，系统鼠标位于聊天区。"
+    },
+    {
+      "file": "pointer-followup-background.png",
+      "sha256": "e29c46e3d43ed1bca618faa4f3c5af323aedcb50e7ab68673ba9df81d553c6ac",
+      "observation": "原页读取运行期间，前台空白标签保持选中，无旧指针。"
+    },
+    {
+      "file": "pointer-followup-restored.png",
+      "sha256": "531ae355c8622da94db0a8ed2bf654e25d0c65e163afd20c41b34a866674e5eb",
+      "observation": "同一任务运行时返回原页，恢复该页输入框指针位置。"
+    },
+    {
+      "file": "pointer-followup-other-session.png",
+      "sha256": "0a62ebaca47bd31a7d39202b03ae42d980980e5954840d3bb41a8afe09664d4e",
+      "observation": "新空白自有会话未显示原页面或指针。"
+    },
+    {
+      "file": "pointer-followup-unrelated.png",
+      "sha256": "e129e26be48dcee2a5e08858b58e19982ddcc15e46244c622659b1b178a101c5",
+      "observation": "新轮纯文本任务正在思考，旧网页指针未复活。"
+    },
+    {
+      "file": "pointer-followup-final.png",
+      "sha256": "0f84bc25c9156c09f27a13ddd768124370de6cd3c4e9c8d6d8c17dc4d7600871",
+      "observation": "最终自有会话保留Prefecture-level city词条；四次失焦读取与最终观察成功。"
+    }
+  ],
+  "documentationCheck": {
+    "command": "fnm exec --using=24.21.0 pnpm exec eslint plugins/agent-browser/docs/agent-pointer-validation.md plugins/agent-browser/docs/evidence/agent-pointer-integration-verification.json plugins/agent-browser/docs/evidence/agent-pointer-native-followup.json --max-warnings 0",
+    "status": "passed",
+    "scope": "只校验本轮文档和JSON，未运行会重建冻结产物的入口。"
+  }
+}

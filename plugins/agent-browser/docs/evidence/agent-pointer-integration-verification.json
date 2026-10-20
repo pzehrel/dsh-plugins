@@ -300,5 +300,9 @@
     "loadedBuild": "db72c1c7cff9",
     "nativeAcceptance": "incomplete",
     "userExperienceAcceptance": "pending"
+  },
+  "followup": {
+    "file": "agent-pointer-native-followup.json",
+    "scope": "本记录保留2026-10-20当时的未完成状态；2026-10-21新增原生补验及最新结论见关联文件。"
   }
 }
