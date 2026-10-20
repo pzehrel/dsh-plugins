@@ -161,6 +161,8 @@ interface BodyDefinition {
 
 /** @param enhanced 是否使用增强构建。@param configureGuest 配置原生 guest 外部边界，默认保留同步导航替身。@returns 共存 builtin 与增强实现的受控宿主，保留实际官方注册、控制器和 Electron 页面代码。 */
 export async function harness(enhanced = false, configureGuest: (guest: Guest) => void = () => {}): Promise<{
+  /** @param sessionId 公开会话状态的框架归属。@param running 模拟该会话当前轮运行或结束；不授予工具许可。 */
+  activity: (sessionId: string, running: boolean) => void
   takeover: (sessionId: string, tabId: string) => Promise<void>
   retainSession: (sessionId: string, adopted?: boolean) => Promise<void>
   showSession: (sessionId: string) => void
@@ -303,6 +305,7 @@ export async function harness(enhanced = false, configureGuest: (guest: Guest) =
   let onScreen = 'A'
   let source: { resolve: (binding: object) => unknown } | undefined
   const retained = new Set<string>()
+  const sessionStatus = snapshot<ReadonlyMap<string, { running: boolean | undefined }>>(new Map())
   const ctx = {
     connection: { rpc: { call: rpc } },
     locale: {
@@ -326,7 +329,7 @@ export async function harness(enhanced = false, configureGuest: (guest: Guest) =
         shortcuts.delete(id)
       }
     } },
-    uiSession: { provide: (descriptor: { resolve: (binding: object) => unknown }) => {
+    uiSession: { sessionStatus, provide: (descriptor: { resolve: (binding: object) => unknown }) => {
       source = descriptor
       return () => {
         source = undefined
@@ -420,6 +423,7 @@ export async function harness(enhanced = false, configureGuest: (guest: Guest) =
   /** @param sessionId 框架正文会话。@param initial 保存检查点。@returns 原官方 controller 回调及外部存储替身。 */
   async function mount(sessionId = 'A', initial?: unknown): Promise<{ callbacks: Injected, tabId: string, signal: AbortController, state: Checkpoint, registration: { pageId: string, token: string, fixtureUrl: string } }> {
     await retainSession(sessionId)
+    const previous = registrations.get(sessionId)
     const definition = slots.get(pluginId)!
     const state = definition.store.init()
     const tabId = randomUUID()
@@ -437,10 +441,12 @@ export async function harness(enhanced = false, configureGuest: (guest: Guest) =
     layouts.get(sessionId)!.push({ id: tabId, kind: 'browser' })
     selected.set(sessionId, tabId)
     callbacks.mount({ tabId, signal: signal.signal, viewportId: `viewport-${tabId}`, applicationOrigin: 'https://dsh.invalid', initial, initialUrl: undefined, openTab: () => {} })
-    await vi.waitFor(() => expect(registrations.has(sessionId)).toBe(true))
+    await vi.waitFor(() => expect(registrations.get(sessionId)).not.toBe(previous))
     return { callbacks, tabId, signal, state, registration: registrations.get(sessionId)! }
   }
-  return { setRpcGate: (gate?: (endpoint: string, payload: unknown) => Promise<void>) => {
+  return { activity: (sessionId, running) => {
+    sessionStatus.set(new Map([...sessionStatus.getSnapshot(), [sessionId, { running }]]))
+  }, setRpcGate: (gate?: (endpoint: string, payload: unknown) => Promise<void>) => {
     rpcGate = gate
   }, resume: (sessionId, tabId) => titleSlots.get(pluginId)!.inject(sessionId).renderToolStatus(tabId).props.resume(), setTabTitle: (sessionId: string, tabId: string, title: string) => {
     const tab = layouts.get(sessionId)?.find(tab => tab.id === tabId)

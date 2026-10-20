@@ -61,10 +61,14 @@ function fixture(frames = true) {
       },
     },
   }
-  const reads = vi.fn(() => guest)
+  let current = guest
+  const reads = vi.fn(() => current)
   const pointer = createAgentPointer(reads, () => foreground)
   cleanups.push(pointer.dispose)
-  return { guest, nodes, callbacks, reads, pointer, foreground: (value: boolean) => {
+  return { guest, nodes, callbacks, reads, pointer, replace: (next: typeof guest) => {
+    current = next
+    pointer.refresh()
+  }, foreground: (value: boolean) => {
     foreground = value
     pointer.refresh()
   } }
@@ -121,6 +125,49 @@ it('后台和未获焦窗口跳过可见动画等待，切回只恢复位置不�
   expect(f.nodes[1]!.style.transform).toBe('translate3d(200px, 100px, 0)')
 })
 
+it('每页保存各自移动位置，切换后恢复本页坐标而不复用其他页的目标', async () => {
+  const first = fixture(false)
+  const second = fixture(false)
+  first.guest.ownerDocument.defaultView = undefined
+  second.guest.ownerDocument.defaultView = undefined
+  first.pointer.setActive(true)
+  second.pointer.setActive(true)
+  first.foreground(false)
+  await first.pointer.move({ x: 120, y: 70 }, new AbortController().signal)
+  await second.pointer.move({ x: 500, y: 300 }, new AbortController().signal)
+  first.foreground(true)
+  second.foreground(false)
+  expect(first.nodes[1]!.style.transform).toBe('translate3d(120px, 70px, 0)')
+  expect(second.nodes[0]!.style.display).toBe('none')
+  second.foreground(true)
+  first.foreground(false)
+  expect(second.nodes[1]!.style.transform).toBe('translate3d(500px, 300px, 0)')
+  expect(first.nodes[0]!.style.display).toBe('none')
+})
+
+it('移动期间窗口失焦立即定位并结算等待，不依赖下一帧或超时', async () => {
+  const f = fixture(false)
+  f.pointer.setActive(true)
+  const waiting = f.pointer.move({ x: 200, y: 100 }, new AbortController().signal)
+  let arrived = false
+  void waiting.then(() => {
+    arrived = true
+  })
+  const late = [...f.callbacks.values()]
+  f.guest.ownerDocument.hasFocus = () => false
+  f.pointer.refresh()
+  await vi.advanceTimersByTimeAsync(0)
+  expect(arrived).toBe(true)
+  expect(f.nodes[1]!.style.transform).toBe('translate3d(200px, 100px, 0)')
+  expect(f.callbacks.size).toBe(0)
+  expect(vi.getTimerCount()).toBe(0)
+  for (const callback of late) {
+    callback()
+  }
+  expect(f.nodes[1]!.style.transform).toBe('translate3d(200px, 100px, 0)')
+  expect(f.callbacks.size).toBe(0)
+})
+
 it.each(['missing-clock', 'reduced-motion'] as const)('%s 时直接定位，不依赖帧回调或1500毫秒超时', async (mode) => {
   const f = fixture(false)
   if (mode === 'missing-clock') {
@@ -143,6 +190,7 @@ it('视口变化按自有布局更新；祖先缩放不重复乘入指针坐标�
   f.guest.offsetHeight = 300
   f.guest.offsetLeft = 8
   f.guest.offsetTop = 12
+  f.guest.getBoundingClientRect = () => ({ left: 100, top: 200, width: 600, height: 450 })
   f.guest.ownerDocument.hasFocus = () => false
   f.pointer.setActive(true)
   await f.pointer.move({ x: 300, y: 180 }, new AbortController().signal)
@@ -196,11 +244,42 @@ it('视觉载体创建或可见性判断失败只是视觉降级，不把异常�
 it('导航清除旧位置并移除图形；新文档不复用旧移动或回执', async () => {
   const f = fixture(false)
   f.pointer.setActive(true)
-  const waiting = f.pointer.move({ x: 10, y: 20 }, new AbortController().signal)
+  const old = new AbortController()
+  const waiting = f.pointer.move({ x: 10, y: 20 }, old.signal)
+  const late = [...f.callbacks.values()]
   f.pointer.reset()
   await waiting
   expect(f.nodes[0]!.removed).toBe(true)
   f.pointer.refresh()
   expect(f.nodes).toHaveLength(4)
   expect(f.nodes[3]!.style.transform).toBe('translate3d(464px, 330px, 0)')
+  const next = f.pointer.move({ x: 300, y: 200 }, new AbortController().signal)
+  old.abort()
+  for (const callback of late) {
+    callback()
+  }
+  expect(f.nodes[2]!.style.display).toBe('block')
+  expect(f.nodes[3]!.style.transform).toBe('translate3d(464px, 330px, 0)')
+  await vi.advanceTimersByTimeAsync(1500)
+  await next
+  expect(f.nodes[3]!.style.transform).toBe('translate3d(300px, 200px, 0)')
+})
+
+it('页面实例替换结算旧等待，新实例不被迟到帧或旧动作取消污染', async () => {
+  const f = fixture(false)
+  f.pointer.setActive(true)
+  const old = new AbortController()
+  const waiting = f.pointer.move({ x: 10, y: 20 }, old.signal)
+  const late = [...f.callbacks.values()]
+  f.replace({ ...f.guest, offsetWidth: 400, offsetHeight: 300 })
+  await waiting
+  expect(f.nodes[0]!.removed).toBe(true)
+  expect(f.nodes[3]!.style.transform).toBe('translate3d(232px, 165px, 0)')
+  old.abort()
+  for (const callback of late) {
+    callback()
+  }
+  expect(f.nodes).toHaveLength(4)
+  expect(f.nodes[2]!.style.display).toBe('block')
+  expect(f.nodes[3]!.style.transform).toBe('translate3d(232px, 165px, 0)')
 })
