@@ -1,0 +1,99 @@
+{
+  "task": "12",
+  "checkedOn": "2026-10-16",
+  "status": "blocked",
+  "evidenceKind": "fixed-public-contract-review",
+  "report": "../approved-page-scripts-blockers.md",
+  "fixedDsh": {
+    "tag": "dsh-v0.2.0-rc.2",
+    "commit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fullSourceArchiveSha256": "bbc09e888e1df3aa37be049abdb7720951e76442d21e5432365d87a465d628f1",
+    "browserSourceArchiveSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9"
+  },
+  "electron": {
+    "declaredRange": "^44.0.0",
+    "reviewedVersion": "v44.0.0",
+    "installedRuntimeVersionVerified": false
+  },
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/lib/common/web-view-methods.ts",
+      "sha256": "de8b2d575ad8c6097d273e6790a321f86fec7843866d4c19664a93a58f294782"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/lib/renderer/web-view/web-view-impl.ts",
+      "sha256": "0353138d339481800aedd94ab9267fdc013384f7a255ecd72cb07b0b4e968545"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/lib/browser/guest-view-manager.ts",
+      "sha256": "37188b291ae80d949f92e7d03105566b29ea6b0f7024903c0b68dc9fca3327c6"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/lib/browser/api/web-contents.ts",
+      "sha256": "977072c2fcc23caf4e6af262f05ca70a2b454e070a414ea297bdf6d122abfdaa"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/docs/api/webview-tag.md",
+      "sha256": "05ab0d0aa260d1c1a62c4016786b588440be207721b58db7a113cabf0a084c3e"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/docs/api/web-contents.md",
+      "sha256": "c33ec762e0325bbadf26bb9f732ecb3d1a9626ec2b9964130904655a0de6ba45"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/docs/api/web-frame.md",
+      "sha256": "4ab7aaa7b03892ac3a8bd4138059d26d2d7519e03b782f0304683e92d81e809c"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/docs/api/context-bridge.md",
+      "sha256": "404e5a792f39ae2587fc45bcbf2ff0c7a23126ffa06ce3810c23f8716c6fc769"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/deepseek-ai/deepseek-harness/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-sidebar-browser/src/types.ts",
+      "sha256": "8a5f9a5219091b4bb530edfae282e231cf489945d47813e007a2c8b8584b0f2f"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/deepseek-ai/deepseek-harness/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-sidebar-browser/src/client/electron/ElectronWebViewImpl.ts",
+      "sha256": "6853eb921c4ba6452cdb5b87e337ef2c37d99b0a21036e0c9cbbe4089bde9c97"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/deepseek-ai/deepseek-harness/639ed015397290b3745d163aafe02ffee4aa3f84/apps/desktop/src/browser-guests.ts",
+      "sha256": "5911d6bcbce79b68bd951d27da40bf8b8c9ab57b7d715dd0586d5e74e8e515f4"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/deepseek-ai/deepseek-harness/639ed015397290b3745d163aafe02ffee4aa3f84/apps/desktop/src/preload-browser.ts",
+      "sha256": "17c386171796e77f6a2bfa3c86382a20cce36013275beca978f31b424ef25e9e"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/deepseek-ai/deepseek-harness/639ed015397290b3745d163aafe02ffee4aa3f84/apps/desktop/src/preload-app.ts",
+      "sha256": "cff269a4f049d276a44974c3c40008ceb9d6a0b35105a54d6605f7dcf59a64eb"
+    },
+    {
+      "package": "@deepseek-ai/dsh-tools",
+      "version": "0.2.0-rc.2",
+      "path": "lib/types/index.d.ts",
+      "sha256": "3536b173ec22361dcda85c05281921fc850db49984813b138d05395c4fe4510f"
+    }
+  ],
+  "conclusions": {
+    "pageCodeExecutionExposed": true,
+    "perExecutionAbortOrResourceOwnershipExposed": false,
+    "positivePathForArbitraryDomCodeAndCompleteCleanupPreservingDocumentFound": false,
+    "scope": "只限固定版本已查公开接缝；不是任意纯插件设计永远不可能的证明。"
+  },
+  "blockedRequirements": [
+    "G4 脚本部分",
+    "G5 完整持续任务屏障",
+    "A05/A10/A14/A15 的任务12部分"
+  ],
+  "runtimeProbePerformed": false,
+  "arbitraryScriptToolAdded": false,
+  "behaviorChanged": false,
+  "notEstablished": [
+    "安装包实际 Electron 版本",
+    "任意脚本及派生任务可核验撤销",
+    "保持原网页的完整脚本接管",
+    "真实脚本逐次审批与执行前文档绑定",
+    "任务12的关页/卸载/取消/超时/迟到结果验收"
+  ]
+}

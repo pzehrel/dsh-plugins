@@ -1,0 +1,84 @@
+{
+  "observedAtUtc": "2026-10-15T05:13:10Z",
+  "scope": "官方 macOS Desktop、纯插件、可控测试页的最小接入实验；不代表完整浏览器交付",
+  "host": {
+    "build": "fetch-routes-v2",
+    "ready": true,
+    "registerStatus": 200,
+    "error": "",
+    "source": "当前真实 Host 测试站的只读状态探针"
+  },
+  "pageA": {
+    "pageId": "ee42921e-6335-4429-9809-7bc49dd7acdd",
+    "sessionId": "session-3ac1d360-df85-4378-9405-af973b4bdbc4",
+    "documentId": "1e35258d-dad7-423f-bab6-577acba24dc9"
+  },
+  "pageB": {
+    "pageId": "a08393f3-54be-412e-af6e-89cc8d944fff",
+    "sessionId": "session-11ca13f9-6f58-4296-8e3c-e1554f3ae808",
+    "source": "用户在另一个真实 DSH 会话中打开实验页并提供顶部身份行；未越权读取其文档"
+  },
+  "observations": [
+    {
+      "case": "用户运行内置注册表闭环",
+      "source": "用户提供的真实 ToolRuntime.execute 结果，不是模型自主调用",
+      "counts": [0, 1, 1],
+      "samePageAndDocument": true,
+      "clickLastTrusted": true
+    },
+    {
+      "case": "当前 Agent 直接读取、原生点击、重新读取",
+      "source": "实际 functions.agent_browser_spike 工具调用",
+      "pageId": "ee42921e-6335-4429-9809-7bc49dd7acdd",
+      "documentId": "1e35258d-dad7-423f-bab6-577acba24dc9",
+      "counts": [1, 2, 2],
+      "text": "初始内容",
+      "clickLastTrusted": true,
+      "userConfirmedVisibleCount": 2
+    },
+    {
+      "case": "人工修改后 Agent 感知同页新状态",
+      "source": "用户在侧栏修改字段后，实际工具 read 返回",
+      "count": 2,
+      "text": "人工验证 A",
+      "samePageAndDocument": true
+    },
+    {
+      "case": "人工接管拒绝新读取和点击",
+      "source": "用户确认接管屏障生效后，实际工具分别调用 read 和 click",
+      "userConfirmedStatus": "人工接管已生效；固定工具的读取和操作均暂停",
+      "readError": "该页处于人工接管",
+      "clickError": "该页处于人工接管",
+      "userConfirmedUnchangedCount": 2
+    },
+    {
+      "case": "交回后重新观察接管期间的人工修改",
+      "source": "用户修改字段并交回后，实际工具 read 返回",
+      "count": 2,
+      "text": "接管期间修改",
+      "samePageAndDocument": true
+    },
+    {
+      "case": "真实 A 会话不能读取或点击 B 会话页面",
+      "source": "当前 A 会话 Agent 对用户提供的真实 B 页身份发起工具请求",
+      "pageId": "a08393f3-54be-412e-af6e-89cc8d944fff",
+      "readError": "不能操作其他会话的共享页面",
+      "clickError": "不能操作其他会话的共享页面"
+    },
+    {
+      "case": "切换会话后 A 页保持同一文档和状态",
+      "source": "用户创建 B 页并回到 A 会话后，当前 Agent 实际 read 返回",
+      "pageId": "ee42921e-6335-4429-9809-7bc49dd7acdd",
+      "documentId": "1e35258d-dad7-423f-bab6-577acba24dc9",
+      "count": 2,
+      "text": "接管期间修改"
+    }
+  ],
+  "notVerified": [
+    "未从 B 会话 Agent 反向调用 A 页；真实隔离负例方向为 A 到 B",
+    "未在真实 Desktop 注入延迟回调来验收接管时的在途结果；该行为只有控制边界自动测试",
+    "未取得独立的操作系统窗口截图；窗口截图命令失败，计数可见性依据用户确认",
+    "未验收完整网页快照库、任意网站、截图工具、上传下载、调试、重启登录态或完整产品外观"
+  ],
+  "privacy": "仅保留实验页面及会话身份、人工测试字符串和结果；不保存 Client 控制 token、Cookie、密码字段或真实账号数据"
+}

@@ -1,0 +1,51 @@
+{
+  "observedAtUtc": "2026-10-20T09:13:30.041984+00:00",
+  "desktopVersion": "0.2.1-rc.2",
+  "package": "dsh-plugin-agent-browser",
+  "installedFrom": "plugins/agent-browser",
+  "version": "0.1.0-preview.1",
+  "build": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "4c477b250e93",
+    "package": "dsh-plugin-agent-browser-4c477b250e93",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "e2fe7ee5c0b33b90d17e8eb42d6270738090066135dede6d935616ad245ac2a0",
+    "hostSha256": "4814945ed3994832468b96d7d5c9962f54e94011689228079365bc76a295d33a",
+    "clientSha256": "90141faf2249c089d93c4913b76ff8d162c57dac9c22bb7ea21cb5281e08b4ac"
+  },
+  "health": {
+    "build": "4c477b250e93",
+    "ready": true,
+    "registerStatus": 200,
+    "error": ""
+  },
+  "sessionTitle": "内置浏览器杭州词条验收",
+  "model": "GPT-6.1-Sol",
+  "url": "https://en.wikipedia.org/wiki/Hangzhou",
+  "visibleUi": "官方源码的标签、地址栏、前进后退、刷新、原生网页；已通过CUA截图核对",
+  "verified": [
+    "官方管理器直接安装根目录并启用",
+    "应用正常重开后Host与Client版本一致",
+    "Agent在Wikipedia搜索框填写Hangzhou",
+    "逐次正式审批后原生点击Search",
+    "跳转结果不明后同一pageId只读observe成功",
+    "Agent依据词条简介读取三条事实",
+    "人工接管与交回后工具就绪",
+    "插件与网页留在应用中"
+  ],
+  "checks": {
+    "command": "pnpm check",
+    "testFilesPassed": 27,
+    "testsPassed": 193,
+    "historicalProbeFixture": "通过现有verify-official-browser-reuse.ts重新生成六项历史测试夹具"
+  },
+  "limitations": [
+    "本地更新后需正常重开应用以清除加载缓存",
+    "新会话须先通过官方浏览器入口或Cmd+T建立控制锚点",
+    "导航或点击跳转可能报告结果不明；允许观察，继续写操作须人工接管再交回",
+    "完整首版与原有发布阻塞仍保留"
+  ],
+  "mainApplicationModified": false,
+  "committed": false,
+  "published": false
+}

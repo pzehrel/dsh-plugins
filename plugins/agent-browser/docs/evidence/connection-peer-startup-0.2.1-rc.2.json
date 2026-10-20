@@ -1,0 +1,301 @@
+{
+  "date": "2026-10-18",
+  "task": "新版激活 principal 异常诊断及任务05最小公开入口复验",
+  "activationBug": "fixed",
+  "task05": "blocked",
+  "fullAcceptancePassed": false,
+  "releaseUnblocked": false,
+  "version": {
+    "host": "0.2.1-rc.2",
+    "runningVersionConfirmedThroughOfficialUi": true,
+    "macOS": "27.0.1",
+    "projectSdk": "0.2.0-rc.2",
+    "sdkOrLockfileUpgraded": false,
+    "officialSourceCommit": "687f282e8625c6b8d11ff58211a90524be2e4317",
+    "asarSha256": "b9ec4c2bbc20c9dbc3e39fa4c961434a943434ab0a803052b26753dd15f3b066"
+  },
+  "rootCause": {
+    "callSite": "src/fixed-page-host.ts 的启动注册自测",
+    "oldCall": "createSharedFetchHandler('/api').fetch(request)",
+    "newPublicContract": "fetch(request, peer: PeerScope)",
+    "actualSymptom": "TypeError: Cannot read properties of undefined (reading 'principal')",
+    "actualStack": {
+      "installedConnection": "@deepseek-ai/dsh-client-connection/lib/index.js:830:15",
+      "pristineHost": "host-73a7c27411e2.js:1142:39"
+    },
+    "explanation": "命中正式 Fetch 路由后，新版读取 peer.principal.kind；原自测未传第二个参数。"
+  },
+  "feedbackLoop": {
+    "nativeCommand": "await principalActivationCheck('<当前冻结包名>')",
+    "testCommand": "pnpm exec vitest run plugins/agent-browser/test/connection-peer.test.ts",
+    "beforeFix": {
+      "passed": 1,
+      "failed": 1,
+      "failure": "完整增强 Host 启动触发相同 principal TypeError"
+    },
+    "afterFixFocused": {
+      "command": "pnpm exec vitest run plugins/agent-browser/test/connection-peer.test.ts plugins/agent-browser/test/connection.test.ts",
+      "passed": 5,
+      "failed": 0
+    },
+    "originalRedRuns": {
+      "command": "await principalActivationCheck()",
+      "first": {
+        "verdict": "red",
+        "elapsedMs": 2103,
+        "symptom": "Cannot read properties of undefined (reading 'principal')",
+        "summary": "共 1 个 · 1 异常",
+        "resetToDisabled": true
+      },
+      "second": {
+        "verdict": "red",
+        "elapsedMs": 2087,
+        "symptom": "Cannot read properties of undefined (reading 'principal')",
+        "summary": "共 1 个 · 1 异常",
+        "resetToDisabled": true
+      },
+      "firstSetupAttempt": "安装尚未结算，没有判定；不计作有效red。"
+    },
+    "firstFixedBuild": {
+      "package": "dsh-plugin-agent-browser-f52b8e1402d9",
+      "verdict": "green",
+      "elapsedMs": 2459,
+      "resetToDisabled": true,
+      "health": {
+        "build": "f52b8e1402d9",
+        "ready": true,
+        "registerStatus": 200,
+        "error": ""
+      }
+    },
+    "finalFixedBuild": {
+      "package": "dsh-plugin-agent-browser-24609831c765",
+      "verdict": "green",
+      "elapsedMs": 1815,
+      "resetToDisabled": true,
+      "health": {
+        "build": "24609831c765",
+        "ready": true,
+        "registerStatus": 200,
+        "error": ""
+      }
+    },
+    "intermediateCommentOnlyBuild": {
+      "package": "dsh-plugin-agent-browser-9f6a17761d4b",
+      "verdict": "green",
+      "elapsedMs": 2081,
+      "resetToDisabled": true,
+      "health": {
+        "build": "9f6a17761d4b",
+        "ready": true,
+        "registerStatus": 200,
+        "error": ""
+      }
+    }
+  },
+  "causalEvidence": {
+    "executionIdentity": "可信原生变体均使用独立包名、组件、路径及实际执行 entry 标记，不只看开关。",
+    "pristineHostSha256": "73a7c27411e20c56afcf68d22bc242490bfc6dca36edc00b865a2f50131dac65",
+    "cases": [
+      {
+        "variant": "full-8b85defa5a1c4342beea2912f994115d",
+        "actualEntryPhase": "failed",
+        "result": "同一 principal 错误，实际栈定位启动自测"
+      },
+      {
+        "variant": "min-c88e418c223e4c87861a8dfb4c9c3846",
+        "actualEntryPhase": "succeeded",
+        "changed": "无匹配路由，未到达路由 principal 检查"
+      },
+      {
+        "variant": "route-1439ed1478ec45a4b01c2e1f7786117c",
+        "actualEntryPhase": "failed",
+        "changed": "仅全新自有 GET 路由，无 RPC、工具或浏览器",
+        "result": "同一 principal 错误"
+      },
+      {
+        "variant": "peer-39b15a6e90ee47cc92f905763cff2c99",
+        "actualEntryPhase": "succeeded",
+        "changed": "同一路由只加入官方 createPeer、传入 Peer、finally dispose",
+        "status": 200,
+        "peerDisposed": true
+      }
+    ],
+    "invalidatedEvidence": "早期沿用同一包名的最小化结果因宿主复用旧 linkedRoot 失去因果证明力，全部排除。",
+    "rankedPredictionsShownBeforeTest": [
+      "缺少 Peer：只加官方 Peer 即恢复；非 owner 仍403。",
+      "注册作用域错误：只加 Peer 仍失败。",
+      "Gateway 冲突：全新独立精确路由会改变结果。"
+    ],
+    "confirmed": "缺少新版必需 Peer 参数；非 owner 403 由固定官方离线实现验证。"
+  },
+  "fix": {
+    "scope": "仅插件固定本地启动自测，保留原请求及正式注册响应校验。",
+    "newHost": "公开 createPeer 创建 interactions:none 的本进程 owner Peer，原样传回 Fetch，finally 等待 dispose 后才 ready。",
+    "oldHost": "缺少 createPeer 时保留旧版单参数请求。",
+    "identityBoundary": "身份由插件固定构造，不接收网页或模型参数；不伪造 Peer、外部认证或 Agent 身份。",
+    "firstFixedBuild": {
+      "package": "dsh-plugin-agent-browser-f52b8e1402d9",
+      "files": {
+        "client.js": "62dd72eba1a4eea7d486fd919b3a04df1e6ff75a7bdf3e89f504cce202335a39",
+        "cordis.patch.yml": "6bef0f56fde121aeba28c699b6d0ea1d3d65b64572ce04b36b377ab0055afadb",
+        "LICENSE": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be",
+        "index.js": "dc995900ea05f1886cf33d3f2f75565956aea77afeafaf062820ed4182393129",
+        "package.json": "61237074622247d83c8e1bd11d5715216e17e5fa1784b9a93a4cd077558e1d95",
+        "host-dc995900ea05.js": "dc995900ea05f1886cf33d3f2f75565956aea77afeafaf062820ed4182393129",
+        "build-evidence.json": "b65dfd5833f1cd14e685b521206d905756053b9e92c2a8e9da9319ac129de18d"
+      }
+    },
+    "finalFixedBuild": {
+      "package": "dsh-plugin-agent-browser-24609831c765",
+      "files": {
+        "client.js": "6c48990f9cc1c869e0ab09252f2538bebef0324ea3b0f43f5f449665ee406a8d",
+        "cordis.patch.yml": "fcf7dc3962429207d515b2722e47e18850da94d6ec48eb04f46605b6b53d8fe8",
+        "LICENSE": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be",
+        "index.js": "d344637422e3d15d0171814f4a16ea65fbeab2789e136c063b9c5e5f7f39ca5b",
+        "package.json": "71e90a4e7679ea032815ccad0cf05775e99bebb5d1798f81ee418b013d64e67c",
+        "build-evidence.json": "9a71e0d6380906bdcca299c4af5734224c2be5cdfb98262e50ee4fed4732c8e8",
+        "host-d344637422e3.js": "d344637422e3d15d0171814f4a16ea65fbeab2789e136c063b9c5e5f7f39ca5b"
+      }
+    },
+    "intermediateCommentOnlyArtifact": {
+      "package": "dsh-plugin-agent-browser-9f6a17761d4b",
+      "files": {
+        "client.js": "00582eba8b5b59b6ed5f40fb40afb2a667682bbefde7af93f684bf7b3cb78bd4",
+        "cordis.patch.yml": "9a028f79adaa8a457432327017ddec7be5797425f4dec0227bf9466f5eacc676",
+        "LICENSE": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be",
+        "index.js": "a87ba887455cb3e06ef24ca3727f656262e2b7b8dc8183f6580f9e9f75a92c44",
+        "package.json": "b394ca15affc84c323c6723c3352d6203d1ce4a82c7baf9ff1e5d1d002de7d68",
+        "host-a87ba887455c.js": "a87ba887455cb3e06ef24ca3727f656262e2b7b8dc8183f6580f9e9f75a92c44",
+        "build-evidence.json": "87066e4bc46ba225dd0e2745b3dc33d596dbb752f1fd6ea6f51bee43e9ec55f7"
+      }
+    }
+  },
+  "regression": {
+    "fixture": "upstream/published-connection-0.2.1-rc.2.tgz",
+    "provenance": "upstream/connection-provenance.json",
+    "executes": "未修改的官方发布入口，仅编译模块格式；执行真实路由及 Peer。",
+    "externalDependencies": "沿用锁定旧 SDK 和 Cordis4.0.4；不是完整新版宿主模拟。",
+    "coverage": [
+      "旧调用的精确 principal 错误",
+      "真实非 owner Peer 被正式路由拒绝403",
+      "完整 Host 通过注册并释放 Peer",
+      "正式路由拒绝时仍释放 Peer",
+      "原有旧版 Connection 回归保留"
+    ]
+  },
+  "publicSelection": {
+    "artifact": "dsh-plugin-agent-browser-f52b8e1402d9",
+    "source": "独立 Client 对本轮自建真实会话调用公开 SidebarRightController；不是 Agent 工具已调用该方法。",
+    "method": "openResourceIn(sessionA, originalContentId, {kind:'browser',revealIfOpened:true})",
+    "nativeDirectCallCount": 1,
+    "ownedAgentsCreated": 2,
+    "ownedBrowserTabsCreated": 2,
+    "formalToolCalls": 9,
+    "legalPreStepToolCalls": 6,
+    "outsideTurnReadOnlyListCalls": 3,
+    "toolDetails": "A/B 首次 list-tabs 因无锚点拒绝；挂载后只读清单定位身份；A 合法 pre-step 内创建两个页并清理。前置钩子拒绝模型步骤。驱动通用名称不代表实际审批界面证据。",
+    "interpretation": "新版资源入口拒绝原始 sidebar:// 地址；原 A 标签集合和前台 B 保持。B 无网页，不声称其 DOM 或系统输入焦点通过。",
+    "fullMatrixRun": false,
+    "notValidated": [
+      "B 页面输入焦点",
+      "正反向后台选页成功",
+      "页面实例和文档保留正例",
+      "浮窗及竞态完整矩阵"
+    ],
+    "noWorkingPublicSelectionRouteProven": true,
+    "actualResult": {
+      "source": "独立Client直接调用公开SidebarRightController；不是Agent工具结果",
+      "owner": "session-516fc243-816c-4b87-aaad-aa67517415fe",
+      "screenBefore": "session-6cd8035d-73a3-4314-9601-9e20955965bf",
+      "before": [
+        {
+          "id": "tab2",
+          "kind": "browser",
+          "contentId": "sidebar://browser/c37a94fb-4774-40f8-91f8-41a7efb9c088"
+        },
+        {
+          "id": "tab3",
+          "kind": "browser",
+          "contentId": "sidebar://browser/ae47b5b7-3f0e-41b9-bca0-4e562183c925"
+        }
+      ],
+      "target": "tab2",
+      "outcome": "threw",
+      "error": "Error: sidebarRight: no registered tab type claims \"sidebar://browser/c37a94fb-4774-40f8-91f8-41a7efb9c088\"",
+      "after": [
+        {
+          "id": "tab2",
+          "kind": "browser",
+          "contentId": "sidebar://browser/c37a94fb-4774-40f8-91f8-41a7efb9c088"
+        },
+        {
+          "id": "tab3",
+          "kind": "browser",
+          "contentId": "sidebar://browser/ae47b5b7-3f0e-41b9-bca0-4e562183c925"
+        }
+      ],
+      "screenAfter": "session-6cd8035d-73a3-4314-9601-9e20955965bf"
+    }
+  },
+  "cleanupCloseResult": {
+    "firstTab": "正式关闭成功；剩余一个标签。",
+    "lastTab": "返回 unknown：页面已关闭、已发出操作结果不明；没有重试关闭。",
+    "verification": "重新挂载自有 A 后，实际 UI 无浏览器页，正式 list-tabs 返回空数组。"
+  },
+  "review": {
+    "spec": "零发现",
+    "standards": "一项接口文档缺口已补齐，复核零遗留",
+    "scope": "只审查本轮产品 diff 与新增回归，不审查其他已有工作树变更。"
+  },
+  "constraints": {
+    "mainAppModified": false,
+    "privateIpcOrCdpUsed": false,
+    "realAccountAccessed": false,
+    "modelAutonomousStepsRun": false,
+    "existingAgentsOperated": false,
+    "newBrowserImplementationAdded": false,
+    "commitPushOrRemoteIssuePublished": false
+  },
+  "checks": {
+    "fullCheck": "passed",
+    "command": "pnpm check",
+    "node": "24.21.0",
+    "pnpm": "11.7.0",
+    "testFilesPassed": 26,
+    "testsPassed": 191,
+    "testsSkipped": 0,
+    "legacyFixtureEnvironment": "已设置 DSH_OFFICIAL_BROWSER_PROBE，执行六项历史离线浏览器回归；不作为新版宿主原生证明。"
+  },
+  "evidenceStorage": "只存公开契约、摘要、自建测试资源结果及白名单清理事实；不存 profile 副本、用户会话内容、控制配置或凭据。",
+  "cleanup": {
+    "cordis.patch.yml": {
+      "byteEqualToBefore": true
+    },
+    "package.json": {
+      "byteEqualToBefore": true
+    },
+    "gro.ngilp-hsd-versions.json": {
+      "byteEqualToBefore": true
+    },
+    "cordis.yml": {
+      "byteEqualToBefore": true
+    },
+    "asarSha256": "b9ec4c2bbc20c9dbc3e39fa4c961434a943434ab0a803052b26753dd15f3b066",
+    "asarUnchanged": true,
+    "ownedHostAndDriverPortsClosed": true,
+    "originalLiveAgentCount": 1,
+    "originalLiveAgentIdentityAndStatusPreserved": true,
+    "ownedAgentsDisposed": true,
+    "ownedSessionsArchived": 2,
+    "ownedBrowserTabsEmptyAfterFreshBinding": true,
+    "temporaryPluginsUninstalledThroughOfficialManager": true,
+    "baselineInstalledPluginCount": 6,
+    "finalInstalledPluginCount": 6,
+    "baselineSwitchesPreserved": true,
+    "ownDebugDirectoryMovedOutsideWorktree": true,
+    "finalArtifactUninstallAndProfileByteChecksRepeated": true,
+    "finalArtifactHostPortClosed": true,
+    "finalArtifactDebugDirectoryMovedOutsideWorktree": true
+  }
+}

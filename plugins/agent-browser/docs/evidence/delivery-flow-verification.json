@@ -1,0 +1,176 @@
+{
+  "recordedAt": "2026-10-20T11:00:22.074Z",
+  "spec": "https://github.com/pzehrel/dsh-plugins/issues/1",
+  "tickets": [
+    2,
+    3
+  ],
+  "status": "completed",
+  "environment": {
+    "node": "24.21.0",
+    "pnpm": "11.7.0",
+    "desktop": "0.2.1-rc.2",
+    "model": "GPT-6.1-Sol",
+    "platform": "macOS",
+    "macOS": "27.0.1"
+  },
+  "integrationBranch": "codex/issue-1-delivery-integration",
+  "checks": [
+    {
+      "command": "pnpm exec eslint <本轮修改文件> --max-warnings 0",
+      "exitCode": 0
+    },
+    {
+      "command": "DSH_CI_VITEST_REPORT=../ci-targeted-vitest.json pnpm exec vitest run plugins/agent-browser/test/default-entry.test.ts plugins/agent-browser/test/native-input.test.ts plugins/agent-browser/test/verification.test.ts plugins/agent-browser/test/official-browser-reuse.test.ts",
+      "scope": "工作树定向回归",
+      "exitCode": 0,
+      "tests": {
+        "total": 88,
+        "passed": 82,
+        "failed": 0,
+        "skipped": 6
+      },
+      "executionNote": "RTK 实际进程为 pnpm exec -- vitest run --reporter=json 加相同四个路径；计数来自实际 JSON。工作树使用 pnpm_config_verify_deps_before_run=false 复用现有依赖，CI 不设置。"
+    },
+    {
+      "command": "DSH_CI_VITEST_REPORT=<临时报告> pnpm check",
+      "exitCode": 0,
+      "testFiles": {
+        "total": 27,
+        "passed": 26,
+        "skipped": 1
+      },
+      "tests": {
+        "total": 196,
+        "passed": 190,
+        "failed": 0,
+        "skipped": 6
+      },
+      "reportValidation": "统一报告包含全部196项，测试子进程未覆盖根报告。测试文件数来自默认 reporter，JSON 的 suite 数不等于文件数。"
+    },
+    {
+      "command": "node tools/verify-official-browser-reuse.ts",
+      "exitCode": 0,
+      "scope": "固定官方包历史回归，独立计数，不累加到统一检查",
+      "tests": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": "pnpm exec eslint plugins/agent-browser/docs/verification.md --max-warnings 0",
+      "scope": "审查修复后的文档，不触发构建",
+      "exitCode": 0
+    }
+  ],
+  "remoteCI": {
+    "status": "not-run",
+    "reason": "本轮不提交或推送代码，未触发远端 CI。"
+  },
+  "native": {
+    "status": "passed",
+    "manualTakeovers": 0,
+    "manualHandbacks": 0,
+    "setupDeviations": [
+      "新会话首次 list-tabs 返回空列表，Agent 新建了额外标签。",
+      "原空白页随后登记，Agent 导航回原页并关闭额外标签；导航前两次观察报告官方页面未就绪或已关闭，导航后观察正常。"
+    ],
+    "sessionTitle": "维基百科浏览流程实测验收",
+    "ordinaryApprovals": 3,
+    "samePageAcrossInputApprovals": true,
+    "steps": [
+      {
+        "action": "navigate + observe",
+        "url": "https://www.wikipedia.org/",
+        "result": "工具观察及官方可见页面均已就绪。"
+      },
+      {
+        "action": "fill Hangzhou + click-element Search + observe",
+        "url": "https://en.wikipedia.org/wiki/Hangzhou",
+        "title": "Hangzhou",
+        "result": "正式逐次审批允许搜索词填写及搜索按钮点击，真实页面进入词条。"
+      },
+      {
+        "action": "click-element Prefecture-level + observe",
+        "url": "https://en.wikipedia.org/wiki/Prefecture-level_city",
+        "title": "Prefecture-level city",
+        "result": "实际点击词条信息框链接；未使用 navigate 代替。GPT读取了标题和简介。"
+      },
+      {
+        "action": "back + observe",
+        "url": "https://en.wikipedia.org/wiki/Hangzhou",
+        "title": "Hangzhou",
+        "result": "GPT实际执行后退并重新观察确认。"
+      },
+      {
+        "action": "forward + observe + screenshot",
+        "url": "https://en.wikipedia.org/wiki/Prefecture-level_city",
+        "title": "Prefecture-level city",
+        "result": "GPT前进并重新观察与截图确认；CUA最终视觉核对官方标签、地址栏及词条可见。"
+      }
+    ],
+    "finalURL": "https://en.wikipedia.org/wiki/Prefecture-level_city",
+    "finalTitle": "Prefecture-level city",
+    "sameSharedPage": true,
+    "normalBrowsingErrors": 0,
+    "pluginAndPageLeftUsable": true,
+    "clientBuildMatched": true,
+    "duration": "4分12秒",
+    "evidenceScope": "三次正式输入审批目标均属同一pageId；公开网页、GPT正式工具结果和CUA可见状态共同核对，不保存页面控制凭据或无关会话截图。",
+    "notTested": [
+      "账号登录和验证码",
+      "真实取消、断线及发送失败的原生负例（本轮仅运行已有确定性回归）",
+      "其他操作系统和Web",
+      "完整首版其他能力门槛"
+    ]
+  },
+  "limitations": [
+    "本次范围为交付与验证流程，不代表完整首版全部能力完成。",
+    "现有未提交基线保留；本轮未自动提交、推送或创建 PR。"
+  ],
+  "review": {
+    "standards": {
+      "findings": 1,
+      "fixed": 1,
+      "unresolved": 0
+    },
+    "spec": {
+      "findings": 0
+    }
+  },
+  "frozen": {
+    "frozenAt": "2026-10-20T10:54:07.232Z",
+    "build": {
+      "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+      "fingerprint": "7e60b4caaa09",
+      "package": "dsh-plugin-agent-browser-7e60b4caaa09",
+      "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+      "patchSha256": "e2fe7ee5c0b33b90d17e8eb42d6270738090066135dede6d935616ad245ac2a0",
+      "hostSha256": "95a69599c1b392e8f7075a3c80fc5476722d0501dc5b8e3991c5f6dd12328a44",
+      "clientSha256": "07496574c428fc2799c92faafdaffc585608a594544f93ca74b88cc2603e03ec"
+    },
+    "before": {
+      "build": "7e60b4caaa09",
+      "ready": true,
+      "registerStatus": 200,
+      "error": ""
+    },
+    "installedRoot": "/Users/pzehrel/Documents/repositories/my/dsh-plugins/plugins/agent-browser",
+    "installation": "官方管理器已安装并启用默认根目录，本轮复核既有安装；未重装或重启。",
+    "after": {
+      "build": "7e60b4caaa09",
+      "ready": true,
+      "registerStatus": 200,
+      "error": ""
+    },
+    "artifactHashesUnchanged": true,
+    "buildsDuringNative": 0
+  },
+  "localTimezone": "Asia/Shanghai",
+  "cleanup": {
+    "temporaryImplementerWorktreesRemoved": true,
+    "existingUserWorktreesPreserved": true
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "observedAtUtc": "2026-10-15T12:18:13.462Z",
+  "upstream": {
+    "package": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+    "version": "0.2.0-rc.2",
+    "tarball": "https://registry.npmjs.org/@deepseek-ai/dsh-client-ui-sidebar-browser/-/dsh-client-ui-sidebar-browser-0.2.0-rc.2.tgz",
+    "integrity": "sha512-tp5007jcJlcJnnjslpix4XbnbKGpKQjXCzlRKyFdUqcbua7Oqn1ZcIrCM/+gvgd3cOC+ZlAxrmyJQtbulFg4oQ==",
+    "clientSha256": "e35ba782c90299dfaee4c8e3c17398a0412972ccefd449a7626eee58717fcba4"
+  },
+  "sourceEdits": [
+    {
+      "reason": "独立 Client 模块身份",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "独立 Sidebar 实现身份",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "隔离 CSS 注册，兼容同版不同构建的类名",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "隔离增强插件样式归属",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "通过正式扩展接管 browser kind",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "隔离增强插件 locale 注册",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "隔离实验检查点，不迁移内置页数据",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "增加页面登记回调，默认复用 builtin 快捷键",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "避免重复认领 browser.new 命令",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "将工具回调送至官方页面创建点",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "只提供自有原生页面的有限 getter，沿用 occurrence 生命周期",
+      "removedLines": 1,
+      "addedLines": 2
+    },
+    {
+      "reason": "用正式正文会话绑定工具目标",
+      "removedLines": 1,
+      "addedLines": 1
+    },
+    {
+      "reason": "装配独立工具适配并绑定卸载清理",
+      "removedLines": 1,
+      "addedLines": 122
+    },
+    {
+      "reason": "消费既有正式 Connection 服务",
+      "removedLines": 1,
+      "addedLines": 1
+    }
+  ],
+  "adapterSourceLines": 157,
+  "upstreamClientLines": 1648,
+  "preserved": [
+    {
+      "name": "view/BrowserBody",
+      "status": "byte-identical",
+      "sha256": "45877fdbd17d9c0d5134c666e8d36aac0f6c768bcdb36c282f0983e4a7c9cf2c"
+    },
+    {
+      "name": "view/BrowserTitle",
+      "status": "byte-identical",
+      "sha256": "da2661ba8badea7924c0e9182e97ed44994e8c74c5a1407f2d54f5ed5b8fa87d"
+    },
+    {
+      "name": "electron/ElectronWebViewImpl",
+      "status": "byte-identical",
+      "sha256": "b4a65bad35309779b13cb8b322c447f63aed4d075c851210005529d61333d94d"
+    },
+    {
+      "name": "electron/ElectronWebviewPresentation",
+      "status": "byte-identical",
+      "sha256": "7c8674c54f7eb5b41f5c60efd3e090ef1a4882b201e3caebb67b4c884a5ee8ac"
+    },
+    {
+      "name": "electron/pages",
+      "status": "byte-identical",
+      "sha256": "6d2bdc80ca8fd40f068a6a2beadfe7a3cf0c4d784db71e44ab80cb0d8b686fff"
+    }
+  ],
+  "controlledIntegration": "passed",
+  "nativeDesktop": "not-verified",
+  "limitations": [
+    "宿主服务与原生 guest 只在外部边界模拟",
+    "未验证真实 UI 渲染、原生输入、完整生命周期或暂停隐私屏障",
+    "补丁针对固定发布 bundle，仅作复用成本实验，不是生产发布方式"
+  ],
+  "tests": {
+    "total": 6,
+    "passed": 6,
+    "pending": 0
+  },
+  "installedComparison": {
+    "source": "官方 macOS Desktop 0.2.0-rc.2 安装产物，只读归档",
+    "installedClientSha256": "7a1caf03a0afe030d67405997ee851d552432c141fc34c72f2eb5b03de499144",
+    "publishedClientSha256": "e35ba782c90299dfaee4c8e3c17398a0412972ccefd449a7626eee58717fcba4",
+    "difference": "仅构建生成的 CSS 区块不同：构建路径、类名及对应 CSS",
+    "outsideCssRegion": "byte-identical",
+    "nativeExecution": "not-verified"
+  }
+}

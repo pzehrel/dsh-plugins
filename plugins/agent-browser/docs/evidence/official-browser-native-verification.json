@@ -1,0 +1,93 @@
+{
+  "observedAtUtc": "2026-10-15T13:32:56.913123+00:00",
+  "status": "passed-limited-scope",
+  "environment": {
+    "host": "官方 DeepSeek Harness Desktop",
+    "os": "macOS",
+    "desktopVersion": "0.2.0-rc.2",
+    "upstreamBrowserVersion": "0.2.0-rc.2"
+  },
+  "artifact": {
+    "package": "dsh-plugin-official-browser-reuse-probe-2e8cb96e",
+    "version": "0.0.0-native-probe.1",
+    "clientSha256": "0d099a218c06cbebb01a96c7580f0faf3d88b7bdad0f672ec03c3913f9fc24ca",
+    "sourceEdits": 14,
+    "adapterSourceLines": 163,
+    "directory": "/private/var/folders/4x/dsx65jpx6qq4dkk4h7hz9j8m0000gn/T/dsh-official-browser-probe-fB2SFf/native-plugin",
+    "installedBy": "官方插件管理器本地目录",
+    "host": "复用此前已加载的实验 Host；组合包不重复注册工具"
+  },
+  "evidenceMethod": [
+    "CUA 原生 AX 读取与人工输入操作",
+    "界面截图人工核对；截图仅在对话中显示，未持久化完整会话画面",
+    "固定测试页显示来自真实 Host ToolRuntime.execute 的结构化结果"
+  ],
+  "cases": [
+    {
+      "name": "官方入口与导航",
+      "status": "passed",
+      "observed": "官方地址栏打开本机测试页；追加 #navigation-check 后，后退和前进切换对应网址；保留官方工具栏与原生 guest",
+      "build": "初次非内容摘要包"
+    },
+    {
+      "name": "同一可见页面固定工具流水线",
+      "status": "passed",
+      "driver": "真实 Host ToolRuntime.execute；不是模型自主调用",
+      "manualText": "人工复用验收 C",
+      "pageId": "35a57349-1bbd-4aae-9a2a-24c50fb32af7",
+      "documentId": "0ee0db75-ee7b-4b02-8702-09471d1c957b",
+      "actions": [
+        "read",
+        "click",
+        "read"
+      ],
+      "counts": [
+        0,
+        1,
+        1
+      ],
+      "samePageAndDocument": true,
+      "clickLastTrusted": true,
+      "visibleCount": 1
+    },
+    {
+      "name": "关页撤销",
+      "status": "passed",
+      "nextPageDisplayed": {
+        "guestUnavailable": true,
+        "hostRejectedClosedTarget": true
+      },
+      "rejectionMatch": "Client 凭据失效",
+      "timeoutOrExceptionCountsAsPass": false
+    },
+    {
+      "name": "卸载与内置实现恢复",
+      "status": "passed",
+      "observed": "保持一张增强页打开时通过官方管理器卸载；该 browser tab 回退到内置空白页。内置地址栏重新打开测试页，人工填入验收标记后计数仍为0且保留原文档标记。",
+      "restoredDocumentId": "fdbbc9bd-a86c-431b-90bc-bc181faaaa36",
+      "manualText": "人工复用验收 卸载恢复",
+      "visibleCount": 0,
+      "profileFilesByteIdenticalToBefore": [
+        "package.json",
+        "cordis.patch.yml",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml"
+      ],
+      "probeMentionsInProfileFiles": 0
+    }
+  ],
+  "cleanup": {
+    "temporaryProbePackagesUninstalled": true,
+    "originalExperimentPluginPreserved": true,
+    "applicationBundleModified": false,
+    "privateIpcUsed": false
+  },
+  "limitations": [
+    "仅固定自有测试页和当前官方macOS版本",
+    "没有验收模型自主选择工具",
+    "没有验收完整会话切换、暂停隐私屏障或在途原生动作撤回",
+    "网址恢复只有受控边界测试，不代表重启登录态",
+    "未实现任意网页快照、全局登录态、文件或完整调试",
+    "14处及原157行是我们对临时副本的增量；原生诊断、测试与生成器另计，未承诺生产实现规模"
+  ]
+}

@@ -5,3 +5,4 @@ coverage/
 *.tsbuildinfo
 .eslintcache
 .DS_Store
+plugins/agent-browser/.build/

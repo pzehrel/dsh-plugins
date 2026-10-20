@@ -1,0 +1,829 @@
+{
+  "observedAtUtc": "2026-10-16T04:29:56.843Z",
+  "observationTimeBasis": "最后一次命中已发送后取消屏障的实际结束时间；清理随后完成，不伪造独立清理时间。",
+  "scope": "官方macOS 27.0.1 Desktop 0.2.0-rc.2；任务07主文档原生输入/逐次审批纵向切片；不代表整体G3/G4/G5、任务16或首版通过。",
+  "artifact": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "902d0c91cf1a",
+    "package": "dsh-plugin-agent-browser-902d0c91cf1a",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "e2fe7ee5c0b33b90d17e8eb42d6270738090066135dede6d935616ad245ac2a0",
+    "hostSha256": "297e903617ef6c79f656cdef8a92f7b2a1205b2fa4f9153e20ef9aa73c73265b",
+    "clientSha256": "d1fa9eddd756b3726576e210acb67faff0292c1ac4c60958e80a76b527db5df4"
+  },
+  "runtime": {
+    "toolPresent": true,
+    "legacyToolPresent": true,
+    "fixtureUrl": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2",
+    "hostBuild": "902d0c91cf1a"
+  },
+  "boundary": "真实专用Agent合法open turn/pre-step内正式ToolRuntime，逐次真实审批UI；始终reject模型step，不代表模型自主调用。",
+  "task": "07 原生页面操作、审批与Agent指针",
+  "nativeAssertionReport": {
+    "checksPassed": 49,
+    "checks": [
+      "text-actual-tool-settled",
+      "textarea-actual-tool-settled",
+      "email-actual-tool-settled",
+      "number-actual-tool-settled",
+      "allow-submit-actual-tool-settled",
+      "fill-form-actual-tool-settled",
+      "space-text-actual-tool-settled",
+      "enter-actual-tool-settled",
+      "space-button-actual-tool-settled",
+      "scroll-actual-tool-settled",
+      "resume-fresh-input-actual-tool-settled",
+      "email-clear-actual-tool-settled",
+      "email-refill-actual-tool-settled",
+      "number-clear-actual-tool-settled",
+      "number-refill-actual-tool-settled",
+      "text-replaced-exactly",
+      "textarea-observed-normalized",
+      "after-email-自有邮箱",
+      "after-number-自有数量",
+      "after-email-clear-自有邮箱",
+      "after-email-refill-自有邮箱",
+      "after-number-clear-自有数量",
+      "after-number-refill-自有数量",
+      "ime-copy-observe-普通内容",
+      "ime-copy-observe-模拟提交内容",
+      "reject-submit-job-failed-closed",
+      "changed-content-job-failed-closed",
+      "changed-layout-job-failed-closed",
+      "cancelled-job-failed-closed",
+      "takeover-job-failed-closed",
+      "paused-input-job-failed-closed",
+      "resume-stale-input-job-failed-closed",
+      "reload-race-job-final-failed-closed",
+      "timed-cancel3-job-failed-closed",
+      "manual-old-ref-rejected",
+      "scroll-positive-down300",
+      "reject-submit-zero",
+      "space-button-single-delta",
+      "takeover-read-rejected",
+      "resume-reads-manual-content",
+      "reload-doc-changed",
+      "late-cancel-unknown-lock",
+      "old-page-closed",
+      "enhanced-tabs-empty",
+      "console-eight-real-messages",
+      "formal-image-chain",
+      "all-cleanup-verified",
+      "enhanced-unloaded-legacy-present",
+      "frozen-source-unchanged"
+    ],
+    "sha256": "1e41bfbb1f3a6713a250ab0414efac8ae5b4529a87a8a9b36709a1ee217d6007"
+  },
+  "independentReview": {
+    "standardsUnresolved": 0,
+    "specUnresolved": 0,
+    "source": "902冻结的两轴nullable复审；不把独立代码审查当原生证明。"
+  },
+  "controlledVerification": {
+    "command": "pnpm check",
+    "exitCode": 0,
+    "testFiles": 22,
+    "tests": 171,
+    "skipped": 0
+  },
+  "runtimeWarning": "Node22.20.0；仓库要求24.21.0；保留engine警告，不增加Node22支持。",
+  "observations": [
+    {
+      "case": "正式逐次允许后的实际工具结果",
+      "jobs": {
+        "text": {
+          "phase": "settled",
+          "turn": 3,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "e4355e3d-2d32-46a8-b573-9ca98ec62274",
+            "reference": "e4355e3d-2d32-46a8-b573-9ca98ec62274:2",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "textarea": {
+          "phase": "settled",
+          "turn": 4,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "be76db80-18ee-4ec3-9f3a-a95a0f3bbc6a",
+            "reference": "be76db80-18ee-4ec3-9f3a-a95a0f3bbc6a:6",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "email": {
+          "phase": "settled",
+          "turn": 5,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "af3f0b35-2c69-40ae-833d-f13c7d38a090",
+            "reference": "af3f0b35-2c69-40ae-833d-f13c7d38a090:7",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "number": {
+          "phase": "settled",
+          "turn": 6,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "de6bfc13-ba28-4903-b0b8-0b6c4308a94c",
+            "reference": "de6bfc13-ba28-4903-b0b8-0b6c4308a94c:8",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "allow-submit": {
+          "phase": "settled",
+          "turn": 8,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "2f4b0545-ae85-4566-b909-b9aec24466b7",
+            "reference": "2f4b0545-ae85-4566-b909-b9aec24466b7:4",
+            "action": "click-element",
+            "status": "issued"
+          }
+        },
+        "fill-form": {
+          "phase": "settled",
+          "turn": 9,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "4a75bee5-c615-4e27-bf7c-925b3af68892",
+            "reference": "4a75bee5-c615-4e27-bf7c-925b3af68892:3",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "space-text": {
+          "phase": "settled",
+          "turn": 10,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "d19cd12e-0116-4502-aec4-c96d068a2b4f",
+            "reference": "d19cd12e-0116-4502-aec4-c96d068a2b4f:3",
+            "action": "press",
+            "status": "issued"
+          }
+        },
+        "enter": {
+          "phase": "settled",
+          "turn": 11,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "313e3e0f-5d10-4c58-bc79-b49565e0197f",
+            "reference": "313e3e0f-5d10-4c58-bc79-b49565e0197f:3",
+            "action": "press",
+            "status": "issued"
+          }
+        },
+        "space-button": {
+          "phase": "settled",
+          "turn": 12,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "649759ce-abed-478e-a6da-c38eafdea8c6",
+            "reference": "649759ce-abed-478e-a6da-c38eafdea8c6:4",
+            "action": "press",
+            "status": "issued"
+          }
+        },
+        "scroll": {
+          "phase": "settled",
+          "turn": 13,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "745b7eda-2c53-4b3f-a796-9cbb3da5a91b",
+            "reference": "745b7eda-2c53-4b3f-a796-9cbb3da5a91b:2",
+            "action": "scroll",
+            "status": "issued"
+          }
+        },
+        "resume-fresh-input": {
+          "phase": "settled",
+          "turn": 20,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "ad63d102-0c42-42db-9c2f-303254a9be72",
+            "reference": "ad63d102-0c42-42db-9c2f-303254a9be72:1",
+            "action": "click-element",
+            "status": "issued"
+          }
+        },
+        "email-clear": {
+          "phase": "settled",
+          "turn": 21,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "74a4f352-0730-46e8-bf65-51f5d6d531c0",
+            "reference": "74a4f352-0730-46e8-bf65-51f5d6d531c0:7",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "email-refill": {
+          "phase": "settled",
+          "turn": 22,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "e987dd5e-b4d3-4945-834d-4b3ee806224c",
+            "reference": "e987dd5e-b4d3-4945-834d-4b3ee806224c:7",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "number-clear": {
+          "phase": "settled",
+          "turn": 23,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "dba86ea5-3972-4231-adc8-3ab3250e2c7d",
+            "reference": "dba86ea5-3972-4231-adc8-3ab3250e2c7d:8",
+            "action": "fill",
+            "status": "issued"
+          }
+        },
+        "number-refill": {
+          "phase": "settled",
+          "turn": 24,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+            "kind": "input",
+            "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+            "observationId": "bb21e370-2f84-419b-98f9-517d4f3053b9",
+            "reference": "bb21e370-2f84-419b-98f9-517d4f3053b9:8",
+            "action": "fill",
+            "status": "issued"
+          }
+        }
+      }
+    },
+    {
+      "case": "同页重新observe的字段实际值",
+      "fields": [
+        {
+          "source": "after-text.json",
+          "name": "普通内容",
+          "value": "原生替换成功·中文 2026-10-16"
+        },
+        {
+          "source": "after-textarea.json",
+          "name": "多行内容",
+          "value": "第一行·原生 第二行·替换"
+        },
+        {
+          "source": "after-email.json",
+          "name": "自有邮箱",
+          "value": "after@example.invalid"
+        },
+        {
+          "source": "after-number.json",
+          "name": "自有数量",
+          "value": "456"
+        },
+        {
+          "source": "after-email-clear.json",
+          "name": "自有邮箱",
+          "value": ""
+        },
+        {
+          "source": "after-email-refill.json",
+          "name": "自有邮箱",
+          "value": "refilled@example.invalid"
+        },
+        {
+          "source": "after-number-clear.json",
+          "name": "自有数量",
+          "value": ""
+        },
+        {
+          "source": "after-number-refill.json",
+          "name": "自有数量",
+          "value": "789"
+        },
+        {
+          "source": "ime-copy-observe.json",
+          "name": "普通内容",
+          "value": "你好"
+        },
+        {
+          "source": "ime-copy-observe.json",
+          "name": "模拟提交内容",
+          "value": "你好"
+        }
+      ],
+      "textareaExactInput": "第一行·原生\n第二行·替换",
+      "textareaNormalizedByObserve": true
+    },
+    {
+      "case": "正式拒绝、绑定变化、等待取消及接管",
+      "results": {
+        "reject-submit-job.json": {
+          "phase": "settled",
+          "turn": 7,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: [agent-browser/approval-rejected] 审批未允许本次动作；未执行输入；动作未发出或未交付结果\"}]"
+        },
+        "changed-content-job.json": {
+          "phase": "settled",
+          "turn": 14,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: [agent-browser/reference-conflict] 引用失效；页面、文档、滚动、布局或目标状态已变化，请重新 observe；动作未发出或未交付结果\"}]"
+        },
+        "changed-layout-job.json": {
+          "phase": "settled",
+          "turn": 15,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: [agent-browser/reference-conflict] 引用失效；页面、文档、滚动、布局或目标状态已变化，请重新 observe；动作未发出或未交付结果\"}]"
+        },
+        "cancelled-job.json": {
+          "phase": "settled",
+          "turn": 16,
+          "step": 1,
+          "isError": true,
+          "error": "AbortError: This operation was aborted"
+        },
+        "takeover-job.json": {
+          "phase": "settled",
+          "turn": 17,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] 人工接管状态变化，在途结果已丢弃；动作未发出或未交付结果\"}]"
+        },
+        "paused-input-job.json": {
+          "phase": "settled",
+          "turn": 18,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: 该页处于人工接管\"}]"
+        },
+        "resume-stale-input-job.json": {
+          "phase": "settled",
+          "turn": 19,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: 交回后须先重新读取当前页面，不重放旧操作\"}]"
+        },
+        "reload-race-job-final.json": {
+          "phase": "settled",
+          "turn": 25,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: 文档或导航已变化，请重新 observe；动作未发出或未交付结果\"}]"
+        },
+        "timed-cancel3-job.json": {
+          "phase": "settled",
+          "turn": 29,
+          "step": 1,
+          "isError": true,
+          "error": "AbortError: This operation was aborted"
+        }
+      },
+      "changedContentAndLayoutOldAllowRejected": true,
+      "rejectSubmitCount": 0,
+      "allowSubmitCount": 1
+    },
+    {
+      "case": "实际OS中文输入法与复制粘贴",
+      "source": "本轮CUA原生键与AX，再由ime-copy-observe复读；不是insertText代替IME",
+      "preedit": "ni hao",
+      "committed": "你好"
+    },
+    {
+      "case": "按键默认行为",
+      "spaceTextViaAX": "按键验收 ",
+      "enterSubmitCountViaCUA": 2,
+      "manualButtonFocusBaseline": 3,
+      "agentButtonSpaceSubmitCount": 4,
+      "trusted": true
+    },
+    {
+      "case": "相对滚动与人工滚动",
+      "yBefore": 321.375,
+      "yAfter": 21.375,
+      "downDelta": 300,
+      "manualScrollDidNotPause": true,
+      "manualOldReferenceRejected": true,
+      "newResolveY": 121.375
+    },
+    {
+      "case": "Agent指针",
+      "source": "本轮CUA连续截图：首帧紫色↖Agent，下一帧已消失；未获得本地图片文件，不编造图片SHA",
+      "visibleThenRemoved": true,
+      "osMouseStayedAtComposer": true
+    },
+    {
+      "case": "接管与交回",
+      "pausedReadAndInputRejected": true,
+      "freshManualValue": "接管期人工内容·不自动补发",
+      "oldInputBeforeFreshObserveRejected": true,
+      "freshInputNeededNewApproval": true
+    },
+    {
+      "case": "同网址reload使旧批准失效",
+      "beforeDocumentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+      "afterDocumentId": "af2b6941-3b9c-4b37-9172-20e82a3d6fc9",
+      "questionImmediatelyWithdrawn": false,
+      "oldAllowRejectedByDocumentChange": true,
+      "submitAfterReload": 0
+    },
+    {
+      "case": "已发送事件后取消的真实unknown",
+      "allowStartMsViaCUA": 1792124996519,
+      "allowClickedMsViaCUA": 1792124996642,
+      "queuedMs": 1792124982439,
+      "targetMs": 1792124996765,
+      "cancelStartMs": 1792124996764,
+      "cancelEndMs": 1792124996843,
+      "counterBeforeViaCUA": 2,
+      "counterAfterViaCUA": 3,
+      "jobSettledAbortError": true,
+      "ui": "结果不明，请核对",
+      "subsequentObserveLockedUnknown": true,
+      "automaticReplayObserved": false
+    },
+    {
+      "case": "同构建截图及控制台smoke",
+      "imageRef": {
+        "attachmentId": "sha256:ec55c8b468bded5e94693a8fe89044e51c9f1de341416c577ad1c93c55b865c6",
+        "mediaType": "image/jpeg",
+        "width": 1151,
+        "height": 1718,
+        "bytes": 97982,
+        "name": "agent-browser-screenshot.png"
+      },
+      "imageBlock": {
+        "type": "image",
+        "attachment": {
+          "attachmentId": "sha256:ec55c8b468bded5e94693a8fe89044e51c9f1de341416c577ad1c93c55b865c6",
+          "mediaType": "image/jpeg",
+          "width": 1151,
+          "height": 1718,
+          "bytes": 97982,
+          "name": "agent-browser-screenshot.png"
+        }
+      },
+      "bytes": 97982,
+      "imageFile": "native-input-902.jpg",
+      "pixelsReviewed": "同一Guest中两行文字、refilled@example.invalid与789；不含外围宿主UI",
+      "console": {
+        "pageId": "331bde31-a289-47e6-afdd-1b0869f6d2d4",
+        "kind": "console",
+        "documentId": "ef9e3c88-8892-4920-9f42-48c3ff41a4f6",
+        "url": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic",
+        "durationMs": 2000,
+        "messages": [
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #10",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #11",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #12",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #13",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #14",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #15",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #16",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          },
+          {
+            "level": 2,
+            "message": "DSH 自有控制台验收 96f8c9b6-c89f-4c3b-acfc-6a9df0a901f3 #17",
+            "line": 27,
+            "sourceId": "http://127.0.0.1:59336/spike-6646d05c-c559-4f10-a5be-8387b6fbaaa2/semantic"
+          }
+        ],
+        "truncated": false
+      }
+    },
+    {
+      "case": "关闭与卸载清理",
+      "profileByteIdentical": {
+        "cordis.patch.yml": true,
+        "package.json": true,
+        "gro.ngilp-hsd-versions.json": true,
+        "cordis.yml": true
+      },
+      "asarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e",
+      "portsClosed": {
+        "59336": true,
+        "59303": true
+      },
+      "ownEnhancedPageClosed": true,
+      "legacyPreserved": true,
+      "nativeBuild": "902d0c91cf1a",
+      "enhancedAndDriverAbsentInOfficialUI": true,
+      "afterEnhancedUnload": {
+        "toolPresent": false,
+        "legacyToolPresent": true
+      }
+    }
+  ],
+  "controlledOnly": [
+    "缺少正式审批服务、完整长字段与隐藏摘要竞态、事件组早失败和真实Promise迟到",
+    "真实取消传播、丢ACK/断线后cleanup-unconfirmed和迟到认证ACK",
+    "selectstart切焦、外部同值span、selectNode(input)空文本、缺composed-range方法或归属不符"
+  ],
+  "unverified": [
+    "任意后台OS焦点场景下的新输入通路，其他平台与全部网站/表单类型组合",
+    "跨域frame、文件上传、任意页面脚本及登录态/网址恢复后继能力",
+    "任意网站JS状态到原生调用的原子事务、完整G3/G4/G5与首版整体任务16"
+  ],
+  "excludedAttempts": [
+    "console-smoke",
+    "console-overlap",
+    "console-delayed",
+    "late-pause",
+    "timed-cancel",
+    "timed-cancel2",
+    "33a970d9b254真实fill追加失败",
+    "8e0a7ea8222c仅安装off，未启用/未输入；选区归属P2后重建"
+  ],
+  "excludedAttemptReasons": {
+    "console-smoke/overlap/delayed": "未命中足够日志时间窗口，空结果不当作正例",
+    "late-pause/timed-cancel": "撤销晚于完成，未命中在途边界",
+    "timed-cancel2": "取消早于批准，不能证明已发送后unknown；无效旧AX定位没有点击"
+  },
+  "rawRecordSha256": {
+    "after-allow-submit-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-allow-submit.json": "afc6b62ad2505a2d6fa3a9bca9d97bee08d23541ddb3a2b66d80acc11da1ffe0",
+    "after-changed-content-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-changed-content.json": "5bc46638805c712209cdd3b739f8e18b257d8c7fe40150c0ccf699e18b731852",
+    "after-changed-layout-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-changed-layout.json": "6962e610aa8b9d2318ac960591b0af5e0eab745fab8e6cc0c4c7792147bbf018",
+    "after-email-clear-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-email-clear.json": "948ad300ac617728bd155b690d5187f457ba01ed7d36e5524028e45ff7667c00",
+    "after-email-refill-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-email-refill.json": "d510ea836b1c0de8684b679eb685fea00be657106f6750847c56382692c5d4c8",
+    "after-email-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-email.json": "23becac60fb7f7e148fcaffa01c2837ecfd9b0c5538980cbcb0b41debfeb9f3e",
+    "after-enhanced-unload.json": "9f16a384aaa82778cb86e739a73328c5f4834fdecc772d11e623a0088f5f2f37",
+    "after-manual-scroll-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-manual-scroll.json": "4d1ad5a657a9d0acff7c4c600b4ad80e6e5d8418edbd86f4813b82fe28265988",
+    "after-number-clear-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-number-clear.json": "8d3450a7d96c82c9330a5fb65f5ee718b688ff73b665bbf156afea2cb1e902ae",
+    "after-number-refill-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-number-refill.json": "d54c639739280b61a19df2c43d2583491b7f08c22fa2fb1828659e4ab0021509",
+    "after-number-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-number.json": "39fdcd1db71f8116d03cd4566335e1dff5bed5fa143e9f774b2f8911cefe70f2",
+    "after-reject-submit-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-reject-submit.json": "052bc593416ead5b45336e42fc7a00e76db5d4407b92c1bc9bb8b3fee41db202",
+    "after-reload-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-reload.json": "31d7aefd9c5ec3fe78482bb7eeb565e9ab73fec3799077ccf85ec955a1ca2b3c",
+    "after-resume-observe-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-resume-observe.json": "5e4ab9db960a783c44323ee95954b4f5ecb4d550d34adf503ef6bf433f4c92e1",
+    "after-scroll-point-request.json": "ef9c8d68f60f2499a10a7242cefb257d11590342afeaae9901988940b351cff6",
+    "after-scroll-point.json": "1d73d0175776cc2a472f3069eb1167121ec771cf1c5d0c1b69f974dda9eb081f",
+    "after-scroll-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-scroll.json": "fa86dac5373f543fa659309b85dcee83f640d7c7acf20c343f41ab893ea587e9",
+    "after-text-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-text.json": "4b80857cbd895df4f8300726eca4759b0147e7152f67ac3421280aea7d6a564c",
+    "after-textarea-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "after-textarea.json": "ec4c9ae706787f227436513dbc980e93f5fd83f855653db3646bd64af2f0d634",
+    "allow-submit-job.json": "73d618ae6a0f257bbf382de60ea3f5ffd57ce616625a5004f5ebf50a3df05620",
+    "allow-submit-start-request.json": "6859e9bbac84acef16c1812e157630ee27aa78295cc6a07d64e76b08ceac6b04",
+    "allow-submit-start.json": "21529d13e3579e80935bb7214198eaa11a3427a27a42d1c0d0c16830c7408a58",
+    "artifact.json": "5806a01e3e4bf284c0f1e40f15308b7c176bf69d16318470596cf5756c2a2999",
+    "before-button-space-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-button-space.json": "40f3437e2429aa2246f26be50760ecc0f7a65d4af113550b401c1919e58c15ca",
+    "before-empty-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-empty.json": "61dde2bbf81571c905834104ace0c2d97ac644497048dac686c2de91a86bbd88",
+    "before-enter-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-enter.json": "858ec049ddd1b57ff26aca256aff0eb95448f52ce47cf637810d706ea754a6f4",
+    "before-late-pause-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-late-pause.json": "e290271dfa42046c0cb4050363be528d0ae055042dde234578a066f1852ced62",
+    "before-reload-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-reload.json": "18afc305d7c64df53f0d6041b218f0b10351da0ce6398a030b36182497426f35",
+    "before-scroll-point-request.json": "0b35eee876840a7b4cbbfbdee0c2c0edfb535b750e33da776a1822e8090e03ec",
+    "before-scroll-point.json": "7bb712ee9bf9f37ec430fbb6fe9503b5725d3ce0d203b520213d997557c040a5",
+    "before-scroll-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-scroll.json": "61e46730285fd57a9f1cb32040a4c696d37791daa393fb3f979e7b3bde5e7583",
+    "before-space-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-space.json": "2d8272e51c57b4969150b95ae39eef56ff5ed7842f497e914e8b13244479ce4e",
+    "before-takeover-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-takeover.json": "9d06ff4aa1a1875331aafff3fb3dd845d64e0adb1ac6f0bb39c6fb6e96d32550",
+    "before-text-request.json": "ee57af88b77cdd48a24e220ff35d8a4d3cf1b2d3491c5ecece656bc39394a841",
+    "before-text.json": "f9ba972c92969f65645b93bb8580ff5dafd99bdf11b391f79bcb5a6cb6968be8",
+    "before-timed-cancel-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "before-timed-cancel.json": "d628219108d51ca1f5ddddfcf4a0040f03212bf7198641021622bff9f61d2ab0",
+    "cancelled-job.json": "8c1257a635835139f1532e8cf1567d98b653d20cf7c4e745d439378ead611fac",
+    "cancelled-request.json": "124304c4e446df8a04c7483dacedd18938a160ba5ea62d185c8d1344aa2e1ead",
+    "cancelled-start-request.json": "060958713f940322bc3c1543e248777612827dc92b5d9cb71065c22707973b01",
+    "cancelled-start.json": "02f707d53f41168f9795ca36aaea62e2b0bde9a548357a35713c9df6aea5975f",
+    "changed-content-job.json": "7616846f1382379db35bff79330271ac7c25e53644b6dd6658b73617c2be30ff",
+    "changed-content-start-request.json": "4b9225d2bc9d93a1106381c3914a893e4c7d0d0bcd26e425882e0e9a321255ce",
+    "changed-content-start.json": "4411d6a0c23a0e6bced0bf101c415d55e6e5abe86e27856dd2eb19ef122f148c",
+    "changed-layout-job.json": "0e968407d57bd80567beaae30cc7e8aec79911677ed4a1db652eb22a2d6ff8c8",
+    "changed-layout-start-request.json": "e9e4af5737c4219163ebc41cdca1c2714aab550b93b282e59d33cdb32f10d924",
+    "changed-layout-start.json": "5abc71d216fa93b825159a0bac2bdae839006c960b70c9cb860bf76e138ec884",
+    "cleanup-tabs-request.json": "e6642421bd32d7a273cba7b51950e53faca37d1cab90c137eb667a78690d11ea",
+    "cleanup-tabs.json": "31560b15d5bb91f52b42aa38dcfa552fff716e97a4c212c6bc62a6324536d5f4",
+    "cleanup.json": "cfcb43e02ca88a8dcbbfda635e963ee6f95613bbda86a9a100d569d2a85739b8",
+    "closed-old-page-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "closed-old-page.json": "87515926c11e3f718bf0dadbcf12f776a709ea2e9a5dc056bbabe75fe60b58dc",
+    "console-aligned-request.json": "95818af6db63e81ceffab5050bbc0ea35afbe670870eb8a84c27e78deeaf8f53",
+    "console-aligned-timing.json": "80fbc8b749e1618007b4d0b189ba5329fdd129d59c650abae6b6196b61357f5a",
+    "console-aligned.json": "a125ec5cde5b6c22a9c42db129ea035a105bc7c6db25cbbc92c9f7cd2d9ca446",
+    "console-delayed-request.json": "95818af6db63e81ceffab5050bbc0ea35afbe670870eb8a84c27e78deeaf8f53",
+    "console-delayed-timing.json": "52d671f5b1ab0ba846f7c92d8f32cef7c5ba785ed109d39092496cc9b348a6e5",
+    "console-delayed.json": "a4e3c7471f48e2f9cf5766ea3bcfd1d4451adb8e1676ec181e3299ec3d97d753",
+    "console-overlap-request.json": "95818af6db63e81ceffab5050bbc0ea35afbe670870eb8a84c27e78deeaf8f53",
+    "console-overlap.json": "a4e3c7471f48e2f9cf5766ea3bcfd1d4451adb8e1676ec181e3299ec3d97d753",
+    "console-smoke-request.json": "45ee734dae39666fe9e8948022fc8ba2c8a746d03a19017d98ac9bd451d50f59",
+    "console-smoke.json": "dd2d3c4c548155f302e0192fb602ec8879d7ccb300d6c4f199150e22b15da209",
+    "create-page-request.json": "0c65d5334f62dafcfcf4c34b9510f4c0995e5f0581a24df0b09238ff3e700fa1",
+    "create-page.json": "a460830c50073149d14ea22407e5b72334fe78111878f9be173a6cd9cb6c85f5",
+    "email-clear-job.json": "2ea6545e3d10043c2b973f548ad7bd82d49a7ba249b9c3fa5258e300e7150424",
+    "email-clear-start-request.json": "1b025d57bd38d0a3fd73d596f238a4b3b2f45f06de8f5d9d973fb210a04b7ef2",
+    "email-clear-start.json": "f05df4bad09c904190461d763bee455a88011e931d7a4aeb8ae86cc6070350d5",
+    "email-job.json": "398d0eba048822bd2da40969de1b423264e4d925345769bc5bb2319f1f527b9d",
+    "email-refill-job.json": "f860936959c934e682b2577973d9d62ba8e588de6824f4a3fa2ed9901c1aa4e7",
+    "email-refill-start-request.json": "7ed9d03d2720189589808c1ff3d025916d44e9a1b2b05eec6d537c6c1408b439",
+    "email-refill-start.json": "8387c93fe2b65969216397db84a1d78b28b1aeffc0f9217744d7b092dfe62517",
+    "email-start-request.json": "f9a8d0457db3ce8b07c8263b957045e155cd683ce962f8b52df7a7b5c7f55eb8",
+    "email-start.json": "0797ca49b102ffddee0dd2d0820eee3dfdd1f0fac543c1f53c7c31dfbbbb1c16",
+    "enter-job.json": "863dc430e14d0ef50ab2cacf87d05051dd6a499dbbbfd9961dc40e1796713367",
+    "enter-start-request.json": "14672a5574d07d8c534c45913cd5804e7752b24eb3a031f76ddec88533135006",
+    "enter-start.json": "af53c9e96b74f9048b19b73f4da3aa2b2c8a99b607806655d984b555325dc5c6",
+    "fill-form-job.json": "d9f9e2c983e9758e44c4a5c6db712f6d28542c85dacb1d4ab2eed2056040a48c",
+    "fill-form-start-request.json": "3c08ee585462587ec3c66df2b6f6adaddeefbb569530da22083c22af09887093",
+    "fill-form-start.json": "bd5c5da4d56f1f86e137e9a838355c3c29a5289a0b4c99f4877c442ba152b3d6",
+    "images/3cad2555-6968-4c5c-988e-1dfd01bcf601.jpg": "ec55c8b468bded5e94693a8fe89044e51c9f1de341416c577ad1c93c55b865c6",
+    "ime-copy-observe-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "ime-copy-observe.json": "384a711890d4120603060b9cee8cdf05ed5bac53c16cce377cc6860e05b3621c",
+    "initial-tabs-request.json": "e6642421bd32d7a273cba7b51950e53faca37d1cab90c137eb667a78690d11ea",
+    "initial-tabs.json": "31560b15d5bb91f52b42aa38dcfa552fff716e97a4c212c6bc62a6324536d5f4",
+    "late-pause-job.json": "1b80a3a77eb908936637d7ba0b5379ebb82b2177e0afab9181474b2a2838310a",
+    "late-pause-start-request.json": "9c55888f26515dfe6ef7b8e7de32a44dad06d7b334785e82e73845ac40ede58f",
+    "late-pause-start.json": "1473315fa655cd977942aa1c32d9a950634ef627d1a41f06e1391658c8dcc6c3",
+    "manual-scroll-new-point-request.json": "260b185d7fb583a3c31e07a89d467d6d7a22ae3ebd69b2f36ea66bfe2d831009",
+    "manual-scroll-new-point.json": "43188c1490a6d8164c9185a58c7ddd92aff52df06f6fef853c959292afda34f3",
+    "manual-scroll-old-ref-request.json": "ef9c8d68f60f2499a10a7242cefb257d11590342afeaae9901988940b351cff6",
+    "manual-scroll-old-ref.json": "b3f4183eef12e09c703a9f1c4552986cef8313279ab61b0fa5baea905e4fd882",
+    "new-status.json": "6863240bc6e49cc82fa4949eee00651b8d660205eeb1c44871606b322233d3a4",
+    "number-clear-job.json": "7e8d750d3b4aebf3333948c229f7131cb582dde5123daf84d8fbe51c00916ac7",
+    "number-clear-start-request.json": "14542bc8b4579bda843801628911c4a798483e7e8cfcf1fd6a17a1e01a02e564",
+    "number-clear-start.json": "cf691b9c5821a1003341805d0fb58ee6b05cd248e3dd13813fb081886edfc689",
+    "number-job.json": "003d9c86774ff456a9e5e7dbd1f31d2023e2ed8b086df48f7a0010475394a49c",
+    "number-refill-job.json": "38c647d29f8a7e4193af3ab52f3dbb4613b53c9804f602c5495ffe73b2eb819e",
+    "number-refill-start-request.json": "a64c4cc0395bdf2d66a9aad3ea142f9b1675406d5599c4b6cedd3c0e6de143dd",
+    "number-refill-start.json": "4d1102e890d212206be215d6b78ea0229e0dd272d7de889ea25dcd7a5ededafd",
+    "number-start-request.json": "058bd66511a964bb3ee8205014350088499a1edccee36165fdbc46692fa4795a",
+    "number-start.json": "ff04facdea80d7a1f5e647c7535751041fe29f884c062863ddff05b4bd791ab0",
+    "paused-input-job.json": "2d3e0b4f608cbcef6bcbf9f62fdd1411e965697e93b6ca107b5ec34141df98fa",
+    "paused-input-start-request.json": "94ba68afbc0dacae4045f4fb5b161f78eadaf4e4119a33aee95e1f09224810f5",
+    "paused-input-start.json": "80c4cde9686dffb5ae842bcf593af22ba2cab9cf8fa63e0e181bc54cc570990a",
+    "paused-observe-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "paused-observe.json": "0d72ed72c20d20fe012abea6994224dce6c436332ec391abe2d715d161d0ee62",
+    "reject-submit-job.json": "3983f1e7f943c4183866357de32b3ab4a689028ba26bd247c44c2c3081e9ed30",
+    "reject-submit-start-request.json": "094cd958830b7d40452ba821b358ef0b1ad3bb4e469d79a794d3884bc819fad3",
+    "reject-submit-start.json": "a75c68daefc8c333746ceaf7701ef6c01bae94d28c02d116244817134d99587f",
+    "reload-race-job-final.json": "5d2f04c5a6a9d82c26bd73dff0ed912bbc332b6f18ed3e660b93a39812c212fc",
+    "reload-race-job.json": "875f5f76d30cfb9651f7bc60483313d07d719189cc8cd8d33b5acfc57ec46c72",
+    "reload-race-start-request.json": "3f32628a5bc65b157b77754867430c738d861fdec4e5729548ee233b338f7334",
+    "reload-race-start.json": "61e60866f2c9cce5c9f2eca4a05808e9f43c2c1869864c8c72f15e5ac026c507",
+    "resume-fresh-input-job.json": "173d88ce93e3ca1269c9436060a21255a89979a116bddde14d209701fedbea90",
+    "resume-fresh-input-start-request.json": "3c1609f626f049dcd1b5c4442c014f36ed8f8a13576a58ac1fc1dff30917f66f",
+    "resume-fresh-input-start.json": "e750407eb051c62ecf3a2c03fa4e33379c22f83703cbff55218919a505033527",
+    "resume-stale-input-job.json": "9f62c2b66a9b7d610994fcb226d1ad0bbc1380920263f2d5dd26ea24e9cb25c8",
+    "resume-stale-input-start-request.json": "94ba68afbc0dacae4045f4fb5b161f78eadaf4e4119a33aee95e1f09224810f5",
+    "resume-stale-input-start.json": "c0069370bd520593a70b5e8ac712074a6936f4c0a1daae27d2ca316dc40e82a0",
+    "screenshot-smoke-request.json": "5b6052d8f3ac5743de2bcbb59fdfe4b23075c55a7859fdf81b245b414ad7b888",
+    "screenshot-smoke.json": "0523f73c8b5f321fd0080177db8f3c219e810a1123bf7029646954726ed34876",
+    "scroll-job.json": "72148a8f9b5fa026047d71a9adcd1b11650e10aadd8a31188163cd08f30d411b",
+    "scroll-start-request.json": "ee7d80d74df6ec31f4485822d191c97ea85a1792330a7dd726058a05889f4966",
+    "scroll-start.json": "65b428f2eba18e95428f89795fbc2e1d019b6a90adfcd13c2e148d1924cd1815",
+    "space-button-job.json": "9595f0c40b05fa01a1523537cfeeab08a4dec72f946c91a745b8b93026048fd7",
+    "space-button-start-request.json": "b465cda4a36e5347d6a312eca717e159a89c712c87a010215a46fb441ac0b3b5",
+    "space-button-start.json": "f3beaef54ee1525a926b4184485e6a34b12cfa7b3f5b5e57d1d384ac99ba9d5e",
+    "space-text-job.json": "cc9d878c0c6c0a8841130e97e0f11b7e8505ed4515fc9e3325129b54a1e7a92f",
+    "space-text-start-request.json": "259526acf5a2837db6075c2b9d2345952d48ae514f82fbb55b6f169d238aedcd",
+    "space-text-start.json": "1ae2aee9a0b9bb55f09d958de760e66a660dcc0bdf55b223b044314d53fcab4b",
+    "takeover-job.json": "98525119db032c9114e7819e35558d35cecd30ea624cbc9941e116241cf1f5ca",
+    "takeover-start-request.json": "94ba68afbc0dacae4045f4fb5b161f78eadaf4e4119a33aee95e1f09224810f5",
+    "takeover-start.json": "25ece0f45f04d026cd58dd443a9859b424f41cf690abc12ff7bc2b9dab13a93e",
+    "text-job.json": "e3b71f265008b5f0d002c882b01e27e95fdd258d5d7cf0b95843874196937806",
+    "text-start-request.json": "1fb76b6edd53f437386122e1a52ca66c4d2594ef1ebbef9a62d9b3c831b293c2",
+    "text-start.json": "762a219cbd3170c35ac8dd99f3d79efed408b533eb12a7de12cbe08dee96ecb4",
+    "textarea-job.json": "65b19065e8c111128f8a2611141630b88c10228379fcfd32bf7a79f2290dfdcf",
+    "textarea-start-request.json": "8fca2c50fc6f057164e92f0a265f011fdd3687ae6a7f9aeaabb5067964056ca4",
+    "textarea-start.json": "7ab83ddc30bcd12e4f7e9645586ffe5fa149548352d1ce272791c77ad71e7f40",
+    "timed-cancel-job.json": "f3ced3918fc19ccf03fb6b7a88ecb29a738481a6f74e3a311c4e9c285e38028e",
+    "timed-cancel-observe-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "timed-cancel-observe.json": "4ffd277f1a657bcdc86863fe4d382caf6f65224c1c053572a8b5e83b6fec842e",
+    "timed-cancel-request.json": "124304c4e446df8a04c7483dacedd18938a160ba5ea62d185c8d1344aa2e1ead",
+    "timed-cancel-start-request.json": "c3955f2d876ad37db07fbb689c9fd6ca545b6ba0c19ed68c3fac0ac2c9227628",
+    "timed-cancel-start.json": "6e76b1bf2d759a6fa76eb756c32725e1a0f36e153d0dd167ce82001a4d920c70",
+    "timed-cancel-timing.json": "ca4005e158aa6d36c0458f6a6a97db9b5a3daf59806ac641acd8256f734a06f1",
+    "timed-cancel2-job.json": "8932f41ed62dba3d2e7d021d1e98c2ab826e3bdb4d6daf5db8d5a7ef991b65c7",
+    "timed-cancel2-observe-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "timed-cancel2-observe.json": "1b9c5df9c9e43d0e981a28d544855821acbde5e2253739bb2301f85404e92c26",
+    "timed-cancel2-request.json": "124304c4e446df8a04c7483dacedd18938a160ba5ea62d185c8d1344aa2e1ead",
+    "timed-cancel2-start-request.json": "258c062ab482181b9e14161e010f202e9c5733272e54aaf0664264b998ca2741",
+    "timed-cancel2-start.json": "9513de5d32a21554e8be4d6b1c2a55ecca48b75731ddf5679f450037e11b4f45",
+    "timed-cancel2-timing.json": "fbbbb53a052c742b948018bfd16aa5db0dbb997d79e38349718282c30ab1f476",
+    "timed-cancel3-job.json": "efed2efa93f5c7dd11d68624e066a2725e70107b3012604db5e4e16825c21a83",
+    "timed-cancel3-observe-request.json": "a08d3b4800a612ea15d1658e7ef006a373e09708eb58d89184d4dde28b6f087c",
+    "timed-cancel3-observe.json": "5a718a918d653313cdf5d2b04ff91fa6fa7bc19aa0be487dd047a5f7801a6f55",
+    "timed-cancel3-request.json": "124304c4e446df8a04c7483dacedd18938a160ba5ea62d185c8d1344aa2e1ead",
+    "timed-cancel3-start-request.json": "0b940d60ee9ac3dfa831e8952a3c29be64ae0a47b4a65c8282f4e413eaf5d692",
+    "timed-cancel3-start.json": "365a1a6eddecb57eded4d47bc42a66562b64467bcab65dbc2f1baf12a459ee3a",
+    "timed-cancel3-timing.json": "accf66dff3a20359bda5d7d1adfb26e5f97f60b7fd73bf2dce712f7bae7151bf"
+  },
+  "excludedPrivateArtifacts": [
+    "control.json",
+    "profile-before/**"
+  ]
+}

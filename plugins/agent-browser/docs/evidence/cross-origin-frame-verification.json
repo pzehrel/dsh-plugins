@@ -1,0 +1,160 @@
+{
+  "diagnosticOnly": true,
+  "build": "c4bd20f10cbe",
+  "pageId": "f98ff05c-8309-4046-9d89-10a975c4f225",
+  "mainDocumentMarker": "2730b163-aabc-463d-b3ba-92557568f04b",
+  "BdocumentMarker": "b18b3397-c27b-40b8-b74d-86dcfb83662c",
+  "oopif": {
+    "mainProcess": 293,
+    "frameProcess": 295,
+    "source": "本次公开frame导航事件；具体身份见frameEvents。"
+  },
+  "nativeClick": {
+    "input": "公开webview mouseDown/up，仅使用自有B固定测试坐标。",
+    "toolIsError": false,
+    "returnedCount": 0,
+    "freshReadCount": 0,
+    "BserverCountBeforeManual": 0,
+    "serverClicksBeforeManual": [],
+    "effectObserved": false
+  },
+  "manualControl": {
+    "source": "Agent诊断点击与新读取均为0后，ROOT通过CUA人工点击同一B按钮；不属于Agent成功。",
+    "BcountAfterManual": 1,
+    "trusted": true,
+    "sameBdocument": true,
+    "server": [
+      {
+        "count": 1,
+        "nonce": "c2d6727a-6889-4e2b-af88-560134937df6",
+        "isTrusted": true,
+        "documentNonce": "b18b3397-c27b-40b8-b74d-86dcfb83662c",
+        "at": "2026-10-16T05:01:35.561Z"
+      }
+    ]
+  },
+  "genericFrameDelivered": false,
+  "identityAndApprovalMappingVerified": false,
+  "hostVersion": "0.2.0-rc.2",
+  "electronVersion": "44.0.0",
+  "nativeScreenshot": {
+    "sha256": "59a726cd66b4aa6a2efeb82dfc177ff44e6bebd158bef8059215cf566601324e",
+    "width": 1151,
+    "height": 1718,
+    "bytes": 171913,
+    "attachmentMatch": true,
+    "rootViewed": true,
+    "outerDesktopCUAMatched": true,
+    "outerCUAStoredFile": false,
+    "file": "cross-origin-frame-diagnostic-c4bd.jpg"
+  },
+  "geometry": {
+    "viewportCSS": [
+      576,
+      859
+    ],
+    "devicePixelRatio": 2,
+    "zoomFactor": 1,
+    "frameRectCSS": [
+      32,
+      235.375,
+      512,
+      180
+    ]
+  },
+  "frameEvents": {
+    "main": {
+      "processId": 293,
+      "routingId": 13
+    },
+    "B": {
+      "processId": 295,
+      "routingId": 5
+    },
+    "differentProcesses": true
+  },
+  "crossOriginDOM": {
+    "readable": false,
+    "error": "SecurityError"
+  },
+  "sourceObservationSha256": "993e5f7ffcb165f75d49f0316081e33cbc8cc32bc92eea05776fed42fbed108a",
+  "routingSources": [
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/content/browser/renderer_host/render_widget_host_impl.cc?format=TEXT",
+      "file": "chromium152__content__browser__renderer_host__render_widget_host_impl.cc",
+      "sha256": "a0c912aa89290cb7efefe4bc1f36ee766282a922c00d9971684deb071f6208c5"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/components/input/render_widget_host_input_event_router.cc?format=TEXT",
+      "file": "chromium152__components__input__render_widget_host_input_event_router.cc",
+      "sha256": "268f61c22d908ab01a3191737c9e9391ccb9bdefe5f56ed32ddb78f825701f3b"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/components/input/input_router_impl.cc?format=TEXT",
+      "file": "chromium152__components__input__input_router_impl.cc",
+      "sha256": "c6127ee76589ba55f3d7f6c398e34c9193011af05c01f3b8d428eb3a839b0b8c"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.54/components/input/render_input_router.cc?format=TEXT",
+      "file": "chromium152__components__input__render_input_router.cc",
+      "sha256": "09dc0102e9f440ed449e5a1062207b8ebc4991da8270293fdfb567c9d0aa67fc"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/shell/common/gin_converters/content_converter.cc",
+      "file": "electron44__shell__common__gin_converters__content_converter.cc",
+      "sha256": "110400854fa08c94d0da75a36f0bc075a1ad249f42307507a00df541fb2f30db"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v44.0.0/shell/common/gin_converters/frame_converter.cc",
+      "file": "electron44__shell__common__gin_converters__frame_converter.cc",
+      "sha256": "d64349305dd0a6bbb61582b8edb4a1d740e41ff9d9323d9b94abc2b3a4d10da8"
+    }
+  ],
+  "cleanup": {
+    "BserverPid": 21501,
+    "commandMatchedOwnFixture": true,
+    "signal": "SIGTERM",
+    "onlyOwnProcessSignalled": true,
+    "ports": {
+      "58174": "closed",
+      "63517": "closed"
+    },
+    "rootReported": {
+      "tabClosed": true,
+      "diagnosticUninstalled": true,
+      "diagnosticBuild": "c4bd20f10cbe",
+      "legacyTabPreserved": true
+    },
+    "noOtherProcessTouched": true
+  },
+  "publicFrameEvents": [
+    {
+      "type": "did-start-navigation",
+      "url": "http://127.0.0.1:63517/spike-a5b0f451-0f81-4dac-af3b-2603654e18ef",
+      "main": true,
+      "process": 293,
+      "routing": 13
+    },
+    {
+      "type": "did-frame-navigate",
+      "url": "http://127.0.0.1:63517/spike-a5b0f451-0f81-4dac-af3b-2603654e18ef",
+      "main": true,
+      "process": 293,
+      "routing": 13
+    },
+    {
+      "type": "did-start-navigation",
+      "url": "http://localhost:58174/c2d6727a-6889-4e2b-af88-560134937df6",
+      "main": false,
+      "process": 295,
+      "routing": 5
+    },
+    {
+      "type": "did-frame-navigate",
+      "url": "http://localhost:58174/c2d6727a-6889-4e2b-af88-560134937df6",
+      "main": false,
+      "process": 295,
+      "routing": 5
+    }
+  ]
+}

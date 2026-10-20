@@ -1,0 +1,113 @@
+{
+  "observedAtUtc": "2026-10-15T17:58:08Z",
+  "scope": "官方 macOS Desktop 0.2.0-rc.2；固定自有页 read/click 切片；不代表完整 G5/A05 或首版通过",
+  "artifact": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "3b082962fd39",
+    "package": "dsh-plugin-agent-browser-3b082962fd39",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "444a4e557385b44345461950e0d8bdc3d361ae25e70a1f515cad9b216ace7130",
+    "hostSha256": "80f4cc139b776ea52b3efe16a3595ade8df561911233047d6e9907e5c42ef415",
+    "clientSha256": "1ce4cf1175c3e1916de7931427c8205bc234bad05aefda3d4ff066ec2030e989"
+  },
+  "runtime": {
+    "hostBuild": "3b082962fd39",
+    "toolPresent": true
+  },
+  "boundary": "真实 ToolRuntime.execute 与真实 Agent；未发送模型消息，不代表模型自主选择工具",
+  "cleanup": {
+    "profileMatchesOriginal": {
+      "cordis.yml": true,
+      "cordis.patch.yml": true,
+      "package.json": true,
+      "gro.ngilp-hsd-versions.json": true
+    },
+    "portsClosed": {
+      "54818": true,
+      "52849": true,
+      "53119": true
+    },
+    "asarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e"
+  },
+  "runtimeWarning": "Node 22.20.0；项目要求24.21.0；检查通过不增加Node22支持",
+  "rawRecordSha256": {
+    "runtime-04-15-final.json": "bb9852b9f95a7c5ebf55c1fa5bea08646589bdd10231940c3344c13e15f3f8dd",
+    "final-initial.json": "8a4d195863803efe431f2e81765219dc0a453b31808240c2465d3a15b4dacd04",
+    "final-paused-job.json": "14af35597c8ab6dd08eac15dbc730360cf2d0dbd1a0723c1ea34a0e45d473717",
+    "final-paused-read.json": "4ff4a7d3d99e7f7f72a46c3ba6af094ba39d4b86b0c9f3ce792b5f900447f170",
+    "final-paused-click.json": "4ff4a7d3d99e7f7f72a46c3ba6af094ba39d4b86b0c9f3ce792b5f900447f170",
+    "final-before-observe.json": "973193e55ff1701c65c7933abe2007b83f6c50ad1520414c92433c9bdd6fde34",
+    "final-fresh-read.json": "117f71248604828f58e82ae288b2346754977658ddf06bf57453c3c26782af35",
+    "final-after-observe.json": "76a16f429bc83f8f8752310657927535f5df5bf29c60876eb6fc211507be4923",
+    "final-after-click.json": "76a16f429bc83f8f8752310657927535f5df5bf29c60876eb6fc211507be4923",
+    "final-keyboard-no-replay.json": "76a16f429bc83f8f8752310657927535f5df5bf29c60876eb6fc211507be4923",
+    "download-before.json": "0d99d2574c9bf8b7e26b2c54be6de37d0f26983e19479910d923e54e0ec74940",
+    "download-manual.json": "c96af3aee988407a1757c440024d0796633267b7a3ec8a1821ac7b8d5fb00711",
+    "download-agent.json": "b5836a853a6294bf4c913eb028b6bef0f57510cbec33cc17dfa83c44f78124be",
+    "final-agent-download.json": "8c4b729e8a81cea75cb4b0e6477b503e593bf75a3df6f9dbc63908afe4e14b3d",
+    "final-closed.json": "2687fc55d8cbfbf640cc58d3c4081b47fdf15e1820c7de7724cbfbb6b0968ed6",
+    "final-unloaded-status.json": "9f16a384aaa82778cb86e739a73328c5f4834fdecc772d11e623a0088f5f2f37",
+    "final-cleanup.json": "8489a99b2e2f8c70075997b3ed42772555bef41baa4065d984735d332fbc197a"
+  },
+  "task": "04 固定工具的人工接管与交回",
+  "observations": [
+    {
+      "case": "同一可见文档读点读",
+      "counts": [
+        0,
+        1,
+        1
+      ],
+      "sameDocument": true,
+      "samePage": true,
+      "nativeClickTrusted": true
+    },
+    {
+      "case": "人工接管停止后台读",
+      "results": 29,
+      "successful": 28,
+      "lastErrorCode": "cancelled",
+      "running": false
+    },
+    {
+      "case": "接管期新读写",
+      "readRejected": true,
+      "clickRejected": true
+    },
+    {
+      "case": "交回重新观察",
+      "clickBeforeReadRejected": true,
+      "freshText": "接管期间人工修改 F2",
+      "freshCount": 1,
+      "clickThenReadCount": 2,
+      "sameDocument": true
+    },
+    {
+      "case": "官方标题交互",
+      "mouseTakeoverAndResume": true,
+      "keyboardTakeoverAndResume": true,
+      "keyboardPath": "正常Tab导航聚焦后Space/Enter",
+      "replayedCount": 0
+    },
+    {
+      "case": "关闭与卸载",
+      "oldPageRejected": true,
+      "toolUnregistered": true
+    }
+  ],
+  "excludedAttempt": {
+    "fingerprint": "111162514ca1",
+    "result": "鼠标接管失败，官方可拖动Tab捕获pointer；不作通过证据",
+    "fix": "按钮onPointerDown只stopPropagation，保留默认聚焦及click；3b082962fd39复验"
+  },
+  "controlledOnly": [
+    "pausing瞬态未在原生稳定观察",
+    "延迟读取、mouseDown和交接RPC结算",
+    "接管/交回失败保持停用及显式重试",
+    "下载后在途读取接管不追加采集"
+  ],
+  "unverified": [
+    "后续截图、控制台、任意脚本和持续任务须逐项证明同一屏障",
+    "完整G5/A05和首版仍受后续任务阻塞"
+  ]
+}

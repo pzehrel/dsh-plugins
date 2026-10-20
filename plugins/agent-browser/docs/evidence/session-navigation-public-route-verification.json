@@ -1,0 +1,623 @@
+{
+  "date": "2026-10-18",
+  "task": "05 本会话多标签页与导航",
+  "status": "blocked",
+  "fullAcceptancePassed": false,
+  "releaseUnblocked": false,
+  "dependentTasksUnblocked": [],
+  "conclusion": "真实 browser contentId 的 sidebar:// 协议不被 openResourceIn 的 dsh-resource:// 入口接受；候选已撤回，未交付后台选页。",
+  "boundaries": {
+    "purePlugin": true,
+    "officialBrowserReused": true,
+    "mainAppModified": false,
+    "asarModified": false,
+    "privateIpcOrCdpUsed": false,
+    "realAccountsUsed": false,
+    "modelAutonomousStepsRun": false,
+    "hostOrSdkUpgraded": false,
+    "commitOrPushOrRemoteIssuePublished": false,
+    "scopeReduced": false
+  },
+  "environment": {
+    "appVersion": "0.2.0-rc.2",
+    "appBuild": "0.2.0-rc.2",
+    "macOS": "27.0.1",
+    "sourceCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "runtimeElectronQueried": false
+  },
+  "sourceFacts": {
+    "pageAddressSourceSha256": "28c2cd8e27288df34f0953c507086c779c2ae326b47766756203b3561c513240",
+    "pageAddressSameInBothFixedCommits": true,
+    "pageScheme": "sidebar://",
+    "resourceSchemeRequiredByOpenResourceIn": "dsh-resource://",
+    "resourceGuardSameInBothFixedCommits": true,
+    "baselineCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "queriedCandidateCommit": "687f282e8625c6b8d11ff58211a90524be2e4317",
+    "officialPageAddressSource": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-sidebar-right/src/client/contract/seed.ts#L39-L46",
+    "officialResourceGuardSource": "https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-sidebar-right/src/client/service.ts#L385-L408",
+    "interpretation": "显式 kind 只影响后续 registry claim，不能绕过外层协议检查；更换协议会更换内容身份。"
+  },
+  "candidate": {
+    "fingerprint": "cf128ceea652",
+    "hostSha256": "646e39ad28d16d8e4eae1b3fdfbabd715eabc4b1f4a951ed493ba48b6cd9406a",
+    "clientSha256": "6bb5d885f3e5015ce1795875a63140d5aa26f68b3c21c6e743732f5038737106",
+    "controlledSessionFileTests": 11,
+    "controlledResultAcceptedAsNativeProof": false,
+    "invalidFixtureContentIdExample": "dsh-resource://page/browser/...",
+    "reasonControlledGreenIsInsufficient": "布局替身地址协议错误，未覆盖官方 sidebar://browser/<uuid> 身份。",
+    "candidateReviewFindings": {
+      "standards": 0,
+      "spec": 0
+    },
+    "candidateReviewSupersededByNativeFailure": true,
+    "newImplementationRetained": false,
+    "files": [
+      {
+        "path": "plugins/agent-browser/src/fixed-page-host.ts",
+        "beforeSha256": "6af1e91b29756f020314945092ea41e10e7018dc1b8d8bc524a11f331e312d72",
+        "afterSha256": "bc31ad666966b3b6f887f071959537fa2a13645ab79f9e11efa279f15c5989ab",
+        "restoredSha256": "6af1e91b29756f020314945092ea41e10e7018dc1b8d8bc524a11f331e312d72",
+        "restoredExactly": true
+      },
+      {
+        "path": "plugins/agent-browser/src/session-navigation.ts",
+        "beforeSha256": "c03a3ca5d42dc81a07764d958471e900a51ae3b89f027b4d361bb58191c1f828",
+        "afterSha256": "7278f0046f501ab908e7f9479f68b328cefd1519b2eadb83428f5b7814056393",
+        "restoredSha256": "c03a3ca5d42dc81a07764d958471e900a51ae3b89f027b4d361bb58191c1f828",
+        "restoredExactly": true
+      },
+      {
+        "path": "plugins/agent-browser/test/session-navigation.test.ts",
+        "beforeSha256": "2889ce1ada6b0963621ca9587205b9e7d82322d6233153cd6175da0ec1e3e55b",
+        "afterSha256": "430b15eaf872215fe4a7764ace2def7be6b8864931d82b0378b33b0c38f300c1",
+        "restoredSha256": "2889ce1ada6b0963621ca9587205b9e7d82322d6233153cd6175da0ec1e3e55b",
+        "restoredExactly": true
+      },
+      {
+        "path": "plugins/agent-browser/test/support/browser-harness.ts",
+        "beforeSha256": "974b182661b6b9c02873f339f23162eeb6d0388fe23d62abc6b920c29d23848d",
+        "afterSha256": "75642e8da1f6e69cdce0ee6019ef7f3c3c7f33decb129517c8ecb2e4b65d6a36",
+        "restoredSha256": "974b182661b6b9c02873f339f23162eeb6d0388fe23d62abc6b920c29d23848d",
+        "restoredExactly": true
+      }
+    ]
+  },
+  "nativeFormalTool": {
+    "source": "两个自建真实 Agent 的合法 pre-step 内正式 ToolRuntime，经过实际 Connection、Broker、官方 controller 和共享 guest。",
+    "driverCoreSha256": "236f1ab110b53b78204863a6438a0b59ff52c89133778c9e52966e61f0def9f2",
+    "driverWrapperSha256": "066a8afca1f31119452b27b1d4a2f98a9e63517f55d800b11551a7ae5d9bbd81",
+    "warningAboutRawDriverLabel": "raw.driver 通用文本含真实审批UI；本次读取及标签动作未触发实际审批界面，不据此声称审批验证通过。",
+    "sessions": {
+      "A": "session-f70c0e21-c9c7-4096-ac63-31609ae57e18",
+      "B": "session-fb958924-7c6a-433e-ab5d-853eaeef775e"
+    },
+    "fullTaskPassed": false,
+    "rawResults": {
+      "A-empty-before.json": {
+        "sha256": "eea0d88a398b846b18b6dfe95216cb1d53c1f85d9f583c2889ad8a2fabd569a8",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "b60b11f6-34d3-43a7-a9f8-e189ae9b1260",
+          "running": false,
+          "phase": "settled",
+          "turn": 2,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": []
+          }
+        }
+      },
+      "B-create-first.json": {
+        "sha256": "6c69a8d2cb67edc268913762e8282e258f05000b7ba8b93516672ce5cee9a421",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "ce2dc56d-2b49-4d35-85e4-7e4e64ffaa2a",
+          "running": false,
+          "phase": "settled",
+          "turn": 2,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "tabId": "tab2",
+                "selected": true
+              }
+            ]
+          }
+        }
+      },
+      "B-create-second.json": {
+        "sha256": "3dfd443ce2350871777a352bade8744ef39639930169a0bc049ea0c33ad52a34",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "dceb8bc3-ea25-4700-a08d-72257d096c1d",
+          "running": false,
+          "phase": "settled",
+          "turn": 4,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "tabId": "tab2",
+                "pageId": "2da8d255-def0-4d87-bb43-0839f6af03c7",
+                "selected": false,
+                "url": "http://127.0.0.1:62079/spike-2a896f90-4bce-401f-b31d-6761d9107c6d",
+                "title": "浏览器"
+              },
+              {
+                "tabId": "tab3",
+                "selected": true
+              }
+            ]
+          }
+        }
+      },
+      "B1-before.json": {
+        "sha256": "01d8cd0ce939f56c4af90f5cc93ab6bb3859b3654dd2ab102555b2b2d1e43d91",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "ea8c7a1c-132c-47e7-9c25-c408cdfa844c",
+          "running": false,
+          "phase": "settled",
+          "turn": 3,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "2da8d255-def0-4d87-bb43-0839f6af03c7",
+            "documentId": "5593e603-5a29-4687-a820-1ed4948a5688",
+            "count": 0,
+            "text": "任务05-B1：人工未提交内容",
+            "lastTrusted": false
+          }
+        }
+      },
+      "B2-before.json": {
+        "sha256": "580a29380281acfd07167976dd64e21d13285b8b5107366c3784ec898fd6d4a3",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "3dd7d64c-ca5d-48d4-ac6b-3d7359163ba7",
+          "running": false,
+          "phase": "settled",
+          "turn": 6,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "a09e897a-a099-426a-bf93-435c045d397e",
+            "documentId": "f2179072-1028-4763-8e71-4b53cebd94b5",
+            "count": 0,
+            "text": "任务05-B2：前台焦点与内容保留",
+            "lastTrusted": false
+          }
+        }
+      },
+      "A-background-create-first.json": {
+        "sha256": "6066e8b392745bd791ef143bc3b085d92d8e68d3352e273cb21dec120c54d7d7",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "4c12be59-779e-4abc-915d-db9cbe099f97",
+          "running": false,
+          "phase": "settled",
+          "turn": 6,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: 当前会话尚无有效框架控制锚点\"}]"
+        }
+      },
+      "A-create-first.json": {
+        "sha256": "d64ae0da7b600341b1ba6326687a634e3b5a96c04cdc0350db155ff8bcc52c72",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "3e785178-8af3-44dc-97a7-3720fa3e2b7e",
+          "running": false,
+          "phase": "settled",
+          "turn": 7,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "tabId": "tab2",
+                "selected": true
+              }
+            ]
+          }
+        }
+      },
+      "A1-before.json": {
+        "sha256": "8c82e7f1b4196676c5fef0dab0de828d39a1032547aa2e15086cdf990c6a9d17",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "15a2ab84-7974-41e3-82f8-8cc46c90841b",
+          "running": false,
+          "phase": "settled",
+          "turn": 8,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "dc0f9d05-fc52-4698-aba3-4fca6dbcc86b",
+            "documentId": "d034055c-252e-4ae0-bf03-88439df67c33",
+            "count": 0,
+            "text": "任务05-A1：切换前的人工未提交内容",
+            "lastTrusted": false
+          }
+        }
+      },
+      "A-background-create-second.json": {
+        "sha256": "f1ea409c6ccac2fc788fdcbdbdc0c3bb5a246712b8f4d8f11af476252317577a",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "fbfbe68b-99a4-4f34-9e69-0c4cd9e9afe6",
+          "running": false,
+          "phase": "settled",
+          "turn": 10,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "tabId": "tab2",
+                "pageId": "dc0f9d05-fc52-4698-aba3-4fca6dbcc86b",
+                "url": "http://127.0.0.1:62079/spike-2a896f90-4bce-401f-b31d-6761d9107c6d",
+                "title": "浏览器"
+              },
+              {
+                "tabId": "tab3"
+              }
+            ]
+          }
+        }
+      },
+      "B-after-A-background-create.json": {
+        "sha256": "6453d00afbd6eb08ed06858e828113602d2ace21147febaa12b84db75117ab0c",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "5f45897d-7103-475a-8119-4c2ad111eb9f",
+          "running": false,
+          "phase": "settled",
+          "turn": 7,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "tabId": "tab2",
+                "pageId": "2da8d255-def0-4d87-bb43-0839f6af03c7",
+                "selected": false,
+                "url": "http://127.0.0.1:62079/spike-2a896f90-4bce-401f-b31d-6761d9107c6d",
+                "title": "浏览器"
+              },
+              {
+                "tabId": "tab3",
+                "pageId": "a09e897a-a099-426a-bf93-435c045d397e",
+                "selected": true,
+                "url": "http://127.0.0.1:62079/spike-2a896f90-4bce-401f-b31d-6761d9107c6d",
+                "title": "浏览器"
+              }
+            ]
+          }
+        }
+      },
+      "B2-after-A-background-create.json": {
+        "sha256": "1beb343cffd673734c69ab40bd099e4988096083d08244fda5be4b0a1ee2699c",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "62086a53-a518-46eb-bf66-9089138e6c08",
+          "running": false,
+          "phase": "settled",
+          "turn": 8,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "a09e897a-a099-426a-bf93-435c045d397e",
+            "documentId": "f2179072-1028-4763-8e71-4b53cebd94b5",
+            "count": 0,
+            "text": "任务05-B2：前台焦点与内容保x留",
+            "lastTrusted": false
+          }
+        }
+      },
+      "A-two-tabs-before.json": {
+        "sha256": "5efbd168438d1ee03a5fe305f8740595d445fd290ad0ae86242a7407114db1d4",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "b0c843a3-03dd-4452-92fe-46f21901c5ec",
+          "running": false,
+          "phase": "settled",
+          "turn": 11,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "tabId": "tab2",
+                "pageId": "dc0f9d05-fc52-4698-aba3-4fca6dbcc86b",
+                "selected": false,
+                "url": "http://127.0.0.1:62079/spike-2a896f90-4bce-401f-b31d-6761d9107c6d",
+                "title": "浏览器"
+              },
+              {
+                "tabId": "tab3",
+                "pageId": "92c34766-8827-47e3-8008-7b9bc77a177d",
+                "selected": true,
+                "url": "http://127.0.0.1:62079/spike-2a896f90-4bce-401f-b31d-6761d9107c6d",
+                "title": "浏览器"
+              }
+            ]
+          }
+        }
+      },
+      "A2-before.json": {
+        "sha256": "21304d5e74cbaf0377eb700d6a5bde69e7792b7eee339317eb4a205d33d5b0bf",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "8c77a5e2-f468-4bca-8962-881f141b72c5",
+          "running": false,
+          "phase": "settled",
+          "turn": 12,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "92c34766-8827-47e3-8008-7b9bc77a177d",
+            "documentId": "42863260-a75c-4c42-9d72-a9a4a7adc7ac",
+            "count": 0,
+            "text": "任务05-A2：反向焦点与页面保留",
+            "lastTrusted": false
+          }
+        }
+      },
+      "A-reject-B-page.json": {
+        "sha256": "96b6f73f52b828b385da10e0219bf9407d88f54fb925ba7a4ed178e2b62d0c1a",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "75e7e6f8-6207-48c1-b0c2-e3ba845afc58",
+          "running": false,
+          "phase": "settled",
+          "turn": 3,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: 不能操作其他会话的共享页面\"}]"
+        }
+      },
+      "B-reject-A-page.json": {
+        "sha256": "c19c880ddb91f7293feefb082d9c4a5182c3fa4b7945fb8b4299e89f2f6e11c0",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "6b1b0472-5af4-453a-9d39-cbeb06e57eda",
+          "running": false,
+          "phase": "settled",
+          "turn": 9,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: 不能操作其他会话的共享页面\"}]"
+        }
+      },
+      "A-reject-B-select.json": {
+        "sha256": "774fdeb86ca6fbb1fc699b0e4402f2af3947e3248fefa2d4b1d2def3d1a753d9",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "3899837d-873c-4822-8fb2-1e2f705539b7",
+          "running": false,
+          "phase": "settled",
+          "turn": 4,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: 标签不属于本会话或已经关闭；动作未发出或未交付结果\"}]"
+        }
+      },
+      "A-reject-B-close.json": {
+        "sha256": "86e67ab03ebc5912df98faa99b7da5172d82d05fe9ff2a65ce881a8535d71351",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "3644e4d7-d152-4dd2-b66b-9f0f3bc418e8",
+          "running": false,
+          "phase": "settled",
+          "turn": 5,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: 标签不属于本会话或已经关闭；动作未发出或未交付结果\"}]"
+        }
+      },
+      "A-background-select-first.json": {
+        "sha256": "c7a3dbf2f05e69383694537d50c57e797e0df2d9a581baa0092b8b2c5ffd8c10",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "64c19e5e-1250-4108-bb2d-be53ed0dd88d",
+          "running": false,
+          "phase": "settled",
+          "turn": 13,
+          "step": 1,
+          "isError": true,
+          "error": "[{\"type\":\"text\",\"text\":\"Error: [agent-browser/cancelled] Error: 后台选择需要唯一既有浏览器内容身份；未发出选择；动作未发出或未交付结果\"}]"
+        }
+      },
+      "A1-after-background-select.json": {
+        "sha256": "fe80288a3accd26caca30b63042cbcd81be3628cb26c72788dd81a6f77763448",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "b33ce057-a0ad-4929-b3ca-78cacb134e94",
+          "running": false,
+          "phase": "settled",
+          "turn": 14,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "pageId": "dc0f9d05-fc52-4698-aba3-4fca6dbcc86b",
+            "documentId": "d034055c-252e-4ae0-bf03-88439df67c33",
+            "count": 0,
+            "text": "任务05-A1：切换前的人工未提交内容",
+            "lastTrusted": false
+          }
+        }
+      },
+      "A-cleanup-empty.json": {
+        "sha256": "0fca17626a8147b1a4be94a5e3c503aae7db8508d8d4edbd315568d9872ce3a2",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "9a8da8a0-875f-4d78-b8e1-fc716d9a070b",
+          "running": false,
+          "phase": "settled",
+          "turn": 17,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": []
+          }
+        }
+      },
+      "B-cleanup-empty.json": {
+        "sha256": "96af7acacc1fc3d5e78d896b37b8d22432261ec46acacdf0e8dd1c351edb0889",
+        "raw": {
+          "driver": "真实Agent合法pre-step内正式ToolRuntime；真实审批UI；不调用模型",
+          "id": "074080f7-29c8-4d0c-8d1c-75108a7a9910",
+          "running": false,
+          "phase": "settled",
+          "turn": 12,
+          "step": 1,
+          "isError": false,
+          "value": {
+            "kind": "tabs",
+            "tabs": []
+          }
+        }
+      }
+    },
+    "limitedResults": [
+      "双向跨会话 pageId 读取拒绝。",
+      "A 有保留页时后台创建第二标签成功；前台 B 原页选中状态和文档保持，CUA 真实键入 x 落在 B 原输入值中。",
+      "A 无保留标签离开前台后，后台首建缺少有效框架锚点，明确失败。",
+      "A/B 的 tab2/tab3 是各会话局部 ID，不是全局唯一身份。",
+      "A 后台选择旧 tab2 被 Client 预检查拒绝，没有发出 openResourceIn；随后旧页读数只证明未发出动作后的保留。",
+      "清理时两个会话正式 list-tabs 均返回空数组。"
+    ]
+  },
+  "nativeDirectPublicCall": {
+    "source": "独立 Client 直接单次调用公开 SidebarRightController；不是 Agent 工具结果。",
+    "method": "openResourceIn(owner, rawExistingContentId, {kind: 'browser', revealIfOpened: true})",
+    "rawContentIdUnchanged": true,
+    "privateStoreUsed": false,
+    "hostClientArtifactHashes": {
+      "client.js": "ba9dec9d8539dfd9fe447704c8fade822b73d852fd6dc6553186ca651b3614ce",
+      "cordis.patch.yml": "f7f68149eacb8bf430587a144177fd7c159e3f7e4071ec68c9a19fb53d8c2cd6",
+      "index.js": "c8b5047bb4272a1c9147abb6539213594b3ea41579608f3a999a94f87589bc12",
+      "package.json": "50d8f675a3585a3685e69e648bc285be1f9fb022d0c8319f11d96f6b8bf4ba99"
+    },
+    "resultSha256": "3d5699a5674d534555fe1fb96d3ee6d29df282345d0b3c24d691b9750ed6fa45",
+    "rawResult": {
+      "source": "独立Client直接调用公开SidebarRightController；不是Agent工具结果",
+      "owner": "session-f70c0e21-c9c7-4096-ac63-31609ae57e18",
+      "screenBefore": "session-fb958924-7c6a-433e-ab5d-853eaeef775e",
+      "activeBefore": "tab3",
+      "before": [
+        {
+          "id": "tab2",
+          "kind": "browser",
+          "contentId": "sidebar://browser/31b71890-14a1-4a8c-b347-8c7854949b3e"
+        },
+        {
+          "id": "tab3",
+          "kind": "browser",
+          "contentId": "sidebar://browser/ad7722bc-fe3b-4052-865a-78c53ba05efd"
+        }
+      ],
+      "target": "tab2",
+      "outcome": "threw",
+      "error": "Error: sidebarRight: no registered tab type claims \"sidebar://browser/31b71890-14a1-4a8c-b347-8c7854949b3e\"",
+      "after": [
+        {
+          "id": "tab2",
+          "kind": "browser",
+          "contentId": "sidebar://browser/31b71890-14a1-4a8c-b347-8c7854949b3e"
+        },
+        {
+          "id": "tab3",
+          "kind": "browser",
+          "contentId": "sidebar://browser/ad7722bc-fe3b-4052-865a-78c53ba05efd"
+        }
+      ],
+      "screenAfter": "session-fb958924-7c6a-433e-ab5d-853eaeef775e",
+      "activeAfter": "tab3"
+    },
+    "tabsEqualBeforeAfter": true,
+    "foregroundSessionEqualBeforeAfter": true,
+    "activeTabEqualBeforeAfter": true,
+    "interpretation": "已实际到达公开方法并抛错，符合源码外层协议检查；不能写成 Agent 工具已调用该方法。"
+  },
+  "notVerifiedNativelyThisRun": [
+    "后台选择成功",
+    "完整前进/后退/刷新矩阵",
+    "浮窗",
+    "关闭重建",
+    "其他窗口目标",
+    "在途接管及竞态",
+    "完整05或首版验收"
+  ],
+  "cleanup": {
+    "firstDriver": {
+      "ownedAgentsDisposed": true,
+      "preexistingAgentIdentitiesPreserved": 4,
+      "portsClosed": [
+        62356,
+        62357
+      ],
+      "reason": "空白Agent尚无可见对话记录；下一驱动复用合法pre-step写入自有验收marker，不进入模型"
+    },
+    "final": {
+      "temporaryPluginsUninstalledViaOfficialManager": true,
+      "installedPluginCountBefore": 7,
+      "installedPluginCountAfter": 7,
+      "originalPluginSwitchesUnchanged": true,
+      "officialExperimentalSwitchesUnchanged": true,
+      "ownedSessionRowsArchived": 2,
+      "ownedPagesClosed": 4,
+      "driverPhase": "disposed",
+      "baselineLiveAgents": 4,
+      "remainingLiveAgents": 4,
+      "baselineAgentIdsPreserved": true,
+      "ownedAgentsAbsent": true,
+      "ports": {
+        "65160": {
+          "listening": false
+        },
+        "65161": {
+          "listening": false
+        },
+        "62079": {
+          "listening": false
+        }
+      },
+      "profileFiles": {
+        "cordis.patch.yml": {
+          "byteEqualToBefore": true
+        },
+        "package.json": {
+          "byteEqualToBefore": true
+        },
+        "gro.ngilp-hsd-versions.json": {
+          "byteEqualToBefore": true
+        },
+        "cordis.yml": {
+          "byteEqualToBefore": false,
+          "onlyDifference": "已存在的模型显示名从 DeepSeek V4.1 Flash 更新为 DeepSeek V4.1 Flash 1017；非本轮编辑，保留应用当前值。",
+          "noTemporaryPluginEntryRemains": true,
+          "onlyKnownModelDisplayNameDifference": true
+        }
+      },
+      "asarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e",
+      "asarUnchanged": true
+    },
+    "configurationPolicy": "只由官方插件管理器卸载本轮插件，不覆盖全量 profile。cordis.yml 唯一差异是既有模型显示名，保留应用当前值。",
+    "temporaryDataPolicy": "只关闭并可恢复归档本轮自建会话，未触碰原有会话和 Agent。"
+  },
+  "evidenceStorage": "只保存本轮合成页面数据、原始工具结果及白名单摘要；控制凭据、profile 副本和原有 Agent ID 列表不入库。"
+}

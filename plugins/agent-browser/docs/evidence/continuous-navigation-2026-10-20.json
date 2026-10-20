@@ -1,0 +1,71 @@
+{
+  "observedAtUtc": "2026-10-20T10:26:45.595111+00:00",
+  "desktopVersion": "0.2.1-rc.2",
+  "package": "dsh-plugin-agent-browser",
+  "installedFrom": "plugins/agent-browser",
+  "build": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "7e60b4caaa09",
+    "package": "dsh-plugin-agent-browser-7e60b4caaa09",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "e2fe7ee5c0b33b90d17e8eb42d6270738090066135dede6d935616ad245ac2a0",
+    "hostSha256": "95a69599c1b392e8f7075a3c80fc5476722d0501dc5b8e3991c5f6dd12328a44",
+    "clientSha256": "07496574c428fc2799c92faafdaffc585608a594544f93ca74b88cc2603e03ec"
+  },
+  "health": {
+    "build": "7e60b4caaa09",
+    "ready": true,
+    "registerStatus": 200,
+    "error": ""
+  },
+  "sessionTitle": "内置浏览器杭州词条验收",
+  "model": "GPT-6.1-Sol",
+  "actualRun": {
+    "startedLocal": "2026-10-20 18:23 +08:00",
+    "finishedLocal": "2026-10-20 18:25 +08:00",
+    "pageId": "199a8952-b154-4811-b591-43632e29e363",
+    "flow": [
+      "list-tabs",
+      "navigate https://www.wikipedia.org/",
+      "observe",
+      "fill Hangzhou",
+      "observe",
+      "click-element Search",
+      "observe Hangzhou",
+      "click-element Prefecture-level",
+      "observe Prefecture-level city",
+      "back",
+      "observe Hangzhou",
+      "forward",
+      "observe Prefecture-level city"
+    ],
+    "inputApprovalsAllowedOnce": 3,
+    "manualTakeovers": 0,
+    "manualResumes": 0,
+    "unknownResultBlockers": 0,
+    "finalUrl": "https://en.wikipedia.org/wiki/Prefecture-level_city",
+    "finalTitle": "Prefecture-level city - Wikipedia",
+    "modelFinal": "连续任务已完成，全程无需人工接管。已确认搜索、链接点击、读取、后退与前进。",
+    "visibleInOfficialBrowser": true,
+    "leftInstalledAndVisible": true
+  },
+  "regressions": {
+    "red": "两个原生跳转用例及慢加载用例在修复前失败",
+    "focusedPassed": 75,
+    "check": "pnpm check",
+    "testFilesPassed": 27,
+    "testsPassed": 196
+  },
+  "preserved": [
+    "逐次审批",
+    "当前会话归属",
+    "旧引用失效",
+    "真实发送失败、取消、断线与接管后的未知写屏障",
+    "官方界面与原生页面",
+    "无动作自动重发"
+  ],
+  "scope": "修复正常跳转连续浏览；不提升其他首版能力的完成状态",
+  "mainApplicationModified": false,
+  "committed": false,
+  "published": false
+}

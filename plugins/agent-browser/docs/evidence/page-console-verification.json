@@ -1,0 +1,177 @@
+{
+  "observedAtUtc": "2026-10-16T01:42:52Z",
+  "scope": "官方 macOS Desktop 0.2.0-rc.2；自有动态主文档切片；不代表完整 G4/G5、A02–A17 或首版通过",
+  "artifact": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "3d153edf9a36",
+    "package": "dsh-plugin-agent-browser-3d153edf9a36",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "ac16e63edeec51bcf591d395ee502a0c31af62f106c6160e47bf15e06c116adb",
+    "hostSha256": "7d8d2e2deeed25614d3a66095e1bd7879bd719b3225cdfc547ed6ee6fcc3bd4a",
+    "clientSha256": "8dd7b68f4c4146cc15fe923696ba2c471473bda5694c6ed8d711a10215674533"
+  },
+  "runtime": {
+    "hostBuild": "3d153edf9a36",
+    "toolPresent": true
+  },
+  "boundary": "真实 ToolRuntime.execute 与真实 Agent；官方 UI 人工修改同一页；未发送模型消息，不代表模型自主选择工具",
+  "cleanup": {
+    "profileFilesByteIdentical": {
+      "cordis.yml": true,
+      "cordis.patch.yml": true,
+      "package.json": true,
+      "gro.ngilp-hsd-versions.json": true
+    },
+    "portsClosed": {
+      "62055": true,
+      "62281": true
+    },
+    "asarSha256": "18d5036bbb58eaff41d351ede99314b8d06505aec06fb2e164c49874ada30f9e",
+    "asarUnchanged": true,
+    "enhancedAndDriverAbsentInOfficialUI": true,
+    "ownDynamicTabsClosed": true,
+    "existingLegacyTabPreserved": true,
+    "existingBackgroundTasks": 18
+  },
+  "runtimeWarning": "Node 22.20.0；项目要求24.21.0；检查通过不增加Node22支持",
+  "controlledVerification": {
+    "command": "pnpm check",
+    "exitCode": 0,
+    "testFiles": 19,
+    "tests": 104,
+    "skipped": 0
+  },
+  "independentReview": {
+    "standardsUnresolved": 0,
+    "standardsNewFindings": 0,
+    "specUnresolved": 0,
+    "specNewFindings": 0
+  },
+  "task": "11 当前页基础控制台",
+  "observations": [
+    {
+      "case": "同页公开事件",
+      "pageId": "3b229ea0-b309-4e36-8a58-32ebfa8b4172",
+      "documentId": "f34176bb-7550-4eb3-aaa8-559112e50de0",
+      "durationMs": 2000,
+      "messageCounters": [
+        19,
+        20
+      ],
+      "level": 2,
+      "line": 24,
+      "sourceMatchesPage": true,
+      "ownMarker": "c8c2a05f-4798-4174-90bd-daec77212314"
+    },
+    {
+      "case": "无历史与交回屏障",
+      "laterWindowMessages": 0,
+      "pausedConsoleRejected": true,
+      "resumeBeforeObserveRejected": true,
+      "resumeAfterObserveMessages": 0
+    },
+    {
+      "case": "在途人工接管",
+      "startedMs": 1792114583863,
+      "nativeUiActionAtMs": 1792114584461,
+      "endedMs": 1792114584735,
+      "cancelled": true,
+      "contentDelivered": false
+    },
+    {
+      "case": "在途官方UI重载",
+      "startedMs": 1792114631433,
+      "nativeUiActionAtMs": 1792114632030,
+      "endedMs": 1792114632240,
+      "cancelled": true,
+      "contentDelivered": false
+    },
+    {
+      "case": "关闭后旧页",
+      "oldConsoleRejected": true
+    },
+    {
+      "case": "正式关页取消在途窗口",
+      "errorCode": "closed",
+      "contentDelivered": false
+    },
+    {
+      "case": "官方UI卸载取消在途窗口",
+      "startedMs": 1792114762682,
+      "nativeUiActionAtMs": 1792114763285,
+      "endedMs": 1792114763700,
+      "errorCode": "unloaded",
+      "contentDelivered": false,
+      "enhancedToolUnregistered": true
+    }
+  ],
+  "controlledOnly": [
+    "数量/长度/已知敏感模式过滤；精确控制凭据省略",
+    "会话越权、事件不兼容、许可延迟不延长采集窗口"
+  ],
+  "unverified": [
+    "无可靠frame身份，不声称按frame过滤消息",
+    "任意自然语言秘密或未知编码无法保证识别",
+    "其他平台、模型自主选择工具、完整Network/CDP及完整G4/G5未由本轮证明"
+  ],
+  "excludedAttempts": [
+    {
+      "case": "race-reload",
+      "result": "同页已有在途请求，工具reload被拒绝；不作导航取消证据"
+    },
+    {
+      "case": "console-live-takeover",
+      "result": "普通跨工具调度未赶上窗口，成功空窗；不作接管取消证据"
+    },
+    {
+      "case": "resume-console检查脚本",
+      "result": "误期望可读而KeyError；真实产品先观察屏障正常拒绝"
+    },
+    {
+      "case": "second-observe",
+      "result": "新页未就绪时正确拒绝；等待CUA确认后second-ready-observe成功"
+    }
+  ],
+  "rawRecordSha256": {
+    "current-status.json": "6e6c1017c5bd3205f7ddc962e4997b097c5b40fdb7ca8d812c22edf93416fb41",
+    "semantic-initial.json": "3c107f0098bdcf9b8c0bb9d158174255ef0df7a93e7f37b06841dd0dcfd7b477",
+    "semantic-manual.json": "fd1a0057cd881dadfdbef1eab6091070433a36e8b7249f1c10b04d504d249f1e",
+    "resolve-initial.json": "342f74538d56f7b410869f47b62b08d07b7f8272245afdc736b3ca304bb71456",
+    "observe-reloaded.json": "cfca73297524bea032f4aa86c46d18d1764ded67f34321772c254dee79363c66",
+    "resolve-moved.json": "b3f4183eef12e09c703a9f1c4552986cef8313279ab61b0fa5baea905e4fd882",
+    "resolve-cloned.json": "b3f4183eef12e09c703a9f1c4552986cef8313279ab61b0fa5baea905e4fd882",
+    "resolve-scrolled.json": "b3f4183eef12e09c703a9f1c4552986cef8313279ab61b0fa5baea905e4fd882",
+    "resolve-reloaded.json": "b3f4183eef12e09c703a9f1c4552986cef8313279ab61b0fa5baea905e4fd882",
+    "paused-observe.json": "0d72ed72c20d20fe012abea6994224dce6c436332ec391abe2d715d161d0ee62",
+    "paused-resolve.json": "0d72ed72c20d20fe012abea6994224dce6c436332ec391abe2d715d161d0ee62",
+    "paused-screenshot.json": "0d72ed72c20d20fe012abea6994224dce6c436332ec391abe2d715d161d0ee62",
+    "paused-console.json": "0d72ed72c20d20fe012abea6994224dce6c436332ec391abe2d715d161d0ee62",
+    "paused-reload.json": "0d72ed72c20d20fe012abea6994224dce6c436332ec391abe2d715d161d0ee62",
+    "paused-select-tab.json": "968bed24ccc28683c84522e01574e22aae73f423f4962d16e32e3ce897755258",
+    "paused-close-tab.json": "968bed24ccc28683c84522e01574e22aae73f423f4962d16e32e3ce897755258",
+    "paused-list-tabs.json": "5bd385fcde80b865ce295663e667b80887e9cb74d47438205c7a85630837c887",
+    "resume-console.json": "dfd601425ad77cfc9250cea4153714cb594b4af50c300110a273d89cb5ab55e8",
+    "resume-write-before-observe.json": "dfd601425ad77cfc9250cea4153714cb594b4af50c300110a273d89cb5ab55e8",
+    "resume-observe.json": "1d9ded5371f5721c4306ac664e6af826ac6a2011f49303bd65a36b34c1fca4c9",
+    "closed-observe.json": "87515926c11e3f718bf0dadbcf12f776a709ea2e9a5dc056bbabe75fe60b58dc",
+    "closed-screenshot.json": "87515926c11e3f718bf0dadbcf12f776a709ea2e9a5dc056bbabe75fe60b58dc",
+    "closed-console.json": "87515926c11e3f718bf0dadbcf12f776a709ea2e9a5dc056bbabe75fe60b58dc",
+    "screenshot-sensitive.json": "0fd513d2e955477ccb93fd2ec9901ffd6cdd45e4499b62423dcf2b1e85ad1658",
+    "screenshot-frame.json": "0fd513d2e955477ccb93fd2ec9901ffd6cdd45e4499b62423dcf2b1e85ad1658",
+    "screenshot-visible.json": "c63b5740e17efde62897e9cf41ef033e0f37890e7a65c1ef901486d16d40950b",
+    "console-native.json": "b06240baf9a34c6c58b1c5dbb0d528f80ff85b98df72d8eafe5f6fe8b9d245c4",
+    "console-no-replay.json": "eab6093c5350eb51b1b27c1f79cf18910199f861369c02426331606e870837cf",
+    "resume-console-after-observe.json": "d2ff2f98ab8e5e14e15e3c4a32c77e44459962a1ece21d31f320df7ae48a4859",
+    "console-ui-pause.json": "006e5be2b01d3761605e6fa69dcc6762b195d4a2aefcea41660792cb948e6f43",
+    "console-ui-reload.json": "3179c67d0f4683d9bc566e44914effc149de85e5e93d4f2d7e73317dcecdc9e3",
+    "timed-resume-observe.json": "417e4c1ea1c2b88e3d848e8a651a14a2c2f0deec0474b2f9d11a32567a1914e8",
+    "race-reload.json": "f843be411cbdb6dc58733ecae9a3e5468a40a590ecdfc38cb7dc5907a074f7f7",
+    "console-live-takeover.json": "9b6164699c151f621f726f43330c77ec38b6078384fcbabda3b2d65f31073792",
+    "second-observe.json": "f0ee4ba785eea176b6a7badc56a3f76c72d86021b22bb88fb5cd84666facc64b",
+    "second-ready-observe.json": "3cc7aed39807a88c0f1ddcd43dfab2d955d838cc79e8ec49d1977ef80e741fa4",
+    "console-during-close-tab.json": "71ec4ea3f65aad0029421f3d8ca4dc4b29efb6c562a6437b779bf96b46c92f13",
+    "console-ui-unload.json": "123295edc4139be2c86f2345b34879617aba35dd8b5e06aa150b7a683d1eacbf",
+    "after-enhanced-unload.json": "9f16a384aaa82778cb86e739a73328c5f4834fdecc772d11e623a0088f5f2f37",
+    "round3-cleanup.json": "1528405f09c8d1c0f090b1fefd727bca745c7ec89f92e203a02e6e08eda52b99"
+  }
+}

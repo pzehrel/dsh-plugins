@@ -1,0 +1,162 @@
+{
+  "observedAtUtc": "2026-10-15T16:06:38.926Z",
+  "status": "passed-source-correspondence",
+  "sourceCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+  "npmPackage": "@deepseek-ai/dsh-client-ui-sidebar-browser@0.2.0-rc.2",
+  "npmIntegrity": "sha512-tp5007jcJlcJnnjslpix4XbnbKGpKQjXCzlRKyFdUqcbua7Oqn1ZcIrCM/+gvgd3cOC+ZlAxrmyJQtbulFg4oQ==",
+  "sourceFiles": 24,
+  "license": "byte-identical MIT",
+  "declarations": [
+    {
+      "file": "client/view/BrowserBody.d.ts",
+      "byteIdentical": true,
+      "sha256": "1f9336e31b721f225b98281b5e371f2d354677b12ceeb26bd22fbaf7e9295c96"
+    },
+    {
+      "file": "client/browser/BrowserController.d.ts",
+      "byteIdentical": true,
+      "sha256": "2916180658fcf6556420e7d1e80b2978ccbc48dc864cd16b3426cb7be0d329c6"
+    },
+    {
+      "file": "client/browser/BrowserFrame.d.ts",
+      "byteIdentical": true,
+      "sha256": "532c7e20ad8111ab6e32a9266688ff33dfcf971b2af5fc06bbe73fd105552fae"
+    },
+    {
+      "file": "client/browser/BrowserNavigation.d.ts",
+      "byteIdentical": true,
+      "sha256": "5b00e3def2164b89dd04c6f5f278a0c1ce0e28e6e4eec6abdcb3efff356fc626"
+    },
+    {
+      "file": "client/browser/BrowserPage.d.ts",
+      "byteIdentical": true,
+      "sha256": "97af29233e40b4e16df8b222ba19adfa5c5b2b51f3859c092b66ec75fee20bce"
+    },
+    {
+      "file": "client/browser/BrowserPersistence.d.ts",
+      "byteIdentical": true,
+      "sha256": "69bde77eea5456c54b52ba9d5db9d751767bca37ef34a9dcff6eadabbe40f186"
+    },
+    {
+      "file": "client/view/BrowserPresentation.d.ts",
+      "byteIdentical": true,
+      "sha256": "5725d92abb94605934a83683496315e20faf9fd97db73be26edcdeb8009de8f9"
+    },
+    {
+      "file": "client/view/BrowserTitle.d.ts",
+      "byteIdentical": true,
+      "sha256": "54ffd467c9ddaffbefcf3759c62eb380160eaa08c4047859dcf270caf410f4bd"
+    },
+    {
+      "file": "client/definition.d.ts",
+      "byteIdentical": true,
+      "sha256": "5163a85008fe9f3d532e567eebd68b155f6c52a84cd99a01011c29a5c173e64b"
+    },
+    {
+      "file": "client/electron/ElectronWebViewImpl.d.ts",
+      "byteIdentical": true,
+      "sha256": "2830c8dfc55df562a8878c92e4e68ce37c22b4ffa9dfec02798c92214640136d"
+    },
+    {
+      "file": "client/electron/ElectronWebviewPresentation.d.ts",
+      "byteIdentical": true,
+      "sha256": "f0986445e4ff53a37c53522e47e3a71271011067c951cba275d4e1e00535e225"
+    },
+    {
+      "file": "client/browser/IframeImpl.d.ts",
+      "byteIdentical": true,
+      "sha256": "ca052d374592b5f8c5917bdb71e808c816853f417d9844d90e5484c59e5018f0"
+    },
+    {
+      "file": "client/view/IframePresentation.d.ts",
+      "byteIdentical": true,
+      "sha256": "a6538d33060ce932d91bf17e7c211ada9eb8b09c480b9663c194756cd8374d98"
+    },
+    {
+      "file": "client/index.d.ts",
+      "byteIdentical": true,
+      "sha256": "1133ef2efb49dac4ebf53ea4cb34ffb10c07e999c64cc54e56979c9fc668693e"
+    },
+    {
+      "file": "index.d.ts",
+      "byteIdentical": true,
+      "sha256": "de1f08f0bce54c9ab20b4c533750dfe454588875ab8577b29652e2f11647e2b8"
+    },
+    {
+      "file": "client/locales.d.ts",
+      "byteIdentical": true,
+      "sha256": "3520104f2283590eeb53a1da9d2d08782d51df6436231d12e44fdab1b4be23a4"
+    },
+    {
+      "file": "client/electron/pages.d.ts",
+      "byteIdentical": true,
+      "sha256": "d163a66a55559f0d0805085a0034cacc9d51edc6ce914680b28f6e1c26f38f9d"
+    },
+    {
+      "file": "client/pages.d.ts",
+      "byteIdentical": true,
+      "sha256": "8bfb8f6b6dbcb6069d1bca51cdb112fc84bdb62f583326e182d0760fe4c95a42"
+    },
+    {
+      "file": "client/browser/store.d.ts",
+      "byteIdentical": true,
+      "sha256": "7ce4e5e62f597a348914610da3a1006291c197319e92e09351fcacb43ecec3e0"
+    },
+    {
+      "file": "types.d.ts",
+      "byteIdentical": true,
+      "sha256": "821b041e49dbce5601bb1e960c7d2756ff8127d789a0a688b729853396f2f5c6"
+    },
+    {
+      "file": "client/browser/url.d.ts",
+      "byteIdentical": true,
+      "sha256": "bd36cb9d0161ff7f61e857352b7f569b39081845c35fd0f28fa89ca80fdf25fa"
+    },
+    {
+      "file": "client/electron/workspace.d.ts",
+      "byteIdentical": true,
+      "sha256": "8b7175c67652e4d8fd0679371b102a808dfd2ed3f5524b33aada77cf754a90bc"
+    }
+  ],
+  "functions": [
+    {
+      "module": "definition",
+      "symbol": "browserDefinition",
+      "normalizedAstIdentical": true
+    },
+    {
+      "module": "index",
+      "symbol": "apply",
+      "normalizedAstIdentical": true
+    },
+    {
+      "module": "pages",
+      "symbol": "createIframePage",
+      "normalizedAstIdentical": true
+    },
+    {
+      "module": "browser/BrowserFrame",
+      "symbol": "emptyBrowserFrame",
+      "normalizedAstIdentical": true
+    },
+    {
+      "module": "browser/BrowserPersistence",
+      "symbol": "currentBrowserTarget",
+      "normalizedAstIdentical": true
+    },
+    {
+      "module": "browser/BrowserPersistence",
+      "symbol": "browserAddressCheckpoint",
+      "normalizedAstIdentical": true
+    },
+    {
+      "module": "electron/pages",
+      "symbol": "createElectronPage",
+      "normalizedAstIdentical": true
+    }
+  ],
+  "limitations": [
+    "未声明整个官方 bundle 可逐字节重建；上游 CSS 与打包优化存在产物差异",
+    "源码对应验证不代替真实 Desktop 行为验收"
+  ]
+}
