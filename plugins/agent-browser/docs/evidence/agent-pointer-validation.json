@@ -1,0 +1,53 @@
+{
+  "observedAtUtc": "2026-10-20T12:35:00.000Z",
+  "scope": "首阶段独立指针：静态检查、受控集成及实际浏览器 DOM；不代表 DSH 原生验收",
+  "build": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "7a352c17250a",
+    "package": "dsh-plugin-agent-browser-7a352c17250a",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "c2353efe979f7f14ac915594498740111c050757ba9fac4e7273ba87abdce453",
+    "hostSha256": "4ef5b0436cff0b39c04ae2abd5a8a625d76c2ddf1b16de18f9f5093019d50e09",
+    "clientSha256": "ab8b4db9041c94d6a8905cdab9e7be43d630fbc951260c92494c36949beb4afe"
+  },
+  "environment": {
+    "node": "24.19.0",
+    "pnpm": "11.7.0",
+    "requiredNode": "24.21.0",
+    "engineWarning": true
+  },
+  "checks": {
+    "command": "fnm exec --using=24.19.0 pnpm check",
+    "exitCode": 0,
+    "filesPassed": 27,
+    "filesSkipped": 1,
+    "testsPassed": 201,
+    "testsSkipped": 6
+  },
+  "officialReuse": {
+    "command": "fnm exec --using=24.19.0 node tools/verify-official-browser-reuse.ts",
+    "exitCode": 0,
+    "testsPassed": 6,
+    "testsFailed": 0,
+    "scope": "固定官方发布包的受控复用实验"
+  },
+  "dom": {
+    "source": "src/agent-pointer.ts",
+    "sourceSha256": "72ed23ae40b93977de2316e082b9f3ad3efbc5e6cf9de3bb002e4c83dafba4e5",
+    "fixtureSha256": "51ba4cf0bc3537b574aee08bd2734c6a108c1a21240b7cae4653237fb28c2839",
+    "carrier": "测试 div，非 Electron webview",
+    "viewport": {
+      "width": 720,
+      "height": 320
+    },
+    "ancestorScale": 1.5,
+    "clickCount": 1,
+    "layerWidth": "720px",
+    "restoredPosition": "translate3d(100px, 120px, 0px)",
+    "foregroundPredicate": "测试按钮切换，非真实 Desktop 切换",
+    "hiddenAfterStop": true,
+    "screenshot": "agent-pointer-dom.png",
+    "screenshotSha256": "e6acbee7719c6c9244076fd7860462cb4e1acc03a136fb40063ae8fcdbc2b10c"
+  },
+  "nativeDesktop": "not-verified"
+}

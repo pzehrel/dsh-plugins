@@ -1,0 +1,308 @@
+{
+  "observedAtUtc": "2026-10-20T15:38:13.636Z",
+  "spec": 5,
+  "ticket": 9,
+  "status": "incomplete",
+  "scope": "最终集成构建已加载并可体验；原生竞争与生命周期矩阵尚未完成，不代表 #5、#7、#8、#9 或用户体验验收通过。",
+  "issues": {
+    "remainOpen": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "pullRequest": 10,
+    "pullRequestState": "draft",
+    "sliceVerified": [
+      6
+    ],
+    "sliceVerificationScope": "#6仅在独立记录agent-pointer-slice6-verification.json中的434c25a0e1af构建完成限定验证；GitHub事项仍OPEN，通过PR关闭，当前PR仍draft。该结果不代表db72c1c7cff9完整原生矩阵通过。"
+  },
+  "environment": {
+    "node": "24.21.0",
+    "pnpm": "11.7.0",
+    "macOS": "27.0.1",
+    "desktop": "0.2.1-rc.2",
+    "model": "GPT-6.1-Sol"
+  },
+  "source": {
+    "integrationCommit": "ca7b9f16cce36e381051d5c9504a651c14a2c0b8",
+    "baselineCommit": "158e9613edc974628d6b774aa505e913c7e45cab"
+  },
+  "build": {
+    "upstreamCommit": "639ed015397290b3745d163aafe02ffee4aa3f84",
+    "fingerprint": "db72c1c7cff9",
+    "package": "dsh-plugin-agent-browser-db72c1c7cff9",
+    "sourceSha256": "133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9",
+    "patchSha256": "c2353efe979f7f14ac915594498740111c050757ba9fac4e7273ba87abdce453",
+    "hostSha256": "056a5da0873df3600d65f7678cc2093c9ef8f04c77dc82f391451374bddf6546",
+    "clientSha256": "6a726793e3102a0ffa808e96fc351105d733d3d2612dc576f65a646818720790"
+  },
+  "installation": {
+    "source": "官方插件管理器，根包安装启用后正常重开",
+    "path": "/Users/pzehrel/Documents/repositories/my/dsh-plugins/plugins/agent-browser",
+    "normalRestart": true,
+    "rebuildDuringNativeRun": false
+  },
+  "runtime": {
+    "before": {
+      "at": "2026-10-20T14:27:34.446Z",
+      "build": "db72c1c7cff9",
+      "ready": true,
+      "registerStatus": 200,
+      "error": ""
+    },
+    "after": {
+      "at": "2026-10-20T15:38:13.636Z",
+      "build": "db72c1c7cff9",
+      "ready": true,
+      "registerStatus": 200,
+      "error": ""
+    },
+    "sameFrozenBuild": true,
+    "artifactDigestsUnchanged": true,
+    "verification": "任务前后只读核对58245端点；磁盘Host/Client摘要与冻结记录一致，未通过构建入口核对。"
+  },
+  "review": {
+    "comparison": "158e9613edc974628d6b774aa505e913c7e45cab...ca7b9f16cce36e381051d5c9504a651c14a2c0b8",
+    "standards": {
+      "codeFindings": 0,
+      "subjectiveSmells": 0,
+      "result": "初审 P3 文档成员覆盖已修复，最终只读复核无发现。"
+    },
+    "spec": {
+      "implementationErrors": 0,
+      "scopeExpansion": 0,
+      "result": "最终代码发现 0 项；原生验收缺口仍独列，不能据此结案。"
+    }
+  },
+  "checks": {
+    "final": {
+      "command": "fnm exec --using=24.21.0 pnpm check",
+      "testsPassed": 218,
+      "testsFailed": 0,
+      "testsSkipped": 6,
+      "filesPassed": 28,
+      "filesSkipped": 1,
+      "scope": "事项索引、ESLint、类型检查、构建和全仓回归通过；冻结前完成。"
+    },
+    "officialReuse": {
+      "command": "fnm exec --using=24.21.0 node tools/verify-official-browser-reuse.ts",
+      "testsPassed": 6,
+      "testsFailed": 0,
+      "testsSkipped": 0,
+      "scope": "独立固定官方发布包受控复用验证；不代表增强构建的原生验收。"
+    },
+    "documentationOnly": {
+      "status": "passed",
+      "scope": "冻结后仅校验本记录与说明文档；不重建产物。",
+      "command": "fnm exec --using=24.21.0 pnpm exec eslint plugins/agent-browser/docs/agent-pointer-validation.md plugins/agent-browser/docs/evidence/agent-pointer-integration-verification.json --max-warnings 0"
+    },
+    "remoteCI": {
+      "status": "passed",
+      "sourceCommit": "ca7b9f16cce36e381051d5c9504a651c14a2c0b8",
+      "checks": [
+        {
+          "state": "SUCCESS",
+          "url": "https://github.com/pzehrel/dsh-plugins/actions/runs/39437326123/job/118677704719"
+        },
+        {
+          "state": "SUCCESS",
+          "url": "https://github.com/pzehrel/dsh-plugins/actions/runs/39437087893/job/118676835561"
+        }
+      ],
+      "scope": "GitHub PR #10的代码集成ca7b9f1检查成功；记录本次文档修订时，新文档提交CI尚未触发，不能据此宣称新提交CI通过。"
+    }
+  },
+  "native": {
+    "sessionTitle": "浏览器搜索杭州词条验收",
+    "tool": "agent_browser",
+    "sharedPage": "原侧栏同一原生 webview；后台验证时人工新建自有空白标签并在结束后关闭。",
+    "controlledUrl": "http://127.0.0.1:58245/spike-53763833-a11b-4274-ae93-06fab5049c89/semantic",
+    "controlledPagePreparation": "人工使用页面按钮移除自有合成 password、OTP 和 frame，未访问真实账号。",
+    "verified": [
+      {
+        "case": "正式获准 click-element 更新可见状态",
+        "status": "passed",
+        "result": "issued；已更新1，可信原生事件 true。"
+      },
+      {
+        "case": "正式获准模拟表单提交",
+        "status": "passed",
+        "result": "issued；模拟提交次数1，可信原生事件 true。"
+      },
+      {
+        "case": "再次正式点击更新状态",
+        "status": "issued",
+        "result": "已更新2，可信原生事件 true；接管尝试晚于发送，未取得在途拒绝。"
+      },
+      {
+        "case": "显式人工接管与交回",
+        "status": "passed-limited",
+        "result": "真实按钮 ACK 为已接管、Agent 已暂停，指针隐藏；接管后正式 observe 拒绝“该页处于人工接管”；交回 ACK 工具就绪，新 observe 成功，未复用旧引用。只证明静态接管屏障与交回。"
+      },
+      {
+        "case": "真实后台标签不抢前台",
+        "status": "passed-limited",
+        "result": "指定 pageId observe → 3次 console（各2000ms）→ 同一 pageId observe 均成功，仍为同一文档；前台新空白标签保持选中、无指针，未抢回。结束后人工关闭该空白标签。"
+      },
+      {
+        "case": "真实侧栏尺寸变化",
+        "status": "passed-limited",
+        "result": "分隔线从 x1408 拖至 x1160，页面真实重排；随后在该布局下正式获准 fill、Search 和 Prefecture-level 点击成功。限定证明真实尺寸变化与获准输入，未验证原生150% CSS transform；150%只在受控回归覆盖。"
+      },
+      {
+        "case": "真实会话切换",
+        "status": "passed-limited",
+        "result": "原页只读任务启动后，真实新建空白自有会话，未显示原共享页或泄漏其指针；返回原会话仍为同一URL。没有取得取消按下时任务仍running的证据，不作为取消通过。"
+      },
+      {
+        "case": "窗口切离与返回",
+        "status": "passed-limited",
+        "result": "执行CmdTab切离窗口，再点击标题回到DSH，原网页保留；未证明切换发生于移动动画期间，完整失焦等待矩阵仍未验证。"
+      }
+    ],
+    "attemptsNotCountedAsPass": [
+      {
+        "case": "动画期间人工滚动或目标变化",
+        "status": "not-verified",
+        "result": "两次 CUA 滚动返回时输入已完成；截图显示输入已发生，不能证明旧目标拒绝或零原生事件。"
+      },
+      {
+        "case": "动画期间取消",
+        "status": "not-verified",
+        "result": "未在真实动画等待且输入尚未发送的阶段命中取消，不能证明 not-started。"
+      },
+      {
+        "case": "动画期间人工接管",
+        "status": "not-verified",
+        "result": "尝试的正式点击返回 issued，页面计数已增加；后续接管 ACK 不能证明尚未发送动作已撤销。"
+      },
+      {
+        "case": "审批超时尝试",
+        "status": "not-verified",
+        "result": "未形成竞争结果；不能将当时计数未增加写为竞争通过。"
+      }
+    ],
+    "continuousTask": {
+      "status": "passed-with-deviations",
+      "initialUrl": "https://www.wikipedia.org/",
+      "finalUrl": "https://en.wikipedia.org/wiki/Prefecture-level_city",
+      "finalTitle": "Prefecture-level city - Wikipedia",
+      "manualTakeovers": 0,
+      "manualHandbacks": 0,
+      "steps": [
+        {
+          "action": "navigate",
+          "status": "loading",
+          "result": "初始Wikipedia导航返回loading=true；随后observe确认页面。"
+        },
+        {
+          "action": "fill",
+          "text": "Hangzhou",
+          "approval": "正式逐次允许一次",
+          "status": "issued",
+          "result": "随后的observe确认搜索框已填写。"
+        },
+        {
+          "action": "click-element",
+          "target": "Search",
+          "approval": "正式逐次允许一次",
+          "status": "issued",
+          "result": "在一次先前审批超时后重新observe取得新引用，明确提出新请求并获准；同页到达Hangzhou。",
+          "observedUrl": "https://en.wikipedia.org/wiki/Hangzhou"
+        },
+        {
+          "action": "click-element",
+          "target": "Prefecture-level",
+          "approval": "正式逐次允许一次",
+          "status": "issued",
+          "result": "在一次先前审批超时后重新observe取得新引用，明确提出新请求并获准；实际点击链接到达新词条，没有用直接navigate代替。",
+          "observedUrl": "https://en.wikipedia.org/wiki/Prefecture-level_city"
+        },
+        {
+          "action": "observe",
+          "status": "passed",
+          "result": "读取新页面标题及简介：地级市处于中国省以下、县以上，含城乡，不等于连续建成区；同时记录词条来源不足提示。"
+        },
+        {
+          "action": "back",
+          "status": "loading=false",
+          "result": "正式同页后退，随后observe确认Hangzhou。",
+          "observedUrl": "https://en.wikipedia.org/wiki/Hangzhou"
+        },
+        {
+          "action": "forward",
+          "status": "loading=false",
+          "result": "正式同页前进，随后observe确认Prefecture-level city词条。",
+          "observedUrl": "https://en.wikipedia.org/wiki/Prefecture-level_city"
+        }
+      ],
+      "deviations": [
+        {
+          "case": "首次Search审批超时",
+          "status": "approval-timeout",
+          "nativeInputSent": false,
+          "result": "未允许该次点击；之后重新观察、新引用、明确新请求与新批准，才完成一次issued点击。"
+        },
+        {
+          "case": "首次Prefecture-level审批超时",
+          "status": "approval-timeout",
+          "nativeInputSent": false,
+          "result": "未点击、未离开杭州；之后重新观察、新引用、明确新请求与新批准，才完成一次issued链接点击。"
+        }
+      ],
+      "replayPolicy": "没有重发任何已issued写动作；两次超时后未发送的请求均经新观察与明确新请求重新申请批准，不记为全程无错。",
+      "retainedPage": "自有主会话保留最终Prefecture-level city词条，可直接体验；正常路径接管与交回均为0。"
+    },
+    "unverified": [
+      "同一最终构建下，动画期间精确滚动、节点或绑定变化导致旧目标输入被拒绝且零原生事件。",
+      "同一最终构建下，动画等待且尚未发送时取消与接管返回未开始；接管在途结算及迟到结果屏障。",
+      "各页位置恢复与可见移动中间状态；完整实际窗口焦点变化和动画等待矩阵。窗口切离返回不等于命中移动失焦阶段。",
+      "导航/实例替换的完整指针清理矩阵，尤其关闭或卸载中的迟到回调不能复活旧指针；未执行卸载以保留可体验构建。",
+      "同一最终构建的人工点击穿透、系统鼠标独立、工具间停顿、会话停止与无关新轮的逐项完整矩阵；#6旧构建结果不自动继承。",
+      "用户体验验收仍为pending。"
+    ],
+    "completionGate": "上述必需原生场景未完成，#5/#6/#7/#8/#9均保持OPEN、PR #10为draft；#6仅为434c25a0e1af构建的切片限定验证通过。自动回归、DOM演示、旧构建#6或静态接管成功不能替代最终构建的竞争场景。"
+  },
+  "screenshots": [
+    {
+      "file": "final-takeover.png",
+      "sha256": "ee5e4c78725c83dc4afed16763a3267c9fddb7c81375a4c4f67997e14f8580f7",
+      "observation": "真实接管后的暂停 ACK 与保留页面；不能证明接管发生在动画等待期间。"
+    },
+    {
+      "file": "final-background-tab.png",
+      "sha256": "51ef18bd105bb456e121c8d522193b0ea325fba2b628a74f3e4b41ae663a45e8",
+      "observation": "后台观察期间，前台真实空白标签保持选中、无 Agent 指针。"
+    },
+    {
+      "file": "final-layout-resize.png",
+      "sha256": "434181e916d26c68e60888cd0dfa1a70a0b7a63723dcce8d6c1426508edfb174",
+      "observation": "侧栏尺寸变化后页面真实重排；不能单独证明新布局下的获准输入命中。"
+    },
+    {
+      "file": "final-public-complete.png",
+      "sha256": "71b07a3f49fc0b83ebec30368a061d02144acab56517c4133001ce4d7063c692",
+      "observation": "同一最终构建在尺寸变化后的布局中完成链接点击、读取、back和forward，最终保留Prefecture-level city词条；两次先前审批超时另列。"
+    },
+    {
+      "file": "final-session-switch.png",
+      "sha256": "e951f46d95aa48f7f84734d16327cf4cabef44706ae57c4045a353ef21b1e29b",
+      "observation": "原会话只读任务启动后真实进入新空白自有会话，未显示原页；不能证明取消时仍在运行。"
+    }
+  ],
+  "deliveryStages": {
+    "specification": "confirmed",
+    "candidateCode": "implemented-and-reviewed",
+    "automaticChecks": "passed",
+    "loadedBuild": "db72c1c7cff9",
+    "nativeAcceptance": "incomplete",
+    "userExperienceAcceptance": "pending"
+  },
+  "followup": {
+    "file": "agent-pointer-native-followup.json",
+    "scope": "本记录保留2026-10-20当时的未完成状态；2026-10-21新增原生补验及最新结论见关联文件。"
+  }
+}

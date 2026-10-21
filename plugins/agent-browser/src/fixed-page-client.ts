@@ -1,11 +1,13 @@
+import type { PointerCarrier } from './agent-pointer.js'
 /** 官方自有页面统一工具适配：固定动作与主文档感知共用串行命令、独立心跳和接管屏障；不搜索或重建其他页面。 */
-import type { InputEditState, InputFileBinding, InputTarget, PointerCarrier } from './native-input.js'
+import type { InputEditState, InputFileBinding, InputTarget } from './native-input.js'
 import type { SelectedFileInfo } from './native-upload.js'
 import type { Command, PageActivity } from './protocol.js'
 /** 官方自有页面与框架会话的工具适配：命令串行，心跳独立；导航复用同一 controller，断线和关闭只撤销。 */
 import type { NavigationController, NavigationInput, SessionSidebar } from './session-navigation.js'
+import { createAgentPointer } from './agent-pointer.js'
 import { DownloadUnsupportedError, requirePageCapabilities } from './capability-feedback.js'
-import { bindInputContent, createInputContentScript, createInputHitScript, inputEditState, isNativeInputAction, sendInputBatch, showAgentPointer, showPointerFrame } from './native-input.js'
+import { bindInputContent, createInputContentScript, createInputHitScript, inputEditState, isNativeInputAction, sendInputBatch } from './native-input.js'
 import { captureSelectedFile, createFileCaptureScript, createFileChoiceScript, createFileInstallScript, createFileMetadataScript, parseSelectedFileInfo } from './native-upload.js'
 import { collectConsole, consoleDuration } from './page-console.js'
 import { captureScreenshot } from './screenshot.js'
@@ -39,6 +41,8 @@ interface Source<T> {
   subscribe: (listener: () => void) => () => void
 }
 interface Context {
+  /** 正式会话状态只控制指针显隐，不作为工具权限或目标归属依据。 */
+  uiSession?: { sessionStatus?: Source<ReadonlyMap<string, { readonly running: boolean | undefined }>> }
   /** 正式 Connection；旧实验允许仅提供 RPC，正式增强消费公开状态和代次。 */
   connection: {
     /** 认证调用，不向 guest 暴露凭据。 */
@@ -101,6 +105,7 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
   const lifetimes = new Set<(reason?: 'closed' | 'offline') => Promise<void>>()
   const controls = new Map<string, (paused: boolean) => Promise<void>>()
   const statuses = new Map<string, StatusStore>()
+  const pointerRefresh = new Map<string, (sessionChanged?: boolean) => void>()
   const pageBindings = new Map<string, { registration: Registration, target: Target, paused: () => boolean, revision: () => number }>()
   let disposed: Promise<void> | undefined
   let shuttingDown = false
@@ -151,7 +156,11 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
       }
     }
   }
-  const unsubscribe = [ctx.connection.state?.subscribe(connectionChanged), ctx.connection.generation?.subscribe(connectionChanged)]
+  const unsubscribe = [ctx.connection.state?.subscribe(connectionChanged), ctx.connection.generation?.subscribe(connectionChanged), ctx.uiSession?.sessionStatus?.subscribe(() => {
+    for (const refresh of pointerRefresh.values()) {
+      refresh(true)
+    }
+  })]
 
   /** @param sessionId 正式正文会话。@param request occurrence 身份与信号。@param target 同一自有页的有限能力。 */
   function attach(sessionId: string, request: Mount, target: Target): void {
@@ -178,10 +187,29 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
     let commandDocumentGeneration = 0
     let privateDocumentId: string | undefined
     let pageDocumentMarker: string | undefined
+    let executing = false
+    let blocked = false
+    const pointer = createAgentPointer(() => target.getGuest(), () => !sidebar || (sidebar.mounted.getSnapshot() === sessionId && sidebar.active()?.id === request.tabId))
+    let browserUsed = false
+    /** 会话运行状态覆盖动作间停顿；缺失公开状态的旧装配仅在当前工具执行期间显示。 */
+    const refreshPointer = (sessionChanged = false): void => {
+      try {
+        const running = ctx.uiSession?.sessionStatus?.getSnapshot().get(sessionId)?.running
+        if (sessionChanged && running === false) {
+          browserUsed = false
+        }
+        pointer.setActive(browserUsed && !signal.aborted && !blocked && state.getSnapshot() !== 'uncertain' && (running ?? executing))
+      }
+      catch { pointer.setActive(false) }
+    }
+    if (request.scope !== 'session') {
+      pointerRefresh.set(key, refreshPointer)
+    }
     // 只保存本页获准选择的无内容身份与摘要；接管、导航或关闭立即清除，不留文件字节缓存。
     let fileSelection: { selectionId: string, target: InputTarget, fileId: string, file: SelectedFileInfo } | undefined
     // 网页主世界标记可伪造，只作额外一致性检查；授权和文档代次始终由 Client 私有状态持有。
     const invalidate = (): void => {
+      pointer.reset()
       fileSelection = undefined
       documentGeneration++
       documentLifetime.abort()
@@ -207,9 +235,7 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
     let registration: Registration | undefined
     let timer: ReturnType<typeof setTimeout> | undefined
     let closed: Promise<void> | undefined
-    let executing = false
     let incompatible = false
-    let blocked = false
     let controlRevision = 0
     let commandLifetime = new AbortController()
     let transition: Promise<void> | undefined
@@ -236,6 +262,10 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
         return closed
       }
       fileSelection = undefined
+      pointer.dispose()
+      if (pointerRefresh.get(key) === refreshPointer) {
+        pointerRefresh.delete(key)
+      }
       lifetime.abort()
       controlRevision++
       documentLifetime.abort()
@@ -288,6 +318,8 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
       }
       fileSelection = undefined
       blocked = true
+      browserUsed = false
+      pointer.setActive(false)
       controlRevision++
       semantic.clear()
       transitionPaused = paused
@@ -386,7 +418,13 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
       state.set('running')
       let navigationIssued = false
       let inputIssued = false
-      let removePointer: (() => void) | undefined
+      browserUsed = true
+      refreshPointer()
+      const stopPointer = (): void => {
+        browserUsed = false
+        pointer.setActive(false)
+      }
+      commandSignal.addEventListener('abort', stopPointer, { once: true })
       try {
         if (isNavigationAction(command.action)) {
           const metadataSnapshots = new Map<string, { pageId: string, epoch: number, unchanged: () => boolean }>()
@@ -528,6 +566,9 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
             throw new Error('审批期间目标变化，旧批准失效')
           }
           await permitted(command, element, commandSignal)
+          await pointer.move(final, commandSignal)
+          // 视觉等待尚未发送原生输入；取消后不能提前进入 Host 的发送边界。
+          await permitted(command, element, commandSignal)
           await rpc('input-started', { token, command }, commandSignal)
           await permitted(command, element, commandSignal)
           const verifyApproved = async (focused = command.action === 'press'): Promise<void> => {
@@ -536,6 +577,7 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
               throw new Error('原生输入前完整批准目标或内容变化，旧批准失效')
             }
           }
+          // 动画等待可能跨过人工滚动、审批撤销或文档变化；等待后重新走完整许可与本地目标复核。
           await verifyApproved()
           if (await element.executeJavaScript(createInputHitScript(semanticScope, final, command.action === 'press', command.action === 'choose-file')) !== true) {
             throw new Error('原生输入前命中或布局变化，旧批准失效')
@@ -544,7 +586,6 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
           if (blocked || guest(false) !== element || commandDocumentGeneration !== documentGeneration || privateDocumentId !== final.documentId) {
             throw new Error('原生输入前页面或文档已失效')
           }
-          removePointer = showAgentPointer(element, final, commandSignal)
           if (element.getZoomFactor?.() !== 1) {
             throw new Error('审批期间页面缩放变化，旧批准失效')
           }
@@ -608,7 +649,6 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
               fileSelection = undefined
             }
             semantic.clear()
-            await showPointerFrame(commandSignal)
             commandSignal.throwIfAborted()
             if (blocked || !await rpc('permit', { token, command }, commandSignal)) {
               throw new Error('原生输入结果许可已撤销')
@@ -658,7 +698,6 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
             }
           }
           semantic.clear()
-          await showPointerFrame(commandSignal)
           await permitted(command, element, commandSignal)
           watchLifetime.abort()
           await rpc('complete', { token, id: command.id, value: { kind: 'input', documentId: final.documentId, observationId: final.observationId, reference: final.reference, action: command.action, status: 'issued' } }, commandSignal)
@@ -783,7 +822,7 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
         }
       }
       finally {
-        removePointer?.()
+        commandSignal.removeEventListener('abort', stopPointer)
         watchLifetime.abort()
         if (isNativeInputAction(command.action)) {
           // 此时所有Guest与已排入原生操作都已结算；ACK不使用已取消信号，也不等待Host原工具或pause完成。
@@ -797,6 +836,7 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
         }
         await watching
         executing = false
+        refreshPointer()
       }
     }
     /** 命令在途仍独立续租；accept=false 不消费下一条命令，也不采集网页内容。 */
@@ -812,6 +852,7 @@ export function createToolClient(ctx: Context, prefix = 'agent-browser-spike', e
         const value = reply && typeof reply === 'object' && 'command' in reply ? reply as { command: Command | null, activity: PageActivity } : { command: reply as Command | null, activity: executing ? 'running' : 'idle' } as const
         if (!blocked) {
           state.set(value.activity)
+          refreshPointer()
         }
         if (value.command && !executing && !blocked) {
           executing = true

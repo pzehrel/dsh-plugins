@@ -16,7 +16,7 @@ const pluginId = 'dsh-plugin-agent-browser'
 const archive = join(directory, 'upstream/official-browser-0.2.0-rc.2.tgz')
 const sourceIntegrity = '133cd34e9384321e097bb4ae830bc27e087a597959f069a814f29b81a34afcb9'
 // 官方宿主进程可能保留同名包的解析缓存；独立构建身份确保 Host 与 Client 来自同一份内容。
-const inputs = ['src/broker.ts', 'src/protocol.ts', 'src/fixed-page-host.ts', 'src/fixed-page-client.ts', 'src/enhanced-host.ts', 'src/tool-status.tsx', 'src/capability-feedback.ts', 'src/download-fixture.ts', 'src/semantic-fixture.ts', 'src/semantic-observation.ts', 'src/semantic-contract.ts', 'src/screenshot.ts', 'src/screenshot-host.ts', 'src/session-navigation.ts', 'src/page-console.ts', 'src/native-input.ts', 'src/native-upload.ts', 'src/native-upload-fixture.ts', 'upstream/enhancement.patch']
+const inputs = ['src/broker.ts', 'src/protocol.ts', 'src/fixed-page-host.ts', 'src/fixed-page-client.ts', 'src/enhanced-host.ts', 'src/tool-status.tsx', 'src/capability-feedback.ts', 'src/download-fixture.ts', 'src/semantic-fixture.ts', 'src/semantic-observation.ts', 'src/semantic-contract.ts', 'src/screenshot.ts', 'src/screenshot-host.ts', 'src/session-navigation.ts', 'src/page-console.ts', 'src/native-input.ts', 'src/agent-pointer.ts', 'src/native-upload.ts', 'src/native-upload-fixture.ts', 'upstream/enhancement.patch']
 const digest = createHash('sha256').update(sourceIntegrity).update(readFileSync(fileURLToPath(import.meta.url)))
 for (const input of inputs) {
   digest.update(readFileSync(join(directory, input)))

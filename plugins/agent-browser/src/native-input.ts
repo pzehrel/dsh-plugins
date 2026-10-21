@@ -137,64 +137,6 @@ export function projectInputResult(value: unknown): InputResult | undefined {
   return { kind: 'input', documentId: row.documentId, observationId: row.observationId, reference: row.reference, action: row.action, status: 'issued' }
 }
 
-/** 自有指针节点的有限公开DOM消费面，Host类型检查不引入浏览器全局。 */
-interface PointerNode {
-  /** 只显示固定Agent标记。 */
-  textContent: string | null
-  /** 固定表现样式，不读取宿主内容。 */
-  style: object
-  /** @param name 固定aria-hidden。@param value 固定true。 */
-  setAttribute: (name: string, value: string) => void
-  /** 幂等移除自身。 */
-  remove: () => void
-}
-/** 仅自有原生元素的公开DOM载体，不能搜索宿主页面或移动系统鼠标。 */
-export interface PointerCarrier {
-  /** 自有webview所属文档，创建无内容标记。 */
-  ownerDocument?: { createElement: (tag: string) => PointerNode }
-  /** 只向自有webview的直接父节点挂标记。 */
-  parentElement?: { append: (element: PointerNode) => void } | null
-  /** @returns 自有webview在官方窗口中的当前边界。 */
-  getBoundingClientRect?: () => { left: number, top: number }
-}
-/** @param guest 自有原生元素。@param target 已核验的CSS视口坐标。@param signal 同一请求生命周期。@returns 幂等移除函数；接管/关闭同步移除，未提供载体则拒绝输入。 */
-export function showAgentPointer(guest: PointerCarrier, target: InputTarget, signal: AbortSignal): () => void {
-  if (!guest.ownerDocument || !guest.parentElement || !guest.getBoundingClientRect) {
-    throw new Error('自有页面没有公开指针载体，未发送原生输入')
-  }
-  const point = guest.ownerDocument.createElement('div')
-  const rect = guest.getBoundingClientRect()
-  point.textContent = '↖ Agent'
-  point.setAttribute('aria-hidden', 'true')
-  Object.assign(point.style, { position: 'fixed', left: `${rect.left + target.x}px`, top: `${rect.top + target.y}px`, zIndex: '2147483647', pointerEvents: 'none', color: '#fff', background: '#7349d8', borderRadius: '4px', padding: '2px 5px', font: 'bold 13px system-ui' })
-  guest.parentElement.append(point)
-  const remove = (): void => {
-    point.remove()
-    signal.removeEventListener('abort', remove)
-  }
-  signal.addEventListener('abort', remove, { once: true })
-  if (signal.aborted) {
-    remove()
-  }
-  return remove
-}
-/** @param signal 同一动作取消。@returns 500毫秒最短可见窗口；不是后台定时任务，接管立即清理并结算。 */
-export function showPointerFrame(signal: AbortSignal): Promise<void> {
-  return new Promise((resolve) => {
-    let timer: ReturnType<typeof setTimeout>
-    const finish = (): void => {
-      clearTimeout(timer)
-      signal.removeEventListener('abort', finish)
-      resolve()
-    }
-    timer = setTimeout(finish, 500)
-    signal.addEventListener('abort', finish, { once: true })
-    if (signal.aborted) {
-      finish()
-    }
-  })
-}
-
 /**
  * @param send 已核验的一组原生发送函数，按数组顺序在同一同步阶段启动；同步抛错后不再启动余项。
  * @returns 所有已启动操作实际结算后才完成；保留首个观察到的失败再拒绝，不因取消或早拒绝漏等迟到释放事件。

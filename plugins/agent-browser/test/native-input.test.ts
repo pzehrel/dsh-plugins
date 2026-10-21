@@ -1,5 +1,6 @@
 /** 真实工具、认证Connection与Client组合；仅正式审批服务、原生guest及自有指针载体可替换。 */
 import type { ToolDefinition, ToolRunContext } from '@deepseek-ai/dsh-tools'
+import type { FixedPageHostContext } from '../src/fixed-page-host.js'
 import type { SemanticObservation } from '../src/protocol.js'
 import { runInNewContext } from 'node:vm'
 import { Context } from '@deepseek-ai/cordis'
@@ -7,6 +8,26 @@ import { HostConnectionService } from '@deepseek-ai/dsh-client-connection'
 import { expect, it, vi } from 'vitest'
 import { createToolClient } from '../src/fixed-page-client.js'
 import { applyFixedPageHost } from '../src/fixed-page-host.js'
+
+/** @returns 宿主动画时钟替身；只调度指针帧，不操作系统鼠标或网页。 */
+function animationClock() {
+  let serial = 0
+  const timers = new Map<number, ReturnType<typeof setTimeout>>()
+  return {
+    requestAnimationFrame: (callback: (time: number) => void) => {
+      const id = ++serial
+      timers.set(id, setTimeout(() => {
+        timers.delete(id)
+        callback(Date.now())
+      }, 16))
+      return id
+    },
+    cancelAnimationFrame: (id: number) => {
+      clearTimeout(timers.get(id))
+      timers.delete(id)
+    },
+  }
+}
 
 it('普通按钮同样先走正式逐次审批，拒绝不发送原生输入，审批绑定私有文档和确切动作', async () => {
   const scenario = await hostedInput('rejected')
@@ -30,6 +51,213 @@ it('正式允许仅发送同一主文档目标的原生事件，结果不冒充�
     expect(s.events).toEqual([{ type: 'mouseDown', x: 60, y: 40, button: 'left', clickCount: 1 }, { type: 'mouseUp', x: 60, y: 40, button: 'left', clickCount: 1 }])
     await expect(s.call({ action: 'click-element', reference: observation.elements[0]!.reference })).rejects.toThrow('引用失效')
     expect(s.questions).toHaveLength(1)
+  }
+  finally { await s.close() }
+})
+
+it.each(['allowed-once', 'rejected'] as const)('指针创建失败仍受正式审批%s约束，仅降级视觉反馈', async (outcome) => {
+  const s = await hostedInput(outcome)
+  try {
+    s.guest.ownerDocument.createElement = () => {
+      throw new Error('视觉载体故障')
+    }
+    const observation = await s.observe()
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference })
+    if (outcome === 'allowed-once') {
+      await expect(input).resolves.toMatchObject({ status: 'issued' })
+      expect(s.events).toHaveLength(2)
+    }
+    else {
+      await expect(input).rejects.toMatchObject({ outcome: 'not-started' })
+      expect(s.events).toEqual([])
+    }
+    expect(s.questions).toHaveLength(1)
+  }
+  finally { await s.close() }
+})
+
+it('帧时钟停滞只结束视觉等待，正式审批和输入前复核后才发送原生点击', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const before = s.pointerNodes[1]!.style.transform
+    let framePending = false
+    Object.assign(s.guest.ownerDocument, { defaultView: {
+      requestAnimationFrame: () => {
+        framePending = true
+        return 1
+      },
+      cancelAnimationFrame: () => {},
+    } })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => {
+      expect(framePending).toBe(true)
+      expect(s.questions).toHaveLength(1)
+    })
+    expect(s.events).toEqual([])
+    expect(s.pointerNodes[1]!.style.transform).toBe(before)
+    await expect(input).resolves.toMatchObject({ kind: 'input', status: 'issued', documentId: observation.documentId })
+    expect(s.pointerNodes[1]!.style.transform).toBe('translate3d(60px, 40px, 0)')
+    expect(s.events).toEqual([{ type: 'mouseDown', x: 60, y: 40, button: 'left', clickCount: 1 }, { type: 'mouseUp', x: 60, y: 40, button: 'left', clickCount: 1 }])
+  }
+  finally { await s.close() }
+})
+
+it('同页指针随正式会话运行跨工具停顿保留，结束隐藏，接管不被运行状态刷新复活', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const [layer, arrow] = s.pointerNodes
+    expect(layer?.style.display).toBe('block')
+    await s.call({ action: 'click-element', reference: observation.elements[0]!.reference })
+    expect(s.pointerNodes).toHaveLength(2)
+    expect(arrow?.style.transform).toBe('translate3d(60px, 40px, 0)')
+    expect(layer?.style.display).toBe('block')
+    s.activity(false)
+    expect(layer?.style.display).toBe('none')
+    s.activity(true)
+    expect(layer?.style.display).toBe('none')
+    await s.client.takeover('会话甲', '页甲')
+    s.activity(true)
+    expect(layer?.style.display).toBe('none')
+    await s.closePage()
+    expect(layer?.removed).toBe(true)
+  }
+  finally { await s.close() }
+})
+
+it('等待指针动画时人工滚动使目标失效，到达后仍重新核验且不发出旧坐标', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    expect(s.events).toEqual([])
+    s.raw.elements[0]!.rect[0] = 400
+    expect(await input).toMatchObject({ outcome: 'not-started' })
+    expect(s.events).toEqual([])
+  }
+  finally { await s.close() }
+})
+
+it.each(['binding', 'document', 'hit', 'zoom', 'focus'] as const)('指针动画期间%s变化仍须输入前重新核验，无旧目标输入', async (change) => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: change === 'focus' ? 'press' : 'click-element', reference: observation.elements[0]!.reference, key: 'Enter' }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    expect(s.events).toEqual([])
+    if (change === 'binding') {
+      s.form.hidden.push({ name: 'csrf', type: 'hidden', value: '动画期间改变的绑定' })
+    }
+    else if (change === 'document') {
+      s.raw.documentId = '人工操作后的新文档'
+    }
+    else if (change === 'hit') {
+      s.finalHit(false)
+    }
+    else if (change === 'zoom') {
+      s.guest.getZoomFactor = () => 1.25
+    }
+    else {
+      s.raw.activeNodeId = '人工聚焦的其他控件'
+    }
+    expect(await input).toMatchObject({ outcome: 'not-started' })
+    expect(s.questions).toHaveLength(1)
+    expect(s.events).toEqual([])
+    expect(s.client.status('会话甲', '页甲').getSnapshot()).not.toBe('paused')
+  }
+  finally { await s.close() }
+})
+
+it('真实工具取消发生在指针动画期间时未开始输入，及时隐藏且无需等待视觉超时', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const cancellation = new AbortController()
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }, cancellation.signal).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    cancellation.abort()
+    expect(await input).toMatchObject({ code: 'cancelled', outcome: 'not-started' })
+    expect(s.pointerNodes[0]?.style.display).toBe('none')
+    expect(s.events).toEqual([])
+  }
+  finally { await s.close() }
+})
+
+it('动画期间正式审批服务撤销不属于视觉降级，旧动作未开始且新动作失败关闭', async () => {
+  const s = await hostedInput('allowed-once', true)
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    await s.revokeApproval()
+    expect(await input).toMatchObject({ outcome: 'not-started' })
+    expect(s.pointerNodes[0]?.style.display).toBe('none')
+    expect(s.events).toEqual([])
+    const fresh = await s.observe()
+    await expect(s.call({ action: 'click-element', reference: fresh.elements[0]!.reference })).rejects.toThrow('approval-unavailable')
+    expect(s.questions).toHaveLength(1)
+    expect(s.events).toEqual([])
+  }
+  finally { await s.close() }
+})
+
+it('动画期间撤销控制通道中断必须停止动作，不能作为纯视觉异常放行', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    s.disconnectWatch()
+    expect(await input).toMatchObject({ outcome: 'not-started' })
+    expect(s.pointerNodes[0]?.style.display).toBe('none')
+    expect(s.questions).toHaveLength(1)
+    expect(s.events).toEqual([])
+  }
+  finally { await s.close() }
+})
+
+it('指针动画等待中接管立即撤销本次输入并结算，不等视觉超时后发送', async () => {
+  const s = await hostedInput()
+  try {
+    s.activity(true)
+    const observation = await s.observe()
+    const initialPosition = s.pointerNodes[1]!.style.transform
+    Object.assign(s.guest.ownerDocument, { defaultView: animationClock() })
+    const input = s.call({ action: 'click-element', reference: observation.elements[0]!.reference }).catch(error => error)
+    await vi.waitFor(() => expect(s.pointerNodes[1]!.style.transform).not.toBe(initialPosition))
+    await s.client.takeover('会话甲', '页甲')
+    expect(await input).toMatchObject({ code: 'cancelled', outcome: 'not-started' })
+    expect(s.pointerNodes[0]?.style.display).toBe('none')
+    expect(s.events).toEqual([])
+    await expect(s.observe()).rejects.toThrow('人工接管')
+    await expect(s.call({ action: 'click-element', reference: observation.elements[0]!.reference })).rejects.toThrow('人工接管')
+    expect(s.questions).toHaveLength(1)
+    await s.client.resume('会话甲', '页甲')
+    await expect(s.call({ action: 'click-element', reference: observation.elements[0]!.reference })).rejects.toThrow('先重新读取')
+    const fresh = await s.observe()
+    expect(fresh.elements[0]!.reference).not.toBe(observation.elements[0]!.reference)
+    expect(await s.call({ action: 'click-element', reference: fresh.elements[0]!.reference })).toMatchObject({ status: 'issued' })
+    expect(s.questions).toHaveLength(2)
+    expect(s.events).toHaveLength(2)
   }
   finally { await s.close() }
 })
@@ -752,26 +980,44 @@ it.each(['click-element', 'press'] as const)('%s 正常引发跳转后返回已�
   finally { await s.close() }
 })
 
-async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' = 'allowed-once') {
+/**
+ * @param outcome 外部正式审批服务的单次默认答复；默认 allowed-once。
+ * @param approvalLifecycle 是否接入可撤销的官方服务子作用域；默认 false。
+ * @returns 真实正式工具链与外部 DOM、原生 Guest、连接故障控制面；close 等待清理。
+ */
+async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' = 'allowed-once', approvalLifecycle = false) {
   const cleanups: (() => unknown)[] = []
   const connection = new HostConnectionService(new Context(), [], {} as ConstructorParameters<typeof HostConnectionService>[2])
   let tool: ToolDefinition | undefined
   const questions: string[] = []
   const events: object[] = []
   let answer = async (_request: { signal?: AbortSignal, reason?: string }) => outcome
-  await applyFixedPageHost({ connection, tools: { register: (definition) => {
+  let revokeApproval: (() => Promise<void>) | undefined
+  const hostContext: FixedPageHostContext = { connection, tools: { register: (definition) => {
     tool = definition
     return () => {}
   } }, approval: { request: async (request) => {
     questions.push(request.reason ?? '')
     return answer(request)
-  } }, effect: effect => cleanups.push(effect() as () => unknown) }, 'agent-browser')
+  } }, effect: effect => cleanups.push(effect() as () => unknown) }
+  if (approvalLifecycle) {
+    hostContext.inject = (services, callback) => {
+      if (services.includes('approval')) {
+        callback({ approval: hostContext.approval, effect: (effect) => {
+          revokeApproval = effect() as () => Promise<void>
+          cleanups.push(revokeApproval)
+        } })
+      }
+    }
+  }
+  await applyFixedPageHost(hostContext, 'agent-browser')
   const handler = connection.createSharedFetchHandler('/api')
   let pageId = ''
   let inputStarted = false
   let finalPermit: (() => Promise<void>) | undefined
   let finalRead: { stage: 'snapshot' | 'content', gate: () => Promise<void> } | undefined
   let watchUnavailable: 'all' | 'active' | undefined
+  const watchConnection = new AbortController()
   let dropDrain = false
   let savedDrain: Record<string, unknown> | undefined
   const raw = { documentId: '网页不可信标记', url: 'https://controlled.invalid/form', title: '自有表单', text: '模拟提交', truncated: false, viewport: [0, 0, 800, 600], activeNodeId: '按钮', elements: [{ nodeId: '按钮', role: 'button', name: '模拟提交', disabled: false, rect: [10, 20, 100, 40], hit: true, tag: 'BUTTON', inputType: '', readOnly: false }] }
@@ -781,7 +1027,25 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
   let selectionRead: (() => Promise<void>) | undefined
   let contentReads = 0
   let finalHit = true
-  const pointer = { remove: () => {}, style: {}, setAttribute: () => {}, textContent: '' }
+  const pointerNodes: { style: Record<string, string>, removed: boolean }[] = []
+  const createPointer = () => {
+    const node = { style: {} as Record<string, string>, removed: false, setAttribute: () => {}, append: () => {}, remove: () => {
+      node.removed = true
+    } }
+    pointerNodes.push(node)
+    return node
+  }
+  let sessionRunning: boolean | undefined
+  const statusListeners = new Set<() => void>()
+  const sessionStatus = {
+    getSnapshot: () => new Map([['会话甲', { running: sessionRunning }]]),
+    subscribe: (listener: () => void) => {
+      statusListeners.add(listener)
+      return () => {
+        statusListeners.delete(listener)
+      }
+    },
+  }
   const guest = Object.assign(new EventTarget(), { getURL: () => raw.url, getZoomFactor: () => 1, executeJavaScript: async (code: string) => {
     if (inputStarted && finalRead && code.includes(finalRead.stage === 'snapshot' ? 'const elements=[]' : 'const fields=[]')) {
       const gate = finalRead.gate
@@ -815,8 +1079,8 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
     editor.start = 0
     editor.end = form.fields[0]!.value.length
     editor.selectedText = form.fields[0]!.value
-  }, getBoundingClientRect: () => ({ left: 0, top: 0 }), ownerDocument: { createElement: () => pointer }, parentElement: { append: () => {} } })
-  const client = createToolClient({ connection: { rpc: { call: async (_channel, endpoint, payload, signal) => {
+  }, offsetWidth: 800, offsetHeight: 600, getBoundingClientRect: () => ({ left: 0, top: 0, width: 800, height: 600 }), ownerDocument: { createElement: createPointer }, parentElement: { append: () => {} } })
+  const client = createToolClient({ uiSession: { sessionStatus }, connection: { rpc: { call: async (_channel, endpoint, payload, signal) => {
     if (endpoint.endsWith('/input-watch') && watchUnavailable && (watchUnavailable === 'all' || !(payload as { initial?: boolean }).initial)) {
       return { ok: false, error: { message: 'watch unavailable' } }
     }
@@ -824,7 +1088,9 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
       savedDrain = payload as Record<string, unknown>
       throw new Error('自有传输边界丢失drain ACK')
     }
-    const response = await handler.fetch(new Request(`http://127.0.0.1/api/${endpoint}`, { method: 'POST', signal, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ type: 'client-request', rpcId: crypto.randomUUID(), method: endpoint, payload }) }))
+    // 在认证 Connection 请求边界中断正在等待的无内容 watch，不伪造 Host 的许可或完成结果。
+    const transportSignal = endpoint.endsWith('/input-watch') ? AbortSignal.any([watchConnection.signal, ...(signal ? [signal] : [])]) : signal
+    const response = await handler.fetch(new Request(`http://127.0.0.1/api/${endpoint}`, { method: 'POST', signal: transportSignal, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ type: 'client-request', rpcId: crypto.randomUUID(), method: endpoint, payload }) }))
     const reply = (await response.json()).result
     if (endpoint.endsWith('/register') && reply.ok) {
       pageId = reply.value.pageId
@@ -843,7 +1109,12 @@ async function hostedInput(outcome: 'allowed-once' | 'rejected' | 'unavailable' 
   client.attach('会话甲', { tabId: '页甲', signal: mount.signal }, { getGuest: () => guest })
   await vi.waitFor(() => expect(pageId).not.toBe(''))
   const call = (args: Record<string, unknown>, signal = new AbortController().signal) => tool!.execute({ ...args, pageId }, { agent: { session: { header: { id: '会话甲' } } }, callId: crypto.randomUUID(), signal } as ToolRunContext)
-  return { call, form, editor, selectionRead: (gate: () => Promise<void>) => {
+  return { call, form, editor, pointerNodes, disconnectWatch: () => watchConnection.abort(), revokeApproval: () => revokeApproval!(), activity: (running: boolean) => {
+    sessionRunning = running
+    for (const listener of statusListeners) {
+      listener()
+    }
+  }, selectionRead: (gate: () => Promise<void>) => {
     selectionRead = gate
   }, contentReads: () => contentReads, watchUnavailable: (activeOnly = false) => {
     watchUnavailable = activeOnly ? 'active' : 'all'
